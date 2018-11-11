@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '../store/index'
+import store from '../store/modules/user'
 import Home from '@/pages/home/index'
 import Admin from '@/pages/admin/index'
 import Dynamic from '@/pages/dynamic/dynamic'
@@ -35,9 +35,12 @@ const asyncRouterMap = [{
 }]
 
 router.beforeEach((to, from, next) => {
-  if (store.getters['user/isAdmin']) {
+  if (store.getters.isAdmin && !sessionStorage.addFlag) {
     router.addRoutes(asyncRouterMap)
-    next(to)
+    sessionStorage.addFlag = true
+    next({...to, replace: true})
+  } else {
+    next()
   }
 })
 
