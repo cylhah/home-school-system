@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import store from '../store/modules/user'
 import Home from '@/pages/home/index'
 import Admin from '@/pages/admin/index'
+import userManage from '@/pages/admin/user-manage/index'
 import Dynamic from '@/pages/dynamic/dynamic'
 import AdminLogin from '@/pages/admin-login/index'
 
@@ -30,8 +31,13 @@ const router = new Router({
 
 const asyncRouterMap = [{
   path: '/admin',
-  name: 'admin',
-  component: Admin
+  component: Admin,
+  children: [
+    {
+      path: '/',
+      component: userManage
+    }
+  ]
 }]
 
 router.beforeEach((to, from, next) => {
