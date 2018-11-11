@@ -39,6 +39,8 @@ router.beforeEach((to, from, next) => {
     router.addRoutes(asyncRouterMap)
     sessionStorage.addFlag = true
     next({...to, replace: true})
+  } else if (store.getters.isAdmin && to.path === '/adminLogin') {
+    next('/admin')
   } else {
     next()
   }

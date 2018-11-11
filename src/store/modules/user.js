@@ -21,7 +21,7 @@ const state = () => ({
     userRole: getCookie('userRole'),
     userName: getCookie('userName')
   },
-  msg: ''
+  res: {}
 })
 
 const getters = {
@@ -36,6 +36,10 @@ const mutations = {
   },
   setMsg (state, msg) {
     state.msg = msg
+  },
+  setRes (state, code, msg) {
+    state.res.code = code
+    state.res.msg = msg
   }
 }
 
@@ -50,6 +54,7 @@ const actions = {
         setCookie('userRole', data.user.userRole, 30)
         setCookie('userName', data.user.userName, 30)
         commit('setUserInfo', data.user)
+        commit('setRes', data.code, data.msg)
       } else {
         commit('setMsg', '用户名或密码错误')
       }
