@@ -7,6 +7,7 @@ import userManage from '@/pages/admin/user-manage/index'
 import Dynamic from '@/pages/dynamic/dynamic'
 import AdminLogin from '@/pages/admin-login/index'
 
+import personal from '@/pages/PersonalCenter/PersonalCenter'
 Vue.use(Router)
 
 const router = new Router({
@@ -25,6 +26,11 @@ const router = new Router({
       path: '/Dynamic',
       name: 'Dynamic',
       component: Dynamic
+    },
+    {
+      path: '/personal',
+      name: 'personal',
+      component: personal
     }
   ]
 })
