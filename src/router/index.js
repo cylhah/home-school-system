@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/pages/home/index'
 import Dynamic from '@/pages/dynamic/dynamic'
-
+import personal from '@/pages/PersonalCenter/PersonalCenter'
 Vue.use(Router)
 
 export default new Router({
@@ -16,6 +16,11 @@ export default new Router({
       path: '/Dynamic',
       name: 'Dynamic',
       component: Dynamic
+    },
+    {
+      path: '/personal',
+      name: 'personal',
+      component: personal
     }
   ]
 })
