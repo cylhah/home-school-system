@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/pages/home/index'
 import Dynamic from '@/pages/dynamic/dynamic'
 import index2 from '@/pages/lyx/index2'
+import dongtai from '@/pages/lyx/dongtai'
 import tabbar from '@/components/public/tabbar/tabbar'
 import header from '@/components/public/header/header-share'
 Vue.use(Router)
@@ -29,7 +30,8 @@ export default new Router({
       name: 'tabbar',
       component: tabbar
     },
-    {path: '/header', component: header}
+    {path: '/header', component: header},
+    {path: '/dongtai', component: dongtai}
   ],
   linkActiveClass: 'mui-active'
 })
