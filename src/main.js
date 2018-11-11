@@ -9,7 +9,6 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './assets/iconfont/iconfont.css'
 import 'mint-ui/lib/style.css'
 import 'mint-ui/lib/style.min.css'
-import './assets/fonts/iconfont.css'
 
 Vue.use(ElementUI)
 Vue.use(Mint)
