@@ -1,6 +1,6 @@
 <template>
   <div>
-    user mng
+    u
   </div>
 </template>
 

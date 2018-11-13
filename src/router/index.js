@@ -3,7 +3,10 @@ import Router from 'vue-router'
 import store from '../store/modules/user'
 import Home from '@/pages/home/index'
 import Admin from '@/pages/admin/index'
-import userManage from '@/pages/admin/user-manage/index'
+import userDataManage from '@/pages/admin/user-data-manage/index'
+import userInfoManage from '@/pages/admin/user-info-manage/index'
+import adminManage from '@/pages/admin/admin-manage/index'
+import newsManage from '@/pages/admin/news-manage/index'
 import Dynamic from '@/pages/dynamic/dynamic'
 import AdminLogin from '@/pages/admin-login/index'
 
@@ -40,16 +43,30 @@ const asyncRouterMap = [{
   component: Admin,
   children: [
     {
-      path: '/',
-      component: userManage
+      path: '',
+      component: userDataManage
+    },
+    {
+      path: 'userInfo',
+      component: userInfoManage
+    },
+    {
+      path: 'allAdmins',
+      component: adminManage
+    },
+    {
+      path: 'news',
+      component: newsManage
     }
   ]
 }]
 
+let addFlag = false
+
 router.beforeEach((to, from, next) => {
-  if (store.getters.isAdmin && !sessionStorage.addFlag) {
+  if (store.getters.isAdmin && !addFlag) {
     router.addRoutes(asyncRouterMap)
-    sessionStorage.addFlag = true
+    addFlag = true
     next({...to, replace: true})
   } else if (store.getters.isAdmin && to.path === '/adminLogin') {
     next('/admin')
