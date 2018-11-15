@@ -9,6 +9,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './assets/iconfont/iconfont.css'
 import 'mint-ui/lib/style.css'
 import 'mint-ui/lib/style.min.css'
+import './lib/mui/css/mui.min.css'
+import './lib/mui/css/icons-extra.css'
+import './css/stylegreen.scss'
 
 Vue.use(ElementUI)
 Vue.use(Mint)
