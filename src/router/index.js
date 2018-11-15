@@ -8,8 +8,9 @@ import userInfoManage from '@/pages/admin/user-info-manage/index'
 import adminManage from '@/pages/admin/admin-manage/index'
 import newsManage from '@/pages/admin/news-manage/index'
 import Dynamic from '@/pages/dynamic/dynamic'
-import postdynam from '@/pages/dynamic/PostDynamci'
 import AdminLogin from '@/pages/admin-login/index'
+
+import postdynam from '@/pages/dynamic/PostDynamci'
 import personal from '@/pages/PersonalCenter/PersonalCenter'
 Vue.use(Router)
 
@@ -69,12 +70,15 @@ const asyncRouterMap = [{
 let addFlag = false
 
 router.beforeEach((to, from, next) => {
-  if (store.getters.isAdmin && !addFlag) {
+  let isAdmin = store.state.userInfo.userRole === 'admin'
+  if (isAdmin && !addFlag) {
     router.addRoutes(asyncRouterMap)
     addFlag = true
     next({...to, replace: true})
-  } else if (store.getters.isAdmin && to.path === '/adminLogin') {
+  } else if (isAdmin && to.path === '/adminLogin') {
     next('/admin')
+  } else if (!isAdmin && to.path === '/admin') {
+    next('/adminLogin')
   } else {
     next()
   }
