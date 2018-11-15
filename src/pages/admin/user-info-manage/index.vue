@@ -54,7 +54,7 @@
         label="操作"
         width="200">
         <template slot-scope="scope">
-          <el-button @click="seeNews(scope.row)" type="text" size="small">查看动态</el-button>
+          <el-button @click="seeNewsList(scope.row)" type="text" size="small">查看动态</el-button>
           <el-button @click="handleClick(scope.row)" type="text" size="small">查看评论</el-button>
         </template>
       </el-table-column>
@@ -67,10 +67,19 @@
       :visible.sync="innerVisible"
       append-to-body>
     </el-dialog>
-    <el-table :data="gridData">
-      <el-table-column property="date" label="日期" width="150"></el-table-column>
-      <el-table-column property="name" label="姓名" width="200"></el-table-column>
-      <el-table-column property="address" label="地址"></el-table-column>
+    <el-table :data="newsList">
+      <el-table-column property="newsId" label="动态编号" width="150"></el-table-column>
+      <el-table-column property="newsContent" label="动态内容" width="200"></el-table-column>
+      <el-table-column property="newsUploadTime" label="上传时间"></el-table-column>
+      <el-table-column
+        fixed="right"
+        label="操作"
+        width="200">
+        <template slot-scope="scope">
+          <el-button @click="showNewsDetail(scope.row)" type="text" size="small">查看详情</el-button>
+          <el-button @click="handleClick(scope.row)" type="text" size="small">查看评论</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <div slot="footer" class="dialog-footer">
       <el-button @click="outerVisible = false">取 消</el-button>
@@ -82,13 +91,13 @@
 
 <script>
 import axios from 'axios'
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
       date: '',
       username: '',
       userList: [],
-      newsList: [],
       commentList: [],
       outerVisible: false,
       innerVisible: false,
@@ -121,21 +130,18 @@ export default {
       }
     }
   },
+  computed: mapState('news/', {
+    newsList: 'newsList'
+  }),
   methods: {
     handleClick (row) {
       console.log(row.userName)
     },
-    async seeNews (row) {
-      try {
-        const { data } = await axios.get('/news', {
-          params: { userId: row.userId }
-        })
-        if (data.code === 0) {
-          this.newsList = data.newsList
-        }
-      } catch (error) {
-        console.log(error)
-      }
+    seeNewsList (row) {
+      this.$store.dispatch('news/getNewsListByUserId', row.userId)
+      this.outerVisible = true
+    },
+    showNewsDetail (row) {
     },
     async search () {
       try {

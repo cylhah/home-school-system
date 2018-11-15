@@ -1,0 +1,26 @@
+{
+  "code": 0,
+  "msg": "",
+  "newsList": [
+    {
+      "newsId": 1,
+      "newsUploadTime": "2018-11-15",
+      "newsContent": "今天天气真的不错啊"
+    },
+    {
+      "newsId": 2,
+      "newsUploadTime": "2018-11-15",
+      "newsContent": "今天天气真的不错啊12"
+    },
+    {
+      "newsId": 3,
+      "newsUploadTime": "2018-11-15",
+      "newsContent": "今天天气真的不错啊223"
+    },
+    {
+      "newsId": 4,
+      "newsUploadTime": "2018-11-15",
+      "newsContent": "今天天气真的不错啊213124"
+    }
+  ]
+}
