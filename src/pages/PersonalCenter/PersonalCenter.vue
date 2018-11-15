@@ -64,7 +64,7 @@
     <div class="m-info">
       <el-row>
         <el-col :span="4" class="m-info-sideicon">
-          <span><i class="iconfont home-system-xihuan"></i></span>
+          <span><i class="iconfont home-school-xihuan"></i></span>
         </el-col>
         <el-col :span="20">
           <span class="m-info-message-dec">【提醒】九月悄然而至！不知不觉，一年又过了四分之三，弱弱的问一句：你年前信誓旦旦立下的目标现在都实现了吗？此外，
@@ -84,19 +84,19 @@ export default {
       mintro: [
         {
           title: '我的相册',
-          img: 'iconfont home-system-tupian'
+          img: 'iconfont home-school-tupian'
         },
         {
           title: '我的故事',
-          img: 'iconfont home-system-tupian'
+          img: 'iconfont home-school-tupian'
         },
         {
           title: '我的赞',
-          img: 'iconfont home-system-tupian'
+          img: 'iconfont home-school-tupian'
         },
         {
           title: '我的服务',
-          img: 'iconfont home-system-tupian'
+          img: 'iconfont home-school-tupian'
         }
       ]
     }
