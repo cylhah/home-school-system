@@ -70,12 +70,15 @@ const asyncRouterMap = [{
 let addFlag = false
 
 router.beforeEach((to, from, next) => {
-  if (store.getters.isAdmin && !addFlag) {
+  let isAdmin = store.state.userInfo.userRole === 'admin'
+  if (isAdmin && !addFlag) {
     router.addRoutes(asyncRouterMap)
     addFlag = true
     next({...to, replace: true})
-  } else if (store.getters.isAdmin && to.path === '/adminLogin') {
+  } else if (isAdmin && to.path === '/adminLogin') {
     next('/admin')
+  } else if (!isAdmin && to.path === '/admin') {
+    next('/adminLogin')
   } else {
     next()
   }

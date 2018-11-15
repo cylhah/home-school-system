@@ -16,13 +16,21 @@ function setCookie (key, value, days) {
   document.cookie = `${key}=${escape(value)};expires=${exdate.toUTCString()}`
 }
 
-const state = () => ({
+// const state = () => ({
+//   userInfo: {
+//     userRole: getCookie('userRole'),
+//     userName: getCookie('userName')
+//   },
+//   res: {}
+// })
+
+const state = {
   userInfo: {
     userRole: getCookie('userRole'),
     userName: getCookie('userName')
   },
   res: {}
-})
+}
 
 const getters = {
   isAdmin: state => {
