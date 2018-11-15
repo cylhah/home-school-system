@@ -10,6 +10,7 @@ import newsManage from '@/pages/admin/news-manage/index'
 import Dynamic from '@/pages/dynamic/dynamic'
 import AdminLogin from '@/pages/admin-login/index'
 
+import postdynam from '@/pages/dynamic/PostDynamci'
 import personal from '@/pages/PersonalCenter/PersonalCenter'
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ const router = new Router({
       path: '/personal',
       name: 'personal',
       component: personal
+    },
+    {
+      path: '/postdynam',
+      name: postdynam,
+      component: postdynam
     }
   ]
 })
