@@ -18,22 +18,6 @@
   <div class="text item1">【提醒】九月悄然而至！不知不觉，一年又过了四分之三，弱弱的问一句：你年前信誓旦旦立下的目标现在都实现了吗？此外，
             很多小可爱都在盼望着中秋节的来临，不但有好吃的月饼还可以好好休整三天。2018年中秋节放假安排是哪几天呢？下面我们不妨一起来看看。</div>
   <hr>
-  <div class="text item1">
-     <table style="width: 100%; text-align: center">
-      <td>
-          <span><i class="mui-icon mui-icon-redo"></i></span>
-      <span class="mui-tab-label">100</span>
-      </td>
-      <td>
-          <span class="mui-icon mui-icon-chatbubble"></span>
-      <span class="mui-tab-label">123</span>
-      </td>
-      <td>
-          <span class="iconfont icon-zan1"></span>
-      <span class="mui-tab-label">102</span>
-      </td>
-      </table>
-  </div>
 </el-card>
   </div>
 </template>
