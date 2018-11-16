@@ -11,6 +11,7 @@ import 'mint-ui/lib/style.css'
 import 'mint-ui/lib/style.min.css'
 import './lib/mui/css/icons-extra.css'
 import './css/stylegreen.scss'
+import 'animate.css'
 
 Vue.use(ElementUI)
 Vue.use(Mint)
