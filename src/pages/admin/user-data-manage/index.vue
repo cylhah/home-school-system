@@ -1,7 +1,7 @@
 <template>
   <div class="user-manage">
     <div class="title">
-      <p>用户管理</p>
+      <p>用户流量查询</p>
     </div>
     <div class="user-data">
       <div class="user-data-show">
@@ -75,7 +75,6 @@ export default {
     justify-content: space-between;
     .user-data-show {
       width: 270px;
-      padding-top: 5px;
       margin: 10px;
       background: white;
       border-radius: 5px;

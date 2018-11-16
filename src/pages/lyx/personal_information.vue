@@ -39,7 +39,7 @@ export default {
       school: '希望中学',
       stuclass: '高二三班',
       sex: '女',
-      number: '15954262483', 
+      number: '15954262483',
       addr: '学院路154号'
     }
   }

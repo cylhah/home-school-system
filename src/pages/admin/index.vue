@@ -133,6 +133,7 @@ export default {
       color: white;
       background: #09192a;
       width: 260px;
+      min-height: 900px;
       .active {
         background: rgb(34, 80, 129);
       }

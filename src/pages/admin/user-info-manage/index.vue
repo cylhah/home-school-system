@@ -1,7 +1,7 @@
 <template>
   <div class="user-info">
     <div class="title">
-      <p>用户管理</p>
+      <p>用户数据管理</p>
     </div>
     <div class="conditions">
       <span class="demonstration">条件筛选</span>
@@ -55,19 +55,40 @@
         width="200">
         <template slot-scope="scope">
           <el-button @click="seeNewsList(scope.row)" type="text" size="small">查看动态</el-button>
-          <el-button @click="handleClick(scope.row)" type="text" size="small">查看评论</el-button>
+          <el-button @click="seeCommentList(scope.row)" type="text" size="small">查看评论</el-button>
         </template>
       </el-table-column>
     </el-table>
   </div>
-  <el-dialog title="外层 Dialog" :visible.sync="outerVisible">
+  <el-dialog :title="outerTitle" :visible.sync="outerVisible">
     <el-dialog
-      width="30%"
-      title="内层 Dialog"
+      width="50%"
+      title="动态详情"
       :visible.sync="innerVisible"
       append-to-body>
+      <div class="detail">
+        <div class="head">
+          <img src="../../../assets/img/admin-head.jpg">
+        </div>
+        <div class="main">
+          <div class="user-name">
+            小猴的家长
+          </div>
+          <div class="content">
+            {{ news.newsContent }}
+          </div>
+          <div class="comment">
+            <p class="item">
+              <span>梁爽：</span>陪安东尼度过
+            </p>
+            <p class="item">
+              <span>梁爽：</span>陪安东尼度过
+            </p>
+          </div>
+        </div>
+      </div>
     </el-dialog>
-    <el-table :data="newsList">
+    <el-table :data="newsList" v-show="showType === 1">
       <el-table-column property="newsId" label="动态编号" width="150"></el-table-column>
       <el-table-column property="newsContent" label="动态内容" width="200"></el-table-column>
       <el-table-column property="newsUploadTime" label="上传时间"></el-table-column>
@@ -77,13 +98,25 @@
         width="200">
         <template slot-scope="scope">
           <el-button @click="showNewsDetail(scope.row)" type="text" size="small">查看详情</el-button>
-          <el-button @click="handleClick(scope.row)" type="text" size="small">查看评论</el-button>
+          <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-table :data="commentList" v-show="showType === 2">
+      <el-table-column property="commentId" label="评论编号" width="150"></el-table-column>
+      <el-table-column property="commentContent" label="评论内容" width="200"></el-table-column>
+      <el-table-column property="commentTime" label="评论时间"></el-table-column>
+      <el-table-column
+        fixed="right"
+        label="操作"
+        width="200">
+        <template slot-scope="scope">
+          <el-button @click="deleteComment(scope.row)" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div slot="footer" class="dialog-footer">
       <el-button @click="outerVisible = false">取 消</el-button>
-      <el-button type="primary" @click="innerVisible = true">打开内层 Dialog</el-button>
     </div>
   </el-dialog>
 </div>
@@ -96,9 +129,10 @@ export default {
   data () {
     return {
       date: '',
+      showType: 1,
+      outerTitle: '',
       username: '',
       userList: [],
-      commentList: [],
       outerVisible: false,
       innerVisible: false,
       pickerOptions: {
@@ -130,18 +164,27 @@ export default {
       }
     }
   },
-  computed: mapState('news/', {
-    newsList: 'newsList'
+  computed: mapState({
+    newsList: state => state.news.newsList,
+    news: state => state.news.news,
+    commentList: state => state.comment.commentList
   }),
   methods: {
-    handleClick (row) {
-      console.log(row.userName)
+    seeCommentList (row) {
+      this.showType = 2
+      this.outerTitle = '用户评论'
+      this.$store.dispatch('comment/getCommentListByUserId', row.userId)
+      this.outerVisible = true
     },
     seeNewsList (row) {
+      this.showType = 1
+      this.outerTitle = '用户动态'
       this.$store.dispatch('news/getNewsListByUserId', row.userId)
       this.outerVisible = true
     },
     showNewsDetail (row) {
+      this.$store.dispatch('news/getNewsById', row.newsId)
+      this.innerVisible = true
     },
     async search () {
       try {
@@ -184,6 +227,35 @@ export default {
   .user-list {
     h3 {
       margin: 20px 0;
+    }
+  }
+}
+.detail {
+  display: flex;
+  .head {
+    margin-right: 10px;
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+  .main {
+    width: 500px;
+    div {
+      margin-bottom: 10px;
+    }
+    .user-name {
+      color: rgb(64, 136, 218);
+    }
+    .comment {
+      background: rgb(238, 238, 238);
+      padding: 5px;
+      .item {
+        margin: 5px 0;
+        span {
+          color: rgb(64, 136, 218);
+        }
+      }
     }
   }
 }
