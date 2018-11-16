@@ -47,16 +47,16 @@
     <div class="main">
       <div class="nav">
         <router-link to="/admin" :class="{ active: activeIndex==0 }">
-          <i class="iconfont icon-user"/>用户流量查询
+          <i class="iconfont icon-chart"/>用户流量查询
         </router-link>
         <router-link to="/admin/userInfo" :class="{ active: activeIndex==1 }">
           <i class="iconfont icon-user"/>用户数据管理
         </router-link>
         <router-link to="/admin/news" :class="{ active: activeIndex==2 }">
-          <i class="iconfont icon-user"/>动态管理
+          <i class="iconfont icon-form"/>动态管理
         </router-link>
         <router-link to="/admin/allAdmins" :class="{ active: activeIndex==3 }">
-          <i class="iconfont icon-user"/>管理员查询
+          <i class="iconfont icon-table"/>管理员查询
         </router-link>
       </div>
       <div class="content">

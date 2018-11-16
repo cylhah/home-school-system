@@ -12,21 +12,21 @@
         </div>
       </div>
       <div class="user-data-show">
-        <p class="myicon font-blue"><i class="iconfont icon-tasks"/></p>
+        <p class="myicon font-blue"><i class="iconfont icon-chart"/></p>
         <p class="number font-blue">60</p>
         <div class="intro footer-blue">
             <span>本周注册用户</span>
         </div>
       </div>
       <div class="user-data-show">
-        <p class="myicon font-red"><i class="iconfont icon-tasks"/></p>
+        <p class="myicon font-red"><i class="iconfont icon-user"/></p>
         <p class="number font-red">100</p>
         <div class="intro footer-red">
             <span>本月注册用户</span>
         </div>
       </div>
       <div class="user-data-show">
-        <p class="myicon font-orange"><i class="iconfont icon-tasks"/></p>
+        <p class="myicon font-orange"><i class="iconfont icon-form"/></p>
         <p class="number font-orange">972</p>
         <div class="intro footer-orange">
             <span>今日动态发布量</span>
