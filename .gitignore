@@ -12,3 +12,8 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+build/webpack.dev.conf.js
+src/pages/lyx/allguanzhu.vue
+src/pages/lyx/guanzhu.vue
+src/pages/lyx/personal.vue
+src/pages/lyx/starguanzhu.vue

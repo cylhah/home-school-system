@@ -1,32 +1,81 @@
 <template>
   <div class="app-container">
+    <el-card class="box-card" v-for="(item,index) in dongtaiList" :key="index">
+      <div slot="header" class="clearfix">
+        <span>
+          <span class="touxiang"></span>
+          <span class="xinxi">
+          <div class="username">{{item.dongtaiAuthor}}</div>
+          <div class="time">发布时间：{{item.dongtaiTime}}</div>
+          </span>
+        </span>
+        <el-button style="float: right; padding: 3px 8px" type="text" @click="report">
+          <span class="mui-icon mui-icon-minus"></span></el-button>
+        <el-button style="float: right; padding: 3px 8px" type="text" @click="keep">
+          <span class="mui-icon mui-icon-star"></span></el-button>
+      </div>
+      <div class="text item1">{{item.dongtaiContent}}</div>
+      <hr>
+      <!-- 底部 转发评论点赞 -->
+      <div>
+        <el-row>
+          <el-col :span="8" >
+            <div @click="changedianzan">
+            <star :animates="animates" :colors="colors" :number="number">
+              <i slot="icon" class="iconfont icon-xihuan"></i>
+              <span slot="number"></span>
+            </star>
+            </div>
+          </el-col>
+          <el-col :span="8" >
+            <div @click="changedianzan">
+            <star :animates="animates" :colors="colors" :number="number">
+              <i slot="icon" class="iconfont icon-xihuan"></i>
+              <span slot="number"></span>
+            </star>
+            </div>
+          </el-col>
+          <el-col :span="8" >
+            <div @click="changedianzan(item)">
+            <star :animates="animates" :colors="colors" :number="item.dongtaidianzanNum" :dianzan="item.dongtaiclick">
+              <i slot="icon" class="iconfont icon-xihuan"></i>
+              <span slot="number"></span>
+            </star>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+      <el-row>
 
-<el-card class="box-card">
-  <div slot="header" class="clearfix">
-    <span>
-      <span class="touxiang"></span>
-      <span class="xinxi">
-      <div class="username">张三</div>
-      <div class="time">发布时间：2018.11.11</div>
-      </span>
-    </span>
-    <el-button style="float: right; padding: 3px 8px" type="text" @click="report">
-      <span class="mui-icon mui-icon-minus"></span></el-button>
-    <el-button style="float: right; padding: 3px 8px" type="text" @click="keep">
-      <span class="mui-icon mui-icon-star"></span></el-button>
-  </div>
-  <div class="text item1">【提醒】九月悄然而至！不知不觉，一年又过了四分之三，弱弱的问一句：你年前信誓旦旦立下的目标现在都实现了吗？此外，
-            很多小可爱都在盼望着中秋节的来临，不但有好吃的月饼还可以好好休整三天。2018年中秋节放假安排是哪几天呢？下面我们不妨一起来看看。</div>
-  <hr>
-</el-card>
+      </el-row>
+    </el-card>
   </div>
 </template>
 
 <script>
 import header1 from '@/components/public/header/header-share'
+import star from '@/components/public/star/star'
+import {mapActions, mapState} from 'vuex'
 export default {
   components: {
-    header1
+    header1, star
+  },
+  data () {
+    return {
+      color: 'red',
+      colors: 'red',
+      animates: 'animated rubberBand',
+      number: 15
+    }
+  },
+  computed: {
+    ...mapState({
+      dongtaiList: state => state.dongtai.dongtaiList
+    })
+  },
+  created () {
+    this.getDongtai()
+    console.log()
   },
   methods: {
     keep () {
@@ -62,6 +111,18 @@ export default {
           message: '已取消'
         })
       })
+    },
+    ...mapActions({
+      getDongtai: 'getDongtai'
+    }),
+    changedianzan (item) {
+      if (item.dongtaiclick === 1) {
+        item.dongtaidianzanNum--
+        item.dongtaiclick = 0
+      } else {
+        item.dongtaidianzanNum++
+        item.dongtaiclick = 1
+      }
     }
   }
 }
