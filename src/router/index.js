@@ -7,6 +7,7 @@ import userDataManage from '@/pages/admin/user-data-manage/index'
 import userInfoManage from '@/pages/admin/user-info-manage/index'
 import adminManage from '@/pages/admin/admin-manage/index'
 import newsManage from '@/pages/admin/news-manage/index'
+import userLogin from '@/pages/user-login/index'
 import Dynamic from '@/pages/dynamic/dynamic'
 import AdminLogin from '@/pages/admin-login/index'
 
@@ -35,6 +36,11 @@ const router = new Router({
       path: '/adminLogin',
       name: 'adminLogin',
       component: AdminLogin
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: userLogin
     },
     {
       path: '/Dynamic',
