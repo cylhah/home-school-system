@@ -6,26 +6,29 @@
       </router-link>
     </div>
     <div class="main">
-      <p class="title">登录家校通</p>
+      <p class="title">登录注册</p>
+      <p class="tip">未注册的手机，验证后即可完成注册</p>
       <div class="form">
         <div class="input-contain">
-          <input v-model="username" type="text" class="common username" placeholder="用户名/手机号"><i v-show="username" class="el-icon-error" @click="clear"/>
+          <input
+            maxlength="22"
+            v-model="phone" type="text" class="common username" placeholder="手机号"><label @click="getCode" class="get-code">获取验证码</label>
         </div>
         <div class="input-contain">
           <input v-model="password" :type="inputType" class="common password" placeholder="密码"><i v-show="password" class="iconfont icon-eye1" @click="showPass" :style="{ color: eyeColor}"/>
         </div>
         <div class="login-btn">
-          <button>登录</button>
+          <button>注册</button>
         </div>
         <div class="options">
           <div class="free">
-            <router-link to="/register">
-              注册
+            <router-link to="/login">
+              帐号密码登录
             </router-link>
           </div>
           <div class="forget">
             <router-link to="/login">
-              找回密码
+              收不到验证码？
             </router-link>
           </div>
         </div>
@@ -47,15 +50,25 @@
 export default {
   data () {
     return {
-      username: '',
+      phone: '',
       password: '',
       inputType: 'password',
       eyeColor: 'rgb(205, 205, 205)'
     }
   },
   methods: {
-    clear () {
-      this.username = ''
+    getCode () {
+      if (!(/^1[34578]\d{9}$/.test(this.phone))) {
+        this.$message({
+          message: '手机号码格式错误',
+          type: 'warning'
+        })
+      } else {
+        this.$message({
+          message: '发送成功',
+          type: 'success'
+        })
+      }
     },
     showPass () {
       let dict = {
@@ -79,7 +92,13 @@ export default {
     .title {
       text-align: center;
       font-size: 25px;
-      margin-bottom: 60px;
+      margin-bottom: 10px;
+    }
+    .tip {
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 30px;
+      color: rgb(173, 173, 173);
     }
     .form {
       padding: 0 20px;
@@ -99,6 +118,12 @@ export default {
         }
         .password {
           border-radius: 0 0 5px 5px;
+        }
+        .get-code {
+          position: absolute;
+          color: rgb(54, 188, 73);
+          right: 10px;
+          top: 14px;
         }
         i {
           position: absolute;
