@@ -28,7 +28,7 @@
             </div>
           </el-col>
           <el-col :span="8" >
-            <div @click="changedianzan">
+            <div @click="pinglun(item.dongtaiId)">
             <star :animates="animates" :colors="colors.pinglun" :number="number">
               <i slot="icon" class="iconfont icon-pinglun"></i>
               <span slot="number"></span>
@@ -46,7 +46,12 @@
         </el-row>
       </div>
       <div>
-        <comment></comment>
+        <comment
+          :dongtaiid = "dongtaiid"
+          v-show="xianshi"
+          v-on:childinputblur="childinputblur"
+          >
+        </comment>
       </div>
     </el-card>
   </div>
@@ -70,7 +75,9 @@ export default {
         dianzan: 'red'
       },
       animates: 'animated rubberBand',
-      number: 15
+      number: 15,
+      dongtaiid: 0,
+      xianshi: false
     }
   },
   computed: {
@@ -83,6 +90,10 @@ export default {
     console.log()
   },
   methods: {
+    childinputblur: function (childValue) {
+      // childValue就是子组件传过来的值
+      this.xianshi = false
+    },
     keep () {
       this.$confirm('收藏？', {
         confirmButtonText: '确定',
@@ -128,6 +139,9 @@ export default {
         item.dongtaidianzanNum++
         item.dongtaiclick = 1
       }
+    },
+    pinglun (id) {
+      this.xianshi = true
     }
   }
 }
