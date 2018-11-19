@@ -21,23 +21,23 @@
         <el-row>
           <el-col :span="8" >
             <div @click="changedianzan">
-            <star :animates="animates" :colors="colors" :number="number">
-              <i slot="icon" class="iconfont icon-xihuan"></i>
+            <star :animates="animates" :colors="colors.zhuanfa" :number="number">
+              <i slot="icon" class="iconfont icon-zhuanfa"></i>
               <span slot="number"></span>
             </star>
             </div>
           </el-col>
           <el-col :span="8" >
             <div @click="changedianzan">
-            <star :animates="animates" :colors="colors" :number="number">
-              <i slot="icon" class="iconfont icon-xihuan"></i>
+            <star :animates="animates" :colors="colors.pinglun" :number="number">
+              <i slot="icon" class="iconfont icon-pinglun"></i>
               <span slot="number"></span>
             </star>
             </div>
           </el-col>
           <el-col :span="8" >
             <div @click="changedianzan(item)">
-            <star :animates="animates" :colors="colors" :number="item.dongtaidianzanNum" :dianzan="item.dongtaiclick">
+            <star :animates="animates" :colors="colors.dianzan" :number="item.dongtaidianzanNum" :dianzan="item.dongtaiclick">
               <i slot="icon" class="iconfont icon-xihuan"></i>
               <span slot="number"></span>
             </star>
@@ -45,9 +45,9 @@
           </el-col>
         </el-row>
       </div>
-      <el-row>
-
-      </el-row>
+      <div>
+        <comment></comment>
+      </div>
     </el-card>
   </div>
 </template>
@@ -55,15 +55,20 @@
 <script>
 import header1 from '@/components/public/header/header-share'
 import star from '@/components/public/star/star'
+import comment from '@/pages/dynamic/comment/comment'
 import {mapActions, mapState} from 'vuex'
 export default {
   components: {
-    header1, star
+    header1, star, comment
   },
   data () {
     return {
       color: 'red',
-      colors: 'red',
+      colors: {
+        zhuanfa: 'green',
+        pinglun: 'blue',
+        dianzan: 'red'
+      },
       animates: 'animated rubberBand',
       number: 15
     }
