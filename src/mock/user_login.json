@@ -1,7 +1,8 @@
 {
   "code": 0,
   "msg": "登录成功",
-  "user": {
+  "data": {
+    "userId": 1,
     "userRole": "admin",
     "userName": "cylhah"
   }

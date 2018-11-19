@@ -19,7 +19,8 @@ function setCookie (key, value, days) {
 const state = {
   userInfo: {
     userRole: getCookie('userRole'),
-    userName: getCookie('userName')
+    userName: getCookie('userName'),
+    userId: getCookie('userId')
   },
   res: {}
 }
@@ -51,9 +52,10 @@ const actions = {
         passowrd
       })
       if (data.code === 0) {
-        setCookie('userRole', data.user.userRole, 30)
-        setCookie('userName', data.user.userName, 30)
-        commit('setUserInfo', data.user)
+        setCookie('userRole', data.data.userRole, 30)
+        setCookie('userName', data.data.userName, 30)
+        setCookie('userId', data.data.userId, 30)
+        commit('setUserInfo', data.data)
         commit('setRes', data.code, data.msg)
       } else {
         commit('setMsg', '用户名或密码错误')
