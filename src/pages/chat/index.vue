@@ -11,7 +11,7 @@
         <i class="el-icon-more"/>
       </div>
     </div>
-    <div class="main" :style="{ minHeight: mainMinHeight }">
+    <div class="main" :style="{ minHeight: mainMinHeight }" ref="main">
       <div
         v-for="(item, index) in messageList"
         :key="index"
@@ -65,6 +65,9 @@ export default {
       }
       this.messageList.push(message)
       this.content = ''
+      // this.$refs.main.lastElementChild.scrollIntoView()
+      this.$refs.main.scrollTop = this.$refs.main.scrollHeight
+      // this.$refs.end.scrollIntoView()
     }
   },
   computed: mapState({

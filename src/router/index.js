@@ -4,6 +4,7 @@ import store from '../store/modules/user'
 import Home from '@/pages/home/index'
 import Admin from '@/pages/admin/index'
 import chat from '@/pages/chat/index'
+import message from '@/pages/message/index'
 import userDataManage from '@/pages/admin/user-data-manage/index'
 import userInfoManage from '@/pages/admin/user-info-manage/index'
 import adminManage from '@/pages/admin/admin-manage/index'
@@ -53,6 +54,11 @@ const router = new Router({
       path: '/chat/:toUserId',
       name: 'chat',
       component: chat
+    },
+    {
+      path: '/message',
+      name: 'message',
+      component: message
     },
     {
       path: '/Dynamic',
