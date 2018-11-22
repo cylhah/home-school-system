@@ -1,0 +1,35 @@
+{
+  "code": 0,
+  "msg": "",
+  "data": {
+    "classId": 1,
+    "className": "三年二班",
+    "messageList": [{
+      "fromUser": {
+        "userId": 1,
+        "userRole": "学生",
+        "userName": "jz"
+      },
+      "messageContent": "大家好我是江铮",
+      "messageTime": "2018-11-17 12:00"
+    },{
+      "fromUser": {
+        "userId": 2,
+        "userRole": "学生",
+        "userName": "freak"
+      },
+      "toUser": {},
+      "messageContent": "大家好我是freak",
+      "messageTime": "2018-11-17 12:05"
+    },{
+      "fromUser": {
+        "userId": 3,
+        "userRole": "学生",
+        "userName": "小红"
+      },
+      "toUser": {},
+      "messageContent": "大家好我是小红",
+      "messageTime": "2018-11-17 12:05"
+    }]
+  }
+}

@@ -4,6 +4,7 @@
   "data": {
     "userId": 1,
     "userRole": "admin",
-    "userName": "cylhah"
+    "userName": "cylhah",
+    "classId": 1
   }
 }

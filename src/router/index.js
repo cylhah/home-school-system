@@ -4,6 +4,8 @@ import store from '../store/modules/user'
 import Home from '@/pages/home/index'
 import Admin from '@/pages/admin/index'
 import chat from '@/pages/chat/index'
+import myClass from '@/pages/class/index'
+import notification from '@/pages/notification/index'
 import message from '@/pages/message/index'
 import userDataManage from '@/pages/admin/user-data-manage/index'
 import userInfoManage from '@/pages/admin/user-info-manage/index'
@@ -56,9 +58,19 @@ const router = new Router({
       component: chat
     },
     {
+      path: '/class',
+      name: 'class',
+      component: myClass
+    },
+    {
       path: '/message',
       name: 'message',
       component: message
+    },
+    {
+      path: '/notification',
+      name: 'notification',
+      component: notification
     },
     {
       path: '/Dynamic',

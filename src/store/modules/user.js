@@ -20,7 +20,8 @@ const state = {
   userInfo: {
     userRole: getCookie('userRole'),
     userName: getCookie('userName'),
-    userId: getCookie('userId')
+    userId: getCookie('userId'),
+    classId: getCookie('classId')
   },
   res: {}
 }
@@ -55,6 +56,7 @@ const actions = {
         setCookie('userRole', data.data.userRole, 30)
         setCookie('userName', data.data.userName, 30)
         setCookie('userId', data.data.userId, 30)
+        setCookie('classId', data.data.classId, 30)
         commit('setUserInfo', data.data)
         commit('setRes', data.code, data.msg)
       } else {

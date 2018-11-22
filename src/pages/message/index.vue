@@ -21,7 +21,29 @@
 </template>
 
 <script>
+import CryptoJS from 'crypto-js'
 export default {
+  methods: {
+    compileStr (str) {
+      const secret = 'lynaca'
+      let cipher = CryptoJS.createCipheriv('aes192', secret)
+      let enc = cipher.update(str, 'utf8', 'hex')
+      enc += cipher.final('hex')
+      return enc
+    },
+    unCompileStr (str) {
+      const secret = 'lynaca'
+      let decipher = CryptoJS.createDecipheriv('aes192', secret)
+      let dec = decipher.update(str, 'hex', 'utf8')
+      dec += decipher.final('utf8')
+      return dec
+    }
+  },
+  mounted () {
+    let str = '你好你好jz'
+    console.log(CryptoJS)
+    console.log(this.compileStr(str), this.unCompileStr(this.compileStr(str)))
+  }
 }
 </script>
 

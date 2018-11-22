@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import user from './modules/user'
+import myClass from './modules/class'
 import message from './modules/message'
 import news from './modules/news'
 import comment from './modules/comment'
@@ -12,6 +13,7 @@ Vue.use(Vuex)
 const store = () => new Vuex.Store({
   modules: {
     user,
+    myClass,
     message,
     news,
     comment,
