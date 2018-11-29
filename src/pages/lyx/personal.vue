@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <personalinformation></personalinformation>
+    <!-- <personalinformation></personalinformation> -->
 <div class="mui-content">
 <h5 class="mui-content-padded" style="margin: 10px 10px 15px 10px;">账号信息</h5>
 <ul id="OA_task_1" class="mui-table-view">
@@ -43,11 +43,11 @@
 </template>
 
 <script>
-import personalinformation from '@/pages/lyx/personal_information'
+// import personalinformation from '@/pages/lyx/personal_information'
 export default {
-  components: {
-    personalinformation
-  },
+  // components: {
+  //   personalinformation
+  // },
   data () {
     return {
       keywords: '',

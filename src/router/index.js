@@ -11,7 +11,7 @@ import guanzhu1 from '@/pages/lyx/guanzhu.1'
 import starguanzhu from '@/pages/lyx/starguanzhu'
 import allguanzhu from '@/pages/lyx/allguanzhu'
 import personalinformation from '@/pages/lyx/personal_information'
-import personal from '@/pages/lyx/personal'
+
 Vue.use(Router)
 
 export default new Router({
@@ -42,8 +42,7 @@ export default new Router({
     {path: '/guanzhu1', component: guanzhu1},
     {path: '/starguanzhu', component: starguanzhu},
     {path: '/allguanzhu', component: allguanzhu},
-    {path: '/personalinformation', component: personalinformation},
-    {path: '/personal', component: personal}
+    {path: '/personalinformation', component: personalinformation}
   ],
   linkActiveClass: 'mui-active'
 })
