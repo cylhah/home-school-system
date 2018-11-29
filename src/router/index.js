@@ -1,7 +1,23 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../store/modules/user'
 import Home from '@/pages/home/index'
+import Admin from '@/pages/admin/index'
+import chat from '@/pages/chat/index'
+import myClass from '@/pages/class/index'
+import notification from '@/pages/notification/index'
+import message from '@/pages/message/index'
+import userDataManage from '@/pages/admin/user-data-manage/index'
+import userInfoManage from '@/pages/admin/user-info-manage/index'
+import adminManage from '@/pages/admin/admin-manage/index'
+import newsManage from '@/pages/admin/news-manage/index'
+import userLogin from '@/pages/user-login/index'
+import userRegister from '@/pages/user-register/index'
 import Dynamic from '@/pages/dynamic/dynamic'
+import AdminLogin from '@/pages/admin-login/index'
+
+import postdynam from '@/pages/dynamic/PostDynamci'
+import personalCenter from '@/pages/PersonalCenter/PersonalCenter'
 import index2 from '@/pages/lyx/index2'
 import dongtai from '@/pages/lyx/dongtai'
 import tabbar from '@/components/public/tabbar/tabbar'
@@ -14,7 +30,7 @@ import personalinformation from '@/pages/lyx/personal_information'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -22,9 +38,54 @@ export default new Router({
       component: Home
     },
     {
+      path: '/adminLogin',
+      name: 'adminLogin',
+      component: AdminLogin
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: userLogin
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: userRegister
+    },
+    {
+      path: '/chat/:toUserId',
+      name: 'chat',
+      component: chat
+    },
+    {
+      path: '/class',
+      name: 'class',
+      component: myClass
+    },
+    {
+      path: '/message',
+      name: 'message',
+      component: message
+    },
+    {
+      path: '/notification',
+      name: 'notification',
+      component: notification
+    },
+    {
       path: '/Dynamic',
       name: 'Dynamic',
       component: Dynamic
+    },
+    {
+      path: '/personal',
+      name: 'personal',
+      component: personalCenter
+    },
+    {
+      path: '/postdynam',
+      name: postdynam,
+      component: postdynam
     },
     {
       path: '/index2',
@@ -46,3 +107,45 @@ export default new Router({
   ],
   linkActiveClass: 'mui-active'
 })
+
+const asyncRouterMap = [{
+  path: '/admin',
+  component: Admin,
+  children: [
+    {
+      path: '',
+      component: userDataManage
+    },
+    {
+      path: 'userInfo',
+      component: userInfoManage
+    },
+    {
+      path: 'allAdmins',
+      component: adminManage
+    },
+    {
+      path: 'news',
+      component: newsManage
+    }
+  ]
+}]
+
+let addFlag = false
+
+router.beforeEach((to, from, next) => {
+  let isAdmin = store.state.userInfo.userType === 'admin'
+  if (isAdmin && !addFlag) {
+    router.addRoutes(asyncRouterMap)
+    addFlag = true
+    next({...to, replace: true})
+  } else if (isAdmin && to.path === '/adminLogin') {
+    next('/admin')
+  } else if (!isAdmin && to.path === '/admin') {
+    next('/adminLogin')
+  } else {
+    next()
+  }
+})
+
+export default router

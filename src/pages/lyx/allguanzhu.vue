@@ -77,18 +77,18 @@ export default {
       this.$notify({
         title: '关注',
         message: '以成功关注该用户',
-        type: 'success',
-        this: item.guanzhu = '已关注',
-        this: item.starguanzhu = 1
+        type: 'success'
       })
+      item.guanzhu = '已关注'
+      item.starguanzhu = 1
     },
     gaibian1 (item) {
       this.$notify({
         title: '取消关注',
         message: '以成功取消关注',
-        type: 'success',
-        this: item.guanzhu = '关注'
+        type: 'success'
       })
+      item.guanzhu = '关注'
     },
     search (keywords) {
       var newList = []
@@ -103,19 +103,19 @@ export default {
       this.$notify({
         title: '取消特别关注',
         message: '以成功取消特别关注',
-        type: 'success',
-        this: item.starguanzhu = 1,
-        this: item.guanzhu = '已关注'
+        type: 'success'
       })
+      item.starguanzhu = 1
+      item.guanzhu = '已关注'
     },
     stargz (item) {
       this.$notify({
         title: '特别关注关注',
         message: '以成功设置为特别关注关注',
-        type: 'success',
-        this: item.starguanzhu = 0,
-        this: item.guanzhu = '特别关注'
+        type: 'success'
       })
+      item.starguanzhu = 0
+      item.guanzhu = '特别关注'
     }
   }
 }

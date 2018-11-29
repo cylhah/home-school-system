@@ -67,7 +67,7 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消'
       }).then(({ value }) => {
-          this.jianjie = value
+        this.jianjie = value
         this.$message({
           type: 'success',
           message: '简介已修改！ 信息: ' + value

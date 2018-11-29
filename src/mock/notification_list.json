@@ -1,0 +1,28 @@
+{
+  "code": 0,
+  "msg": "",
+  "data": [
+    {
+      "notificationClassId": 1,
+      "notificationTime": "11月22日 16:02",
+      "notificationUser": {
+        "userId": 1,
+        "userRole": "老师",
+        "userName": "cylhah"
+      },
+      "notificationTitle": "家长会",
+      "notificationContent": "本周六下午2:30在风雨操场开家长会，请各位家长准时到达"
+    },
+    {
+      "notificationClassId": 1,
+      "notificationTime": "11月13日 13:02",
+      "notificationUser": {
+        "userId": 1,
+        "userRole": "老师",
+        "userName": "cylhah"
+      },
+      "notificationTitle": "结业典礼",
+      "notificationContent": "本周日下午2:30在运动场开结业典礼，请各位家长准时到达"
+    }
+  ]
+}
