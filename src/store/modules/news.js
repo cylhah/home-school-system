@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { requestPrefix } from '../../config/httpConfig'
 
 const state = {
   news: {},
@@ -9,7 +10,7 @@ const mutations = {
   setNews (state, news) {
     state.news = news
   },
-  setnewsList (state, newsList) {
+  setNewsList (state, newsList) {
     state.newsList = newsList
   }
 }
@@ -17,9 +18,9 @@ const mutations = {
 const actions = {
   getNewsById: async ({commit}, newsId) => {
     try {
-      const { data } = await axios.get(`/news/${newsId}`)
+      const { data } = await axios.get(`${requestPrefix}/news/${newsId}`)
       if (data.code === 0) {
-        commit('setNews', data.news)
+        commit('setNews', data.data)
       }
     } catch (error) {
       console.log(error)
@@ -27,11 +28,11 @@ const actions = {
   },
   getNewsListByUserId: async ({commit}, userId) => {
     try {
-      const { data } = await axios.get('/news', {
+      const { data } = await axios.get(`${requestPrefix}/news`, {
         params: { userId }
       })
       if (data.code === 0) {
-        commit('setnewsList', data.newsList)
+        commit('setNewsList', data.data)
       }
     } catch (error) {
       console.log(error)

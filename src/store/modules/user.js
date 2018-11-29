@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { requestPrefix } from '../../config/httpConfig'
 
 function getCookie (key) {
   let reg = new RegExp(`(^| )${key}=([^;]*)(;|$)`)
@@ -18,12 +19,12 @@ function setCookie (key, value, days) {
 
 const state = {
   userInfo: {
-    userRole: getCookie('userRole'),
+    userType: getCookie('userType'),
     userName: getCookie('userName'),
     userId: getCookie('userId'),
-    classId: getCookie('classId')
-  },
-  res: {}
+    userClassId: getCookie('userClassId'),
+    userHeadUrl: getCookie('userHeadUrl')
+  }
 }
 
 const getters = {
@@ -36,35 +37,69 @@ const mutations = {
   setUserInfo (state, userInfo) {
     state.userInfo = userInfo
   },
-  setMsg (state, msg) {
-    state.msg = msg
-  },
-  setRes (state, code, msg) {
-    state.res.code = code
-    state.res.msg = msg
+  setUserHeadUrl (state, userHeadUrl) {
+    state.userInfo.userHeadUrl = userHeadUrl
   }
 }
 
 const actions = {
-  login: async ({commit}, username, passowrd) => {
-    try {
-      const { data } = await axios.post('/user/login', {
-        username,
-        passowrd
+  login ({commit}, { userName, userPassword }) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${requestPrefix}/users/login`, {
+        params: { userName, userPassword }
+      }).then((res) => {
+        const { data } = res
+        if (data.code === 0) {
+          data.data.userHeadUrl = `api/img/userHead/${data.data.userHeadUrl}`
+          commit('setUserInfo', data.data)
+          setCookie('userType', data.data.userType, 30)
+          setCookie('userName', data.data.userName, 30)
+          setCookie('userId', data.data.userId, 30)
+          setCookie('userClassId', data.data.userClassId, 30)
+          setCookie('userHeadUrl', data.data.userHeadUrl, 30)
+        }
+        resolve(res)
+      }).catch((reason) => {
+        reject(reason)
       })
-      if (data.code === 0) {
-        setCookie('userRole', data.data.userRole, 30)
-        setCookie('userName', data.data.userName, 30)
-        setCookie('userId', data.data.userId, 30)
-        setCookie('classId', data.data.classId, 30)
-        commit('setUserInfo', data.data)
-        commit('setRes', data.code, data.msg)
-      } else {
-        commit('setMsg', '用户名或密码错误')
-      }
-    } catch (error) {
-      console.log(error)
-    }
+    })
+  },
+  uploadHead ({commit}, { userId, formData }) {
+    return new Promise((resolve, reject) => {
+      axios.post(`${requestPrefix}/users/${userId}/userHead`, formData, {
+        headers: {'Content-Type': 'multipart/form-data'}
+      }).then((res) => {
+        const { data } = res
+        data.data = `api/img/userHead/${data.data}`
+        commit('setUserHeadUrl', data.data)
+        setCookie('userHeadUrl', data.data, 30)
+        resolve(res)
+      }).catch((reason) => {
+        reject(reason)
+      })
+    })
+  },
+  getCode ({commit}, { email }) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${requestPrefix}/users/code`, {
+        params: { email }
+      }).then((res) => {
+        resolve(res)
+      }).catch((reason) => {
+        reject(reason)
+      })
+    })
+  },
+  register ({commit}, { userName, userPassword }) {
+    return new Promise((resolve, reject) => {
+      axios.post(`${requestPrefix}/users`, {
+        userName, userPassword, userType: 'normal'
+      }).then((res) => {
+        resolve(res)
+      }).catch((reason) => {
+        reject(reason)
+      })
+    })
   }
 }
 

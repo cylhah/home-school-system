@@ -13,6 +13,7 @@
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
+          value-format="timestamp"
           :picker-options="pickerOptions">
       </el-date-picker>
       <el-input class="username-input" v-model="username" placeholder="请输入用户名"/>
@@ -30,18 +31,18 @@
       width="140">
       </el-table-column>
       <el-table-column
-      prop="userRegisTime"
+      prop="userRegisterTime"
       label="注册日期"
       sortable="true"
       width="180">
       </el-table-column>
       <el-table-column
-      prop="userEmail"
-      label="用户邮箱"
+      prop="userNickname"
+      label="用户昵称"
       width="200">
       </el-table-column>
       <el-table-column
-      prop="userRole"
+      prop="userType"
       label="用户角色"
       width="200">
       </el-table-column>
@@ -62,7 +63,7 @@
   </div>
   <el-dialog :title="outerTitle" :visible.sync="outerVisible">
     <el-dialog
-      width="50%"
+      width="60%"
       title="动态详情"
       :visible.sync="innerVisible"
       append-to-body>
@@ -123,7 +124,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapState } from 'vuex'
 export default {
   data () {
@@ -132,7 +132,6 @@ export default {
       showType: 1,
       outerTitle: '',
       username: '',
-      userList: [],
       outerVisible: false,
       innerVisible: false,
       pickerOptions: {
@@ -167,7 +166,8 @@ export default {
   computed: mapState({
     newsList: state => state.news.newsList,
     news: state => state.news.news,
-    commentList: state => state.comment.commentList
+    commentList: state => state.comment.commentList,
+    userList: state => state.admin.userList
   }),
   methods: {
     seeCommentList (row) {
@@ -186,17 +186,9 @@ export default {
       this.$store.dispatch('news/getNewsById', row.newsId)
       this.innerVisible = true
     },
-    async search () {
-      try {
-        const { data } = await axios.get('/user', {
-          params: { sDate: this.date[0], eDate: this.date[1], username: this.username }
-        })
-        if (data.code === 0) {
-          this.userList = data.userList
-        }
-      } catch (error) {
-        console.log(error)
-      }
+    search () {
+      this.$store.dispatch('admin/getUserList',
+        { startTime: this.date[0], endTime: this.date[1], userName: this.username })
     }
   }
 }

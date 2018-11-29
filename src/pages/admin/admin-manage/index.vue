@@ -2,23 +2,23 @@
   <div class="admin-manage">
     <div class="admin-list">
       <el-table
-        :data="admins"
+        :data="adminList"
         border
         style="height:100%">
         <el-table-column
-          prop="date"
+          prop="userRegisterTime"
           label="日期"
           sortable="true"
           width="180">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="userName"
           label="用户名"
           width="240">
         </el-table-column>
         <el-table-column
-          prop="address"
-          label="地址">
+          prop="userNickname"
+          label="昵称">
         </el-table-column>
       </el-table>
       <div class="admin-me">
@@ -26,7 +26,7 @@
           <img src="../../../assets/img/admin-bg.jpg">
         </div>
         <div class="admin-head">
-          <img :src="headUrl" @click="$refs.headFile.click()">
+          <img :src="userHeadUrl" @click="$refs.headFile.click()">
           <input type="file" @change="fileChange" ref="headFile" style="display: none">
         </div>
         <div class="intro">
@@ -59,26 +59,43 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import CryptoJS from 'crypto-js'
 export default {
   data () {
     return {
-      admins: [],
-      headUrl: require('../../../assets/img/admin-head.jpg'),
-      headFile: {},
       form: {
         username: '',
         password: '',
         confirm: ''
-      }
+      },
+      userHeadUrl: ''
     }
   },
+  computed: mapState({
+    adminList: state => state.admin.adminList,
+    userInfo: state => state.user.userInfo
+  }),
   methods: {
-    fileChange (e) {
-      this.headFile = e.target.files[0]
-      this.headUrl = window.URL.createObjectURL(e.target.files[0])
+    async fileChange (e) {
+      if (e.target.files[0]) {
+        this.userHeadUrl = window.URL.createObjectURL(e.target.files[0])
+        let formData = new FormData()
+        formData.append('head', e.target.files[0])
+        await this.$store.dispatch('user/uploadHead', { userId: this.userInfo.userId, formData })
+      }
     },
-    onSubmit () {
+    async onSubmit () {
+      const { data } = await this.$store.dispatch('admin/addAdmin',
+        {userName: this.form.username, userPassword: CryptoJS.MD5(this.form.password).toString()})
+      console.log(data)
     }
+  },
+  created () {
+    this.userHeadUrl = this.userInfo.userHeadUrl
+  },
+  mounted () {
+    this.$store.dispatch('admin/getAdminList')
   }
 }
 </script>

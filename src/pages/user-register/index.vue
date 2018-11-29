@@ -12,13 +12,17 @@
         <div class="input-contain">
           <input
             maxlength="22"
-            v-model="phone" type="text" class="common username" placeholder="手机号"><label @click="getCode" class="get-code">获取验证码</label>
+            v-model="email" type="text" class="common username" placeholder="邮箱号"><label @click="getCode" class="get-code">获取验证码</label>
+        </div>
+        <div class="input-contain">
+          <input
+            v-model="codeInput" type="text" class="common" placeholder="请输入验证码">
         </div>
         <div class="input-contain">
           <input v-model="password" :type="inputType" class="common password" placeholder="密码"><i v-show="password" class="iconfont icon-eye1" @click="showPass" :style="{ color: eyeColor}"/>
         </div>
         <div class="login-btn">
-          <button>注册</button>
+          <button @click="register">注册</button>
         </div>
         <div class="options">
           <div class="free">
@@ -47,20 +51,24 @@
 </template>
 
 <script>
+import CryptoJS from 'crypto-js'
 export default {
   data () {
     return {
-      phone: '',
+      email: '',
       password: '',
+      codeInput: '',
       inputType: 'password',
+      code: 0,
       eyeColor: 'rgb(205, 205, 205)'
     }
   },
   methods: {
-    getCode () {
-      if (!(/^1[34578]\d{9}$/.test(this.phone))) {
+    async getCode () {
+      let emailReg = new RegExp('^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$')
+      if (!(emailReg.test(this.email))) {
         this.$message({
-          message: '手机号码格式错误',
+          message: '邮箱格式错误',
           type: 'warning'
         })
       } else {
@@ -68,6 +76,8 @@ export default {
           message: '发送成功',
           type: 'success'
         })
+        const { data } = await this.$store.dispatch('user/getCode', { email: this.email })
+        this.code = data.data
       }
     },
     showPass () {
@@ -77,6 +87,14 @@ export default {
       }
       this.inputType = dict[this.inputType]
       this.eyeColor = this.inputType === 'password' ? 'rgb(205, 205, 205)' : 'black'
+    },
+    async register () {
+      if (parseInt(this.codeInput) === this.code) {
+        const { data } = await this.$store.dispatch('user/register', { userName: this.email, userPassword: CryptoJS.MD5(this.password).toString() })
+        if (data.code === 0) {
+          console.log('tag', '')
+        }
+      }
     }
   }
 }

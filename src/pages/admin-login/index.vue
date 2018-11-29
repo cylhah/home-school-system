@@ -43,12 +43,11 @@ export default {
   },
   methods: {
     async login () {
-      // e10adc3949ba59abbe56e057f20f883e
-      await this.$store.dispatch('user/login', this.username, CryptoJS.MD5(this.password).toString())
-      if (this.$store.state.user.res.code === 0) {
+      await this.$store.dispatch('user/login', { userName: this.username, userPassword: CryptoJS.MD5(this.password).toString() })
+      if (this.$store.state.user.userInfo.userType === 'admin') {
         this.$router.push({ path: '/admin' })
       } else {
-        this.warning = this.$store.state.user.res.msg
+        this.warning = '用户名或密码错误'
       }
     }
   }

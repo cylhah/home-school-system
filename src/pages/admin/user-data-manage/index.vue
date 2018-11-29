@@ -6,30 +6,30 @@
     <div class="user-data">
       <div class="user-data-show">
         <p class="myicon font-green"><i class="iconfont icon-tasks"/></p>
-        <p class="number font-green">10</p>
+        <p class="number font-green">{{registerDayCount}}</p>
         <div class="intro footer-green">
             <span>今日注册用户</span>
         </div>
       </div>
       <div class="user-data-show">
         <p class="myicon font-blue"><i class="iconfont icon-chart"/></p>
-        <p class="number font-blue">60</p>
+        <p class="number font-blue">{{registerWeekCount}}</p>
         <div class="intro footer-blue">
             <span>本周注册用户</span>
         </div>
       </div>
       <div class="user-data-show">
         <p class="myicon font-red"><i class="iconfont icon-user"/></p>
-        <p class="number font-red">100</p>
+        <p class="number font-red">{{registerMonthCount}}</p>
         <div class="intro footer-red">
             <span>本月注册用户</span>
         </div>
       </div>
       <div class="user-data-show">
         <p class="myicon font-orange"><i class="iconfont icon-form"/></p>
-        <p class="number font-orange">972</p>
+        <p class="number font-orange">{{newsAmountMonth}}</p>
         <div class="intro footer-orange">
-            <span>今日动态发布量</span>
+            <span>本月动态发布量</span>
         </div>
       </div>
     </div>
@@ -51,11 +51,27 @@
 import chart1 from './components/user-chart1'
 import chart2 from './components/user-chart2'
 import chart3 from './components/user-chart3'
+import { mapState } from 'vuex'
 export default {
   components: {
     chart1,
     chart2,
     chart3
+  },
+  computed: mapState({
+    registerDayCount: state => state.admin.registerDayCount,
+    registerWeekCount: state => state.admin.registerWeekCount,
+    registerMonthCount: state => state.admin.registerMonthCount,
+    newsAmountMonth: state => state.admin.newsAmountMonth
+  }),
+  mounted () {
+    let endTime = new Date()
+    let startTime = new Date()
+    startTime.setDate(endTime.getDate() - 30)
+    this.$store.dispatch('admin/getRegisterCount', 1)
+    this.$store.dispatch('admin/getRegisterCount', 7)
+    this.$store.dispatch('admin/getRegisterCount', 30)
+    this.$store.dispatch('admin/getNewsAmountByTime', { startTime: startTime.getTime(), endTime: endTime.getTime() })
   }
 }
 </script>
