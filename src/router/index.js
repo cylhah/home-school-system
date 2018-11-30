@@ -15,19 +15,21 @@ import userLogin from '@/pages/user-login/index'
 import userRegister from '@/pages/user-register/index'
 import Dynamic from '@/pages/dynamic/dynamic'
 import AdminLogin from '@/pages/admin-login/index'
-
 import postdynam from '@/pages/dynamic/PostDynamci'
 import personalCenter from '@/pages/PersonalCenter/PersonalCenter'
 import index2 from '@/pages/lyx/index2'
 import dongtai from '@/pages/lyx/dongtai'
 import tabbar from '@/components/public/tabbar/tabbar'
 import header from '@/components/public/header/header-share'
-import guanzhu from '@/pages/lyx/guanzhu'
-import guanzhu1 from '@/pages/lyx/guanzhu.1'
-import starguanzhu from '@/pages/lyx/starguanzhu'
-import allguanzhu from '@/pages/lyx/allguanzhu'
-import personalinformation from '@/pages/lyx/personal_information'
-
+import personalinformation from '@/pages/PersonalCenter/personal_information'
+import personal from '@/pages/PersonalCenter/personal'
+import cz from '@/pages/lyx/cz'
+import czclick from '@/pages/lyx/cz-click'
+import guanzhunew from '@/pages/guanzhu/guanzhu'
+import tuijian from '@/pages/guanzhu/tuijian'
+import starguanzhunew from '@/pages/guanzhu/starguanzhu'
+import allguanzhunew from '@/pages/guanzhu/allguanzhu'
+import dongtai1 from '@/pages/PersonalCenter/dongtai.1'
 Vue.use(Router)
 
 const router = new Router({
@@ -99,11 +101,59 @@ const router = new Router({
     },
     {path: '/header', component: header},
     {path: '/dongtai', component: dongtai},
-    {path: '/guanzhu', component: guanzhu},
-    {path: '/guanzhu1', component: guanzhu1},
-    {path: '/starguanzhu', component: starguanzhu},
-    {path: '/allguanzhu', component: allguanzhu},
-    {path: '/personalinformation', component: personalinformation}
+    {
+      path: '/cz',
+      name: 'cz',
+      component: cz
+    },
+    {
+      path: '/czclick',
+      name: 'czclick',
+      component: czclick
+    },
+    {
+      path: '/personalinformation',
+      redirect: '/personal1',
+      component: personalinformation,
+      children: [
+        {
+          path: '/personal1',
+          name: 'personal1',
+          component: personal
+        },
+        {
+          path: '/dongtai1',
+          name: 'dongtai1',
+          component: dongtai1
+        }
+      ]
+    },
+    {
+      path: '/guanzhunew',
+      redirect: '/guanzhunew',
+      component: guanzhunew,
+      children: [
+        {
+          path: '/guanzhunew',
+          component: tuijian
+        },
+        {
+          path: '/tuijain',
+          name: 'tuijian',
+          component: tuijian
+        },
+        {
+          path: '/starguanzhunew',
+          name: 'starguanzhunew',
+          component: starguanzhunew
+        },
+        {
+          path: '/allguanzhunew',
+          name: 'allguanzhunew',
+          component: allguanzhunew
+        }
+      ]
+    }
   ],
   linkActiveClass: 'mui-active'
 })

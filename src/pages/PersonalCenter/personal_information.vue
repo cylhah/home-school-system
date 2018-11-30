@@ -10,27 +10,25 @@
       </span>
     </span>
   </div>
-    <el-menu mode="horizontal">
-      <router-link to="/personal">
+<el-menu mode="horizontal">
+      <router-link to="/personal1">
   <el-menu-item index="1" class="daohang">我的主页</el-menu-item>
   </router-link>
-  <router-link to="/dongtai">
+  <router-link to="/dongtai1">
   <el-menu-item index="2" class="daohang">我的动态</el-menu-item>
   </router-link>
 </el-menu>
 </el-card>
-<div class="wei">
-  <router-view></router-view>
-</div>
+<router-view></router-view>
 </div>
 </template>
 
 <script>
-import personal from '@/pages/lyx/personal'
+//  import personal from '@/pages/lyx/personal'
 export default {
-  components: {
-    personal
-  },
+  // components: {
+  //   personal
+  // },
   data () {
     return {
       keywords: '',
@@ -43,10 +41,7 @@ export default {
       number: '15954262483',
       addr: '学院路154号'
     }
-  },
-  routes: [
-    {path: '/personal', component: personal}
-  ]
+  }
 }
 </script>
 

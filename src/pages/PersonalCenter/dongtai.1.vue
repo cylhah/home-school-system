@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-card class="box-card" v-for="(item,index) in dongtaiList" :key="index">
+    <el-card class="box-card" v-for="(item,index) in dongtaiList" :key="index" v-if="item.dongtaiAuthor=='张三'">
       <div slot="header" class="clearfix">
         <span>
           <span class="touxiang"></span>
@@ -9,10 +9,6 @@
           <div class="time">发布时间：{{item.dongtaiTime}}</div>
           </span>
         </span>
-        <el-button style="float: right; padding: 3px 8px" type="text" @click="report">
-          <span class="mui-icon mui-icon-minus"></span></el-button>
-        <el-button style="float: right; padding: 3px 8px" type="text" @click="keep">
-          <span class="mui-icon mui-icon-star"></span></el-button>
       </div>
       <div class="text item1">{{item.dongtaiContent}}</div>
       <hr>
@@ -22,7 +18,7 @@
           <el-col :span="8" >
             <div @click="changedianzan">
             <star :animates="animates" :colors="colors" :number="number">
-              <i slot="icon" class="mui-icon mui-icon-redo"></i>
+              <i slot="icon" class="iconfont icon-xihuan"></i>
               <span slot="number"></span>
             </star>
             </div>
@@ -30,7 +26,7 @@
           <el-col :span="8" >
             <div @click="changedianzan">
             <star :animates="animates" :colors="colors" :number="number">
-              <i slot="icon" class="mui-icon mui-icon-chatbubble"></i>
+              <i slot="icon" class="iconfont icon-xihuan"></i>
               <span slot="number"></span>
             </star>
             </div>
@@ -45,9 +41,6 @@
           </el-col>
         </el-row>
       </div>
-      <el-row>
-
-      </el-row>
     </el-card>
   </div>
 </template>

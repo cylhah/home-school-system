@@ -1,32 +1,26 @@
 <template>
   <div class="app-container">
-    <!-- <personalinformation></personalinformation> -->
 <div class="mui-content">
-<h5 class="mui-content-padded" style="margin: 10px 10px 15px 10px;">账号信息</h5>
+<h5 class="mui-content-padded" style="margin: 1px 10px 15px 10px;">账号信息</h5>
 <ul id="OA_task_1" class="mui-table-view">
 <li class="mui-table-view-cell">
-<span>姓名</span>
-                    <span class="twoword">{{ name }}</span>
+<span>姓名</span><span class="twoword">{{ name }}</span>
 </li>
 <li class="mui-table-view-cell" @click="nlist()">
-<span>简介</span>
-                    <span class="twoword">{{ jianjie }}</span>
+<span>简介</span><span class="twoword">{{ jianjie }}</span>
 </li>
 <li class="mui-table-view-cell">
-<span>关联学校</span>
-                    <span class="fourword">{{ school }}</span>
+<span>关联学校</span><span class="fourword">{{ school }}</span>
 </li>
-                <li class="mui-table-view-cell">
-<span>关联班级</span>
-                    <span class="fourword">{{ stuclass }}</span>
+<li class="mui-table-view-cell">
+<span>关联班级</span><span class="fourword">{{ stuclass }}</span>
 </li>
 </ul>
-<h5 class="mui-content-padded" style="margin: 15px 10px;">个人信息</h5>
+<h5 class="mui-content-padded" style="margin:  1px 10px 15px 10px;">个人信息</h5>
 <ul id="OA_task_2" class="mui-table-view">
 <li class="mui-table-view-cell">
 <div class="mui-slider-handle mui-table">
-<span>性别</span>
-                        <span class="oneword">{{ sex }}</span>
+<span>性别</span><span class="oneword">{{ sex }}</span>
 </div>
 </li>
 <li class="mui-table-view-cell">
@@ -43,11 +37,7 @@
 </template>
 
 <script>
-// import personalinformation from '@/pages/lyx/personal_information'
 export default {
-  // components: {
-  //   personalinformation
-  // },
   data () {
     return {
       keywords: '',
@@ -84,6 +74,7 @@ export default {
 </script>
 
 <style scoped>
+ @import '../../lib/mui/css/mui.min.css';
 .fourword{
     margin-left: 10%;
 }

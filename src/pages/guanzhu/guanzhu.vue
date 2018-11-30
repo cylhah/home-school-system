@@ -1,65 +1,33 @@
 <template>
   <div class="app-container">
-    <header1></header1>
   <div>
-    <el-card class="box-card">
-  <div class="sousuo">
-    <el-input
-    placeholder="请输入内容" v-model="keywords">
-    <i slot="prefix" class="el-input__icon el-icon-search"></i>
-  </el-input>
-  </div>
-</el-card>
 <div class="item1">
      <table style="width: 100%; text-align: center">
-      <td style="padding: 15px;"><router-link to="/starguanzhu">
+      <td style="padding: 15px;"><router-link to="/starguanzhunew">
          <span> <div><i class="iconfont icon-xihuan1"></i></div>
       <div style="color:black;font-size: 14px;">特别关注</div></span>
       </router-link></td>
-      <td style="padding: 15px;"><router-link to="/allguanzhu">
+      <td style="padding: 15px;"><router-link to="/allguanzhunew">
          <span to="/index2"> <div><i class="mui-icon-extra mui-icon-extra-peoples"></i></div>
       <div style="color:black;font-size: 14px;">全部关注</div></span>
       </router-link></td>
-      <td style="padding: 15px;">
+      <td style="padding: 15px;"><router-link to="/tuijain">
          <span to="/index2"> <div><i class="mui-icon mui-icon-pulldown"></i></div>
-      <div style="color:black;font-size: 14px;">字母排序</div></span>
-      </td>
+      <div style="color:black;font-size: 14px;">推荐用户</div></span>
+      </router-link></td>
       </table>
   </div>
   </div>
  <div class="app-container1">
-<div class="kua">
-    <div v-for="item in search(keywords)" :key="item.name">
-      <span class="touxiang"></span>
-      <span class="xinxi">
-      <div class="username">{{item.name}}</div>
-      <div class="time">{{item.jianjie}}..</div>
-      </span>
-      <span class="star1"><i :class="item.starguanzhu == 0 ? 'inconStar iconfont icon-xihuan':'inconStar iconfont icon-xihuan1'" @click="item.starguanzhu == 0 ? stargz1(item):stargz(item)"></i></span>
-      <button class="guanzhu">
-      <div :class="item.guanzhu == '关注' ? 'guanzhu1':'guanzhu2'"  @click="item.guanzhu == '已关注' ? gaibian1(item):gaibian(item)">
-        <span :class="item.guanzhu == '关注' ? 'mui-icon mui-icon-plusempty':'mui-icon mui-icon-checkmarkempty'"></span>{{item.guanzhu}}</div>
-      </button>
-      <hr>
-    </div>
+   <transition name="slide-fade">
+   <router-view></router-view>
+   </transition>
   </div>
-  </div>
-<tabbar></tabbar>
   </div>
 </template>
 
 <script>
-import header1 from '@/components/public/header/header-share'
-import dongtai1 from '@/pages/lyx/dongtai'
-import guanzhu1 from '@/pages/lyx/guanzhu.1.vue'
-import tabbar from '@/components/public/tabbar/tabbar'
 export default {
-  components: {
-    header1,
-    dongtai1,
-    tabbar,
-    guanzhu1
-  },
   data () {
     return {
       keywords: '',
@@ -138,16 +106,31 @@ export default {
 </script>
 
 <style scoped>
+ @import '../../lib/mui/css/mui.min.css';
+.slide-fade-enter-active ,
+.slide-fade-leave-active {
+  transition: all 0.8s ease;
+}
+.slide-fade-enter{
+  transform: translateX(100%);
+  opacity: 0;
+}
+.slide-fade-leave-to{
+  transform: translateX(-100%);
+  opacity: 0;
+  position: absolute;
+}
 .app-container{
 padding-top: 0%;
 width: 100%;
+overflow-x: hidden;
 }
 .dongtao{
    padding: 1%;
 }
 .sousuo{
   margin: -16px;
-  margin-bottom: -30px;
+  margin-bottom: -14px;
 }
 .item1 {
   background-color: rgb(255, 255, 255);
@@ -184,13 +167,9 @@ width: 100%;
 padding-top: 0%;
 width: 100%;
 background-color: rgb(255, 255, 255);
-    border: 1px solid #ccc!important;
+    /* border: 1px solid #ccc!important;
     padding: 5px;
-    border-radius: 5px!important;
-}
-.sousuo{
-  margin: -16px;
-  margin-bottom: -30px;
+    border-radius: 5px!important; */
 }
 .kua{
   margin: 10px;
@@ -215,7 +194,7 @@ background-color: rgb(255, 255, 255);
 .guanzhu{
     float: right;
     padding: 0px 0px;
-    margin: 4%;
+    margin: 2%;
     width: 27%;
     border: 1px solid rgb(255, 255, 255)!important;
     background-color: rgb(255, 255, 255);

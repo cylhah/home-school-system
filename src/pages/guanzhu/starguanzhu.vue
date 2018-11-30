@@ -1,5 +1,6 @@
 <template>
-  <div class="app-container1">
+  <div class="app-container">
+  <div>
     <el-card class="box-card">
   <div class="sousuo">
     <el-input
@@ -8,29 +9,29 @@
   </el-input>
   </div>
 </el-card>
+  </div>
+ <div class="app-container1">
 <div class="kua">
-    <div v-for="item in search(keywords)" :key="item.name">
+    <div v-for="item in search(keywords)" :key="item.name" v-if="item.starguanzhu==0">
       <span class="touxiang"></span>
       <span class="xinxi">
       <div class="username">{{item.name}}</div>
       <div class="time">{{item.jianjie}}..</div>
       </span>
+            <span class="star1"><i :class="item.starguanzhu == 0 ? 'inconStar iconfont icon-xihuan':'inconStar iconfont icon-xihuan1'" @click="item.starguanzhu == 0 ? stargz1(item):stargz(item)"></i></span>
       <button class="guanzhu">
-      <div class="guanzhu1" :class="item.guanzhu == '已关注' ? 'guanzhu2':''">
-        <span class="mui-icon mui-icon-plusempty" @click="item.guanzhu == '已关注' ? gaibian1(item):gaibian(item)"></span>{{item.guanzhu}}</div>
+      <div :class="item.guanzhu == '关注' ? 'guanzhu1':'guanzhu2'"  @click="item.guanzhu == '已关注' ? gaibian1(item):gaibian(item)">
+        <span :class="item.guanzhu == '关注' ? 'mui-icon mui-icon-plusempty':'mui-icon mui-icon-checkmarkempty'"></span>{{item.guanzhu}}</div>
       </button>
-      <hr>
+      <hr style="filter:alpha(Opacity=50); opacity: 0;">
     </div>
+  </div>
   </div>
   </div>
 </template>
 
 <script>
-import header1 from '@/components/public/header/header-share'
 export default {
-  components: {
-    header1
-  },
   data () {
     return {
       keywords: '',
@@ -39,13 +40,22 @@ export default {
           id: 1,
           name: '张三',
           jianjie: 'sass',
-          guanzhu: '关注'
+          guanzhu: '关注',
+          starguanzhu: 1
         },
         {
           id: 2,
           name: '李四',
           jianjie: 'sass2',
-          guanzhu: '已关注'
+          guanzhu: '已关注',
+          starguanzhu: 1
+        },
+        {
+          id: 3,
+          name: '王五',
+          jianjie: '我叫王五',
+          guanzhu: '特别关注',
+          starguanzhu: 0
         }
       ]
     }
@@ -55,17 +65,18 @@ export default {
       this.$notify({
         title: '关注',
         message: '以成功关注该用户',
-        type: 'success',
-        this: item.guanzhu = '已关注'
+        type: 'success'
       })
+      item.guanzhu = '已关注'
+      item.starguanzhu = 1
     },
     gaibian1 (item) {
       this.$notify({
         title: '取消关注',
         message: '以成功取消关注',
-        type: 'success',
-        this: item.guanzhu = '关注'
+        type: 'success'
       })
+      item.guanzhu = '关注'
     },
     search (keywords) {
       var newList = []
@@ -75,13 +86,64 @@ export default {
         }
       })
       return newList
+    },
+    stargz1 (item) {
+      this.$notify({
+        title: '取消特别关注',
+        message: '以成功取消特别关注',
+        type: 'success'
+      })
+      item.starguanzhu = 1
+      item.guanzhu = '已关注'
+    },
+    stargz (item) {
+      this.$notify({
+        title: '特别关注关注',
+        message: '以成功设置为特别关注关注',
+        type: 'success'
+      })
+      item.starguanzhu = 0
+      item.guanzhu = '特别关注'
     }
-
   }
 }
 </script>
 
 <style scoped>
+.app-container{
+padding-top: 0%;
+width: 100%;
+}
+.dongtao{
+   padding: 1%;
+}
+.sousuo{
+  margin: -16px;
+  margin-bottom: -14px;
+}
+.item1 {
+  background-color: rgb(255, 255, 255);
+    margin: 0px;
+  margin-bottom: 6px;
+  }
+.icon-xihuan{
+  font-size: 35px;
+  color: red;
+}
+.mui-icon-extra-peoples{
+   font-size: 35px;
+  color: rgb(255, 174, 0);
+}
+.mui-icon-pulldown{
+   font-size: 35px;
+  color: rgb(0, 240, 20);
+}
+.word{
+  font-size: 14px;
+}
+.td, th {
+    padding: 15px;
+}
 .app-container1{
 padding-top: 0%;
 width: 100%;
@@ -89,10 +151,6 @@ background-color: rgb(255, 255, 255);
     border: 1px solid #ccc!important;
     padding: 5px;
     border-radius: 5px!important;
-}
-.sousuo{
-  margin: -16px;
-  margin-bottom: -30px;
 }
 .kua{
   margin: 10px;
@@ -118,7 +176,7 @@ background-color: rgb(255, 255, 255);
     float: right;
     padding: 0px 0px;
     margin: 4%;
-    width: 22%;
+    width: 27%;
     border: 1px solid rgb(255, 255, 255)!important;
     background-color: rgb(255, 255, 255);
     border-radius: 5px!important;
@@ -137,11 +195,18 @@ background-color: rgb(255, 255, 255);
   font-weight: bold;
   border: 1px solid rgb(130, 136, 130)!important;
   color: rgb(130, 136, 130);
+  border-radius: 5px!important;
 }
 .username{
   padding: 5px;
   font-size: 16px;
   font-weight: bold;
   color: maroon;
+}
+.time{
+  font-size: 5px;
+}
+.inconStar{
+  font-size: 150%;
 }
 </style>

@@ -1,6 +1,5 @@
 <template>
   <div class="app-container">
-    <header1></header1>
   <div>
     <el-card class="box-card">
   <div class="sousuo">
@@ -24,26 +23,14 @@
       <div :class="item.guanzhu == '关注' ? 'guanzhu1':'guanzhu2'"  @click="item.guanzhu == '已关注' ? gaibian1(item):gaibian(item)">
         <span :class="item.guanzhu == '关注' ? 'mui-icon mui-icon-plusempty':'mui-icon mui-icon-checkmarkempty'"></span>{{item.guanzhu}}</div>
       </button>
-      <hr>
+      <hr style="filter:alpha(Opacity=50); opacity: 0;">
     </div>
   </div>
   </div>
-<tabbar></tabbar>
   </div>
 </template>
-
 <script>
-import header1 from '@/components/public/header/header-share'
-import dongtai1 from '@/pages/lyx/dongtai'
-import guanzhu1 from '@/pages/lyx/guanzhu.1.vue'
-import tabbar from '@/components/public/tabbar/tabbar'
 export default {
-  components: {
-    header1,
-    dongtai1,
-    tabbar,
-    guanzhu1
-  },
   data () {
     return {
       keywords: '',
@@ -131,7 +118,7 @@ width: 100%;
 }
 .sousuo{
   margin: -16px;
-  margin-bottom: -30px;
+  margin-bottom: -14px;
 }
 .item1 {
   background-color: rgb(255, 255, 255);
@@ -163,10 +150,6 @@ background-color: rgb(255, 255, 255);
     border: 1px solid #ccc!important;
     padding: 5px;
     border-radius: 5px!important;
-}
-.sousuo{
-  margin: -16px;
-  margin-bottom: -30px;
 }
 .kua{
   margin: 10px;
