@@ -28,7 +28,7 @@
             </div>
           </el-col>
           <el-col :span="8" >
-            <div @click="pinglun(item.dongtaiId)">
+            <div @click="pinglun(item.dongtaiid)">
             <star :animates="animates" :colors="colors.pinglun" :number="number">
               <i slot="icon" class="iconfont icon-pinglun"></i>
               <span slot="number"></span>
@@ -45,26 +45,56 @@
           </el-col>
         </el-row>
       </div>
-      <div>
-        <comment
+        <!-- <comment
           :dongtaiid = "dongtaiid"
           v-show="xianshi"
           v-on:childinputblur="childinputblur"
           >
-        </comment>
-      </div>
+        </comment> -->
     </el-card>
+    <el-dialog
+      custom-class="m-dialog"
+      :visible.sync="dialogVisible"
+      width="100%"
+      top="0px"
+      :show-close="false"
+      >
+      <span>
+        <el-row >
+          <el-col :span="20">
+            <el-input type="textarea"
+              :minlength="12"
+              :maxlength="150"
+              style="width:100%;"
+              ref="comment"
+              id="comment"
+              v-model="textarea"
+              @blur="childinputblur()">
+            </el-input>
+          </el-col>
+          <el-col :span="4" class="sidebar">
+            <div class="big"><i class="iconfont icon-icon--"></i></div>
+            <div class="send" @click="sendcomment()">发送</div>
+          </el-col>
+        </el-row>
+      </span>
+      <span slot="footer" class="dialog-footer">
+          <span class="footer-item"><el-checkbox v-model="checked">同时转发</el-checkbox></span>
+          <span class="footer-item"><i>@</i></span>
+          <span class="footer-item"><i class="iconfont icon-biaoqing"></i></span>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import header1 from '@/components/public/header/header-share'
 import star from '@/components/public/star/star'
-import comment from '@/pages/dynamic/comment/comment'
+// import comment from '@/pages/dynamic/comment/comment'
 import {mapActions, mapState} from 'vuex'
 export default {
   components: {
-    header1, star, comment
+    header1, star
   },
   data () {
     return {
@@ -77,7 +107,10 @@ export default {
       animates: 'animated rubberBand',
       number: 15,
       dongtaiid: 0,
-      xianshi: false
+      checked: 'checked',
+      textarea: '',
+      dialogVisible: false,
+      comment_news_id: 0
     }
   },
   computed: {
@@ -90,9 +123,9 @@ export default {
     console.log()
   },
   methods: {
-    childinputblur: function (childValue) {
+    childinputblur () {
       // childValue就是子组件传过来的值
-      this.xianshi = false
+      this.textarea = ''
     },
     keep () {
       this.$confirm('收藏？', {
@@ -141,13 +174,17 @@ export default {
       }
     },
     pinglun (id) {
-      this.xianshi = true
+      this.dialogVisible = true
+      setTimeout(() => {
+        this.$refs.comment.focus()
+      }, 200)
+      this.comment_news_id = id
     }
   }
 }
 </script>
 
-<style scoped>
+<style  lang="scss">
 .app-container{
 padding-top: 0%;
 width: 100%;
@@ -220,4 +257,37 @@ background-color: antiquewhite;
 .mui-icon-redo{
     color: steelblue;
 }
+
+  .el-dialog{
+    margin: 0;
+    position:fixed;
+    bottom:0;
+    .el-dialog__header{
+      display: none;
+    }
+    .el-dialog__body{
+      padding: 5px 10px;
+      .sidebar{
+        padding-left: 20px;
+        height: 100%;
+        .big{
+          width: 100%;
+          position: absolute;
+          top:0;
+        }
+        .send{
+          width: 100%;
+          position: absolute;
+          bottom:0;
+        }
+      }
+    }
+   .el-dialog__footer{
+      text-align: left;
+      .footer-item{
+        display: inline;
+        margin-right: 10px;
+      }
+    }
+   }
 </style>

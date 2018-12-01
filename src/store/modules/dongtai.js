@@ -21,6 +21,11 @@ const actions = {
       commit('SET_CURRENT_DONGTAI_LISTS', { dongtaiList: res.data.dongtaiList })
       console.log(res.data.dongtaiList)
     })
+  },
+  sendComment ({state, commit}) {
+    axios.post('http://localhost:8080/static/dongtai.json').then((res) => {
+      this.res = res
+    })
   }
 }
 
