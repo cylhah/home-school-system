@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import { requestPrefix } from '../../config/httpConfig'
 const state = {
   messageList: [],
   toUserInfo: {}
@@ -11,37 +11,45 @@ const mutations = {
   },
   setToUserInfo (state, toUserInfo) {
     state.toUserInfo = toUserInfo
+  },
+  addMessage (state, message) {
+    state.messageList.push(message)
   }
 }
 
 const actions = {
-  getMessageListOfOne ({commit}, fromUserId, toUserId) {
+  getMessageListOfOne ({commit}, {fromUserId, toUserId}) {
     return new Promise((resolve, reject) => {
-      axios.get('/api/message', {
+      axios.get(`${requestPrefix}/messages`, {
         params: { fromUserId, toUserId }
       }).then((res) => {
         const { data } = res
         if (data.code === 0) {
           commit('setMessageList', data.data)
-          resolve(data.data)
-        } else {
-          reject(res)
         }
+        resolve(res)
       })
     })
   },
-  getToUserInfo ({commit}, toUserId) {
+  getToUserInfo ({commit}, {toUserId}) {
     return new Promise((resolve, reject) => {
-      axios.get('/api/user', {
-        params: { userId: toUserId }
-      }).then((res) => {
+      axios.get(`${requestPrefix}/users/${toUserId}`).then((res) => {
         const { data } = res
         if (data.code === 0) {
           commit('setToUserInfo', data.data)
-          resolve(data.data)
-        } else {
-          reject(res)
         }
+        resolve(res)
+      })
+    })
+  },
+  sendMessage ({commit}, message) {
+    return new Promise((resolve, reject) => {
+      axios.post(`${requestPrefix}/messages`, message).then((res) => {
+        const { data } = res
+        if (data.code === 0) {
+          commit('addMessage', message)
+        }
+        resolve(res)
       })
     })
   }

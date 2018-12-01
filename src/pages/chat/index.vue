@@ -5,7 +5,7 @@
         <i class="el-icon-arrow-left"/>
       </div>
       <div class="header-mid">
-        {{ toUserInfo.userName }}
+        {{ toUserInfo.userNickname }}
       </div>
       <div class="header-right">
         <i class="el-icon-more"/>
@@ -16,16 +16,16 @@
         v-for="(item, index) in messageList"
         :key="index"
         class="message-item"
-        :class="{right: item.fromUser.userId == userInfo.userId}">
-        <div class="item-container-me" v-if="item.fromUser.userId == userInfo.userId">
+        :class="{right: item.fromUserId == userInfo.userId}">
+        <div class="item-container-me" v-if="item.fromUserId == userInfo.userId">
           <div class="item-content-me">{{ item.messageContent }}</div>
           <div class="item-head-me">
-            <img src="../../assets/img/head2.jpg">
+            <img :src="userInfo.userHeadUrl">
           </div>
         </div>
         <div class="item-container" v-else>
           <div class="item-head">
-            <img src="../../assets/img/head1.jpg">
+            <img :src="`api/img/userHead/${toUserInfo.userHeadUrl}`">
           </div>
           <div class="item-content">{{ item.messageContent }}</div>
         </div>
@@ -53,21 +53,34 @@ export default {
   data () {
     return {
       content: '',
-      mainMinHeight: `${window.screen.availHeight - 105}px`
+      mainMinHeight: `${window.screen.availHeight - 105}px`,
+      websocket: null
     }
   },
   methods: {
-    send () {
-      let message = {
-        fromUser: this.userInfo,
-        toUser: this.toUserInfo,
-        messageContent: this.content
+    async send () {
+      if (this.content) {
+        let message = {
+          fromUserId: this.userInfo.userId,
+          toUserId: this.toUserInfo.userId,
+          toClassId: '',
+          messageContent: this.content
+        }
+        await this.$store.dispatch('message/sendMessage', message)
+        this.websocket.send(JSON.stringify(message))
+        this.content = ''
+        this.$refs.main.scrollTop = this.$refs.main.scrollHeight
       }
-      this.messageList.push(message)
-      this.content = ''
-      // this.$refs.main.lastElementChild.scrollIntoView()
-      this.$refs.main.scrollTop = this.$refs.main.scrollHeight
-      // this.$refs.end.scrollIntoView()
+    },
+    initWebsocket () {
+      let self = this
+      this.websocket = new WebSocket(`ws://localhost:8080/api/websocket/${this.userInfo.userId}`)
+      this.websocket.onmessage = function (event) {
+        self.messageList.push(JSON.parse(event.data))
+      }
+      window.onbeforeunload = function () {
+        self.websocket.close()
+      }
     }
   },
   computed: mapState({
@@ -76,8 +89,13 @@ export default {
     toUserInfo: state => state.message.toUserInfo
   }),
   mounted () {
-    this.$store.dispatch('message/getToUserInfo', this.$route.params.toUserId)
-    this.$store.dispatch('message/getMessageListOfOne', this.userInfo.userId, this.$route.params.toUserId)
+    this.$store.dispatch('message/getToUserInfo', { toUserId: this.$route.params.toUserId })
+    this.$store.dispatch('message/getMessageListOfOne',
+      { fromUserId: this.userInfo.userId, toUserId: this.$route.params.toUserId })
+    this.initWebsocket()
+  },
+  destroyed () {
+    this.websocket.close()
   }
 }
 </script>
