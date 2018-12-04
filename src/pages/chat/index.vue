@@ -2,7 +2,9 @@
   <div class="chat">
     <div class="chat-header">
       <div class="header-left">
-        <i class="el-icon-arrow-left"/>
+        <router-link to="/message">
+          <i class="el-icon-arrow-left"/>
+        </router-link>
       </div>
       <div class="header-mid">
         {{ toUserInfo.userNickname }}
@@ -18,7 +20,7 @@
         class="message-item"
         :class="{right: item.fromUserId == userInfo.userId}">
         <div class="item-container-me" v-if="item.fromUserId == userInfo.userId">
-          <div class="item-content-me">{{ item.messageContent }}</div>
+          <div class="item-content-me">{{ decrypt(item.messageContent) }}</div>
           <div class="item-head-me">
             <img :src="userInfo.userHeadUrl">
           </div>
@@ -27,7 +29,7 @@
           <div class="item-head">
             <img :src="`api/img/userHead/${toUserInfo.userHeadUrl}`">
           </div>
-          <div class="item-content">{{ item.messageContent }}</div>
+          <div class="item-content">{{ decrypt(item.messageContent) }}</div>
         </div>
       </div>
     </div>
@@ -49,6 +51,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import CryptoJS from 'crypto-js'
 export default {
   data () {
     return {
@@ -60,13 +63,14 @@ export default {
   methods: {
     async send () {
       if (this.content) {
+        let encryptContent = this.encrypt(this.content)
         let message = {
           fromUserId: this.userInfo.userId,
           toUserId: this.toUserInfo.userId,
           toClassId: '',
-          messageContent: this.content
+          messageContent: encryptContent
         }
-        await this.$store.dispatch('message/sendMessage', message)
+        await this.$store.dispatch('message/sendPersonalMessage', message)
         this.websocket.send(JSON.stringify(message))
         this.content = ''
         this.$refs.main.scrollTop = this.$refs.main.scrollHeight
@@ -81,6 +85,31 @@ export default {
       window.onbeforeunload = function () {
         self.websocket.close()
       }
+    },
+    encrypt (word) {
+      let key = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let iv = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let encrypted = ''
+      let srcs = CryptoJS.enc.Utf8.parse(word)
+      encrypted = CryptoJS.AES.encrypt(srcs, key, {
+        iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      })
+      return encrypted.ciphertext.toString()
+    },
+    decrypt (word) {
+      let key = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let iv = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let encryptedHexStr = CryptoJS.enc.Hex.parse(word)
+      let srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr)
+      let decrypt = CryptoJS.AES.decrypt(srcs, key, {
+        iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      })
+      let decryptedStr = decrypt.toString(CryptoJS.enc.Utf8)
+      return decryptedStr.toString()
     }
   },
   computed: mapState({
@@ -88,8 +117,10 @@ export default {
     messageList: state => state.message.messageList,
     toUserInfo: state => state.message.toUserInfo
   }),
-  mounted () {
+  created () {
     this.$store.dispatch('message/getToUserInfo', { toUserId: this.$route.params.toUserId })
+  },
+  mounted () {
     this.$store.dispatch('message/getMessageListOfOne',
       { fromUserId: this.userInfo.userId, toUserId: this.$route.params.toUserId })
     this.initWebsocket()
@@ -121,7 +152,11 @@ export default {
     flex-shrink: 0;
     .header-left {
       width: 15%;
-      font-size: 25px;
+      a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 25px;
+      }
     }
     .header-mid {
       width: 70%;

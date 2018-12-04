@@ -2,12 +2,16 @@ import axios from 'axios'
 import { requestPrefix } from '../../config/httpConfig'
 const state = {
   messageList: [],
+  messageRecord: [],
   toUserInfo: {}
 }
 
 const mutations = {
   setMessageList (state, messageList) {
     state.messageList = messageList
+  },
+  setMessageRecord (state, messageRecord) {
+    state.messageRecord = messageRecord
   },
   setToUserInfo (state, toUserInfo) {
     state.toUserInfo = toUserInfo
@@ -18,6 +22,19 @@ const mutations = {
 }
 
 const actions = {
+  getMessageRecord ({commit}, {userId, classId}) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${requestPrefix}/messages`, {
+        params: { userId, classId }
+      }).then((res) => {
+        const { data } = res
+        if (data.code === 0) {
+          commit('setMessageRecord', data.data)
+        }
+        resolve(res)
+      })
+    })
+  },
   getMessageListOfOne ({commit}, {fromUserId, toUserId}) {
     return new Promise((resolve, reject) => {
       axios.get(`${requestPrefix}/messages`, {
@@ -42,9 +59,9 @@ const actions = {
       })
     })
   },
-  sendMessage ({commit}, message) {
+  sendPersonalMessage ({commit}, message) {
     return new Promise((resolve, reject) => {
-      axios.post(`${requestPrefix}/messages`, message).then((res) => {
+      axios.post(`${requestPrefix}/messages/personal`, message).then((res) => {
         const { data } = res
         if (data.code === 0) {
           commit('addMessage', message)

@@ -2,10 +2,12 @@
   <div class="chat">
     <div class="chat-header">
       <div class="header-left">
-        <i class="el-icon-arrow-left"/>
+        <router-link to="/message">
+          <i class="el-icon-arrow-left"/>
+        </router-link>
       </div>
       <div class="header-mid">
-        {{ className }}
+        {{ classInfo.className }}
       </div>
       <div class="header-right">
         <router-link to="/notification">
@@ -19,18 +21,18 @@
         v-for="(item, index) in messageList"
         :key="index"
         class="message-item"
-        :class="{right: item.fromUser.userId == userInfo.userId}">
-        <div class="item-container-me" v-if="item.fromUser.userId == userInfo.userId">
-          <div class="item-content-me">{{ item.messageContent }}</div>
+        :class="{right: item.fromUserId == userInfo.userId}">
+        <div class="item-container-me" v-if="item.fromUserId == userInfo.userId">
+          <div class="item-content-me">{{ decrypt(item.messageContent) }}</div>
           <div class="item-head-me">
-            <img src="../../assets/img/head2.jpg">
+            <img :src="userInfo.userHeadUrl">
           </div>
         </div>
         <div class="item-container" v-else>
-          <div class="item-head">
-            <img src="../../assets/img/head1.jpg">
+          <div class="item-head" v-if="flag">
+            <img :src="`api/img/userHead/${userList[item.fromUserId].userHeadUrl}`">
           </div>
-          <div class="item-content">{{ item.messageContent }}</div>
+          <div class="item-content">{{ decrypt(item.messageContent) }}</div>
         </div>
       </div>
     </div>
@@ -52,35 +54,68 @@
 
 <script>
 import { mapState } from 'vuex'
+import CryptoJS from 'crypto-js'
 export default {
   data () {
     return {
       content: '',
-      mainMinHeight: `${window.screen.availHeight - 105}px`
+      mainMinHeight: `${window.screen.availHeight - 105}px`,
+      flag: false
     }
   },
   methods: {
-    send () {
+    async send () {
       if (this.content) {
+        let encryptContent = this.encrypt(this.content)
         let message = {
-          fromUser: this.userInfo,
-          toUser: this.toUserInfo,
-          messageContent: this.content
+          fromUserId: this.userInfo.userId,
+          toClassId: this.userInfo.userClassId,
+          messageContent: encryptContent
         }
-        this.messageList.push(message)
+        await this.$store.dispatch('myClass/sendClassMessage', message)
         this.content = ''
         this.$refs.main.scrollTop = this.$refs.main.scrollHeight
       }
+    },
+    encrypt (word) {
+      let key = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let iv = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let encrypted = ''
+      let srcs = CryptoJS.enc.Utf8.parse(word)
+      encrypted = CryptoJS.AES.encrypt(srcs, key, {
+        iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      })
+      return encrypted.ciphertext.toString()
+    },
+    decrypt (word) {
+      let key = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let iv = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let encryptedHexStr = CryptoJS.enc.Hex.parse(word)
+      let srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr)
+      let decrypt = CryptoJS.AES.decrypt(srcs, key, {
+        iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      })
+      let decryptedStr = decrypt.toString(CryptoJS.enc.Utf8)
+      return decryptedStr.toString()
     }
   },
   computed: mapState({
     userInfo: state => state.user.userInfo,
-    className: state => state.myClass.className,
+    classInfo: state => state.myClass.classInfo,
     messageList: state => state.myClass.messageList,
     userList: state => state.myClass.userList
   }),
+  async created () {
+    await this.$store.dispatch('myClass/getUserList', { classId: this.userInfo.userClassId })
+    this.flag = true
+  },
   mounted () {
-    this.$store.dispatch('myClass/getMessageList', this.userInfo.classId)
+    this.$store.dispatch('myClass/getMessageList', { classId: this.userInfo.userClassId })
+    this.$store.dispatch('myClass/getClassInfo', { classId: this.userInfo.userClassId })
   }
 }
 </script>
@@ -107,6 +142,10 @@ export default {
     .header-left {
       width: 30%;
       font-size: 25px;
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
     }
     .header-mid {
       width: 40%;
