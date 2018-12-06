@@ -16,7 +16,7 @@
           <template slot="title">
             <i class="iconfont icon-user"/>
           </template>
-          <el-menu-item index="4-1">退出</el-menu-item>
+          <el-menu-item index="exit">退出</el-menu-item>
         </el-submenu>
         <el-submenu index="1">
           <template slot="title">
@@ -75,7 +75,10 @@ export default {
   },
   methods: {
     handleSelect (key, keyPath) {
-      console.log(key, keyPath)
+      if (key === 'exit') {
+        this.$store.dispatch('user/exit')
+        this.$router.push({ path: 'adminLogin' })
+      }
     },
     handleOpen (key, keyPath) {
       console.log(key, keyPath)
@@ -95,6 +98,9 @@ export default {
         }
         this.activeIndex = dict[path[2]]
       }
+    },
+    exit () {
+      this.$store.dispatch('user/exit')
     }
   },
   beforeRouteUpdate (to, from, next) {

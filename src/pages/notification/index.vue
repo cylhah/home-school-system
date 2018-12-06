@@ -16,8 +16,8 @@
         <div class="title">
           <p class="title-text">{{item.notificationTitle}}</p>
           <p class="from">
-            <span class="from-user">{{item.notificationUser.userName}}</span>
-            <span class="from-time">{{item.notificationTime}}</span>
+            <span class="from-user">{{item.notificationUser.userNickname}}</span>
+            <span class="from-time">{{formatTime(item.notificationTime)}}</span>
           </p>
         </div>
         <div class="item-content">
@@ -36,12 +36,18 @@ export default {
       mainMinHeight: `${window.screen.availHeight - 50}px`
     }
   },
+  methods: {
+    formatTime (time) {
+      let date = new Date(time)
+      return `${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours()}:${date.getMinutes()}`
+    }
+  },
   computed: mapState({
     userInfo: state => state.user.userInfo,
     notificationList: state => state.myClass.notificationList
   }),
   mounted () {
-    this.$store.dispatch('myClass/getNotificationList', this.userInfo.classId)
+    this.$store.dispatch('myClass/getNotificationList', { classId: this.userInfo.userClassId })
   }
 }
 </script>

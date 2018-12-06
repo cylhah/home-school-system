@@ -69,11 +69,11 @@
       append-to-body>
       <div class="detail">
         <div class="head">
-          <img src="../../../assets/img/admin-head.jpg">
+          <img :src="getNewsHeadUrl(news)">
         </div>
         <div class="main">
           <div class="user-name">
-            小猴的家长
+            {{ getNewsUserNickname(news) }}
           </div>
           <div class="content">
             {{ news.newsContent }}
@@ -183,12 +183,33 @@ export default {
       this.outerVisible = true
     },
     showNewsDetail (row) {
-      this.$store.dispatch('news/getNewsById', row.newsId)
+      this.$store.dispatch('news/getNewsById', { newsId: row.newsId })
       this.innerVisible = true
     },
     search () {
       this.$store.dispatch('admin/getUserList',
         { startTime: this.date[0], endTime: this.date[1], userName: this.username })
+    },
+    getUserHeadUrl (user) {
+      if (user.userHeadUrl) {
+        return `api/img/userHead/${user.userHeadUrl}`
+      } else {
+        return 'api/img/userHead/default.jpg'
+      }
+    },
+    getNewsUserNickname (news) {
+      if (news.newsUser) {
+        return news.newsUser.userNickname
+      } else {
+        return ''
+      }
+    },
+    getNewsHeadUrl (news) {
+      if (news.newsUser) {
+        return `api/img/userHead/${news.newsUser.userHeadUrl}`
+      } else {
+        return 'api/img/userHead/default.jpg'
+      }
     }
   }
 }

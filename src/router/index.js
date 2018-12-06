@@ -7,6 +7,7 @@ import chat from '@/pages/chat/index'
 import myClass from '@/pages/class/index'
 import notification from '@/pages/notification/index'
 import message from '@/pages/message/index'
+import mailList from '@/pages/mailList/index'
 import userDataManage from '@/pages/admin/user-data-manage/index'
 import userInfoManage from '@/pages/admin/user-info-manage/index'
 import adminManage from '@/pages/admin/admin-manage/index'
@@ -66,6 +67,11 @@ const router = new Router({
       path: '/message',
       name: 'message',
       component: message
+    },
+    {
+      path: '/mailList',
+      name: 'mailList',
+      component: mailList
     },
     {
       path: '/notification',

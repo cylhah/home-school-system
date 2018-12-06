@@ -2,9 +2,7 @@
   <div class="chat">
     <div class="chat-header">
       <div class="header-left">
-        <router-link to="/message">
-          <i class="el-icon-arrow-left"/>
-        </router-link>
+        <i class="el-icon-arrow-left" @click="$router.back(-1)"/>
       </div>
       <div class="header-mid">
         {{ toUserInfo.userNickname }}
@@ -27,7 +25,7 @@
         </div>
         <div class="item-container" v-else>
           <div class="item-head">
-            <img :src="`api/img/userHead/${toUserInfo.userHeadUrl}`">
+            <img :src="getToUserHead(toUserInfo)">
           </div>
           <div class="item-content">{{ decrypt(item.messageContent) }}</div>
         </div>
@@ -110,6 +108,13 @@ export default {
       })
       let decryptedStr = decrypt.toString(CryptoJS.enc.Utf8)
       return decryptedStr.toString()
+    },
+    getToUserHead (item) {
+      if (item.userHeadUrl) {
+        return `api/img/userHead/${item.userHeadUrl}`
+      } else {
+        return 'api/img/userHead/default.jpg'
+      }
     }
   },
   computed: mapState({
@@ -152,11 +157,8 @@ export default {
     flex-shrink: 0;
     .header-left {
       width: 15%;
-      a {
-        color: #fff;
-        text-decoration: none;
-        font-size: 25px;
-      }
+      color: #fff;
+      font-size: 25px;
     }
     .header-mid {
       width: 70%;
