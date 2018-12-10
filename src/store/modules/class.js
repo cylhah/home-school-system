@@ -1,11 +1,13 @@
 import axios from 'axios'
+import dict from '../../assets/js/chinese_dict'
 import { requestPrefix } from '../../config/httpConfig'
 
 const state = {
   classInfo: {},
   messageList: [],
   userList: {},
-  notificationList: []
+  notificationList: [],
+  userListDict: {}
 }
 
 const mutations = {
@@ -29,6 +31,18 @@ const mutations = {
   },
   addMessage (state, message) {
     state.messageList.push(message)
+  },
+  setUserListDict (state) {
+    let myDict = {}
+    for (let key in state.userList) {
+      let value = state.userList[key]
+      let firstLetter = dict[value.userNickname[0]]
+      if (!myDict[firstLetter]) {
+        myDict[firstLetter] = []
+      }
+      myDict[firstLetter].push(value)
+    }
+    state.userListDict = myDict
   }
 }
 
@@ -70,18 +84,16 @@ const actions = {
       })
     })
   },
-  getNotificationList ({commit}, classId) {
+  getNotificationList ({commit}, {classId}) {
     return new Promise((resolve, reject) => {
-      axios.get('/api/notification', {
+      axios.get(`${requestPrefix}/notifications`, {
         params: { classId }
       }).then((res) => {
         const { data } = res
         if (data.code === 0) {
           commit('setNotificationList', data.data)
-          resolve(data.data)
-        } else {
-          reject(res)
         }
+        resolve(res)
       })
     })
   },

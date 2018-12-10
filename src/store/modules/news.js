@@ -16,15 +16,16 @@ const mutations = {
 }
 
 const actions = {
-  getNewsById: async ({commit}, newsId) => {
-    try {
-      const { data } = await axios.get(`${requestPrefix}/news/${newsId}`)
-      if (data.code === 0) {
-        commit('setNews', data.data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
+  getNewsById ({commit}, {newsId}) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${requestPrefix}/news/${newsId}`).then((res) => {
+        const { data } = res
+        if (data.code === 0) {
+          commit('setNews', data.data)
+        }
+        resolve(res)
+      })
+    })
   },
   getNewsListByUserId: async ({commit}, userId) => {
     try {

@@ -100,6 +100,14 @@ const actions = {
         reject(reason)
       })
     })
+  },
+  exit ({commit}) {
+    setCookie('userType', '', -1)
+    setCookie('userName', '', -1)
+    setCookie('userId', '', -1)
+    setCookie('userClassId', '', -1)
+    setCookie('userHeadUrl', '', -1)
+    commit('setUserInfo', { userType: '' })
   }
 }
 
