@@ -16,6 +16,7 @@
           <template slot="title">
             <i class="iconfont icon-user"/>
           </template>
+          <el-menu-item index="modifyPassword">修改密码</el-menu-item>
           <el-menu-item index="exit">退出</el-menu-item>
         </el-submenu>
         <el-submenu index="1">
@@ -44,6 +45,26 @@
         </el-submenu>
       </el-menu>
     </div>
+    <el-dialog
+      title="修改密码"
+      :visible.sync="dialogVisible"
+      width="50%">
+      <el-form label-position="right" label-width="80px">
+        <el-form-item label="原密码">
+          <el-input v-model="form.oldPassword" type="password"></el-input>
+        </el-form-item>
+        <el-form-item label="新密码">
+          <el-input v-model="form.password" type="password"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码">
+          <el-input v-model="form.confirm" type="password"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button @click="modifyPWD" type="primary">确认修改</el-button>
+      </span>
+    </el-dialog>
     <div class="main">
       <div class="nav">
         <router-link to="/admin" :class="{ active: activeIndex==0 }">
@@ -67,17 +88,27 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import CryptoJS from 'crypto-js'
 export default {
   data () {
     return {
-      activeIndex: 0
+      activeIndex: 0,
+      dialogVisible: false,
+      oldPWD: '',
+      form: {}
     }
   },
+  computed: mapState({
+    userInfo: state => state.user.userInfo
+  }),
   methods: {
     handleSelect (key, keyPath) {
       if (key === 'exit') {
         this.$store.dispatch('user/exit')
         this.$router.push({ path: 'adminLogin' })
+      } else if (key === 'modifyPassword') {
+        this.dialogVisible = true
       }
     },
     handleOpen (key, keyPath) {
@@ -101,6 +132,39 @@ export default {
     },
     exit () {
       this.$store.dispatch('user/exit')
+    },
+    async modifyPWD () {
+      if (!this.oldPWD) {
+        const { data } = await this.$store.dispatch('admin/getUserPassword', { userId: this.userInfo.userId })
+        this.oldPWD = data.data
+        console.log(this.oldPWD)
+      }
+      let cryptoPWD = CryptoJS.MD5(this.form.oldPassword).toString()
+      if (cryptoPWD !== this.oldPWD) {
+        this.$message({
+          message: '原密码错误',
+          type: 'error'
+        })
+      } else {
+        if (!this.form.password || !this.form.confirm) {
+          this.$message({
+            message: '请填写密码',
+            type: 'warning'
+          })
+        } else if (this.form.password !== this.form.confirm) {
+          this.$message({
+            message: '两次密码输入不一致',
+            type: 'warning'
+          })
+        } else {
+          let newPassword = CryptoJS.MD5(this.form.password).toString()
+          await this.$store.dispatch('admin/modifyPassword', { userId: this.userInfo.userId, userPassword: newPassword })
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          })
+        }
+      }
     }
   },
   beforeRouteUpdate (to, from, next) {

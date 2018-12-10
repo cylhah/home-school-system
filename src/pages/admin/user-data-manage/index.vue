@@ -35,13 +35,13 @@
     </div>
     <div class="charts">
       <div class="chart chart1">
-        <chart1/>
+        <chart1 :data="userMonthAmount"/>
       </div>
       <div class="chart chart3">
-        <chart3/>
+        <chart3 :data="userTypeAmount"/>
       </div>
       <div class="chart chart2">
-        <chart2/>
+        <chart2 :data="newsMonthAmount"/>
       </div>
     </div>
   </div>
@@ -62,7 +62,10 @@ export default {
     registerDayCount: state => state.admin.registerDayCount,
     registerWeekCount: state => state.admin.registerWeekCount,
     registerMonthCount: state => state.admin.registerMonthCount,
-    newsAmountMonth: state => state.admin.newsAmountMonth
+    newsAmountMonth: state => state.admin.newsAmountMonth,
+    userMonthAmount: state => state.admin.userMonthAmount,
+    userTypeAmount: state => state.admin.userTypeAmount,
+    newsMonthAmount: state => state.admin.newsMonthAmount
   }),
   mounted () {
     let endTime = new Date()
@@ -72,6 +75,9 @@ export default {
     this.$store.dispatch('admin/getRegisterCount', 7)
     this.$store.dispatch('admin/getRegisterCount', 30)
     this.$store.dispatch('admin/getNewsAmountByTime', { startTime: startTime.getTime(), endTime: endTime.getTime() })
+    this.$store.dispatch('admin/getUserRegisterAmountAllMonth')
+    this.$store.dispatch('admin/getUserRegisterAmountByType')
+    this.$store.dispatch('admin/getNewsAmountAllMonth')
   }
 }
 </script>
