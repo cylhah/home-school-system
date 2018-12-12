@@ -2,7 +2,9 @@ import axios from 'axios'
 
 const state = {
   dongtaiList: [],
-  TOLIST: []
+  TOLIST: [],
+  NewsDetail: {},
+  CommentList: []
 }
 
 const getters = {
@@ -12,6 +14,12 @@ const getters = {
 const mutations = {
   SET_CURRENT_DONGTAI_LISTS (state, { dongtaiList }) {
     state.dongtaiList = dongtaiList
+  },
+  setNewsDetail (state, NewsDetail) {
+    state.NewsDetail = NewsDetail
+  },
+  setCommentList (state, CommentList) {
+    state.CommentList = CommentList
   }
 }
 
@@ -23,9 +31,17 @@ const actions = {
       console.log(res.data.dongtaiList)
     })
   },
-  sendComment ({state, commit}) {
-    axios.post('http://localhost:8081/static/dongtai.json').then((res) => {
-      this.res = res
+  sendComment ({state, commit}, data) {
+    // axios.post('').then((res) => {
+    //   this.res = res
+    // })
+    return new Promise((resolve, reject) => {
+      axios.post('/api/comment/sendComment', data).then((res) => {
+        console.log(res)
+        resolve(res.data)
+      }).catch((res) => {
+        reject(res.data)
+      })
     })
   },
   sendnews ({ state, commit }, { userId, Imgstr, VideoStr, Content }) {
@@ -40,6 +56,20 @@ const actions = {
         if (res.data.code === 0) {
           resolve(res.data.msg)
         }
+      }).catch((res) => {
+        reject(res.data.msg)
+      })
+    })
+  },
+  getNewsDetailByNewsId ({ commit }, {toNewsId}) {
+    return new Promise((resolve, reject) => {
+      axios.get(`api/news/newsdetail/${toNewsId}`).then((res) => {
+        const { data } = res
+        if (data.code === 0) {
+          commit('setNewsDetail', data.data)
+          commit('setCommentList', data.data.newsComment)
+        }
+        resolve(res)
       }).catch((res) => {
         reject(res.data.msg)
       })
