@@ -2,22 +2,25 @@
   <div class="commentall">
     <el-row class="commentallrow">
       <el-col :span="4">
-        <div class="userHead"><img></div>
+        <div class="userHead"><img :src="getHead(Acomment.commentUser)"></div>
       </el-col>
       <el-col :span="20">
         <div class="commentcontent">
           <div class="top">
-            <span class="username">戴思瑶</span>
-            <span class="time">昨天 下午12：29</span>
+            <span class="username">{{Acomment.commentUser.userNickname}}</span>
+            <span class="time">
+            {{formatTime(Acomment.commentTime)}}
+            <!-- 2017-02-17 -->
+            </span>
           </div>
           <div class="content">
             <p>
-              <span>
+              <span v-if="Acomment.commentType === 1">
                 <span>回复</span>
-                <span class="username">陈永雷</span>
+                <span class="username">{{Acomment.replyUser.userNickname}}</span>
                 <span>:</span>
               </span>
-              我们是一个朴素的大雪人。。。。。。。。。
+              {{Acomment.commentContent}}
             </p>
           </div>
         </div>
@@ -28,6 +31,44 @@
 
 <script>
 export default {
+  props: {
+    Acomment: Object
+  },
+  methods: {
+    formatTime (time) {
+      let date = new Date(time)
+      let now = new Date()
+      let day = 3600 * 24 * 1000
+      let todayTimestamp = parseInt(now.getTime() / day) * day - 8 * 3600 * 1000
+      let targetTimestamp = date.getTime()
+      let hours = date.getHours()
+      let minutes = date.getMinutes()
+      let resttime = ''
+      if (hours < 12) {
+        resttime = `上午${hours}:${minutes}`
+      } else if (hours === 12) {
+        resttime = `中午${hours}:${minutes}`
+      } else {
+        hours = hours - 12
+        resttime = `下午${hours}:${minutes}`
+      }
+      if (targetTimestamp >= todayTimestamp) {
+        return resttime
+      } else if (todayTimestamp - targetTimestamp <= day) {
+        return '昨天 ' + resttime
+      } else {
+        let month = date.getMonth() + 1
+        let days = date.getDate()
+        return `${month}月${days}日 ` + resttime
+      }
+    },
+    getHead (item) {
+      let userHead = item.userHeadUrl
+      if (userHead) {
+        return `api/img/userHead/${userHead}`
+      }
+    }
+  }
 }
 </script>
 
@@ -47,11 +88,10 @@ export default {
       }
     }
     .commentcontent{
-      padding-left: 5px;
+      margin-left: 5px;
+      // padding-left: 5px;
       .top{
         margin-bottom: 5px;
-        .username{
-        }
         .time{
           float: right;
           color: gray;
@@ -60,8 +100,6 @@ export default {
       .content{
         span{
           display: inline-block;
-        }
-        .username{
         }
       }
     }
