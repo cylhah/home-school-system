@@ -111,7 +111,7 @@ const router = new Router({
     {path: '/personalinformation', component: personalinformation},
     {path: '/personal', component: personal},
     {
-      path: '/newsdetail',
+      path: '/newsdetail/:toNewsId',
       name: 'newsdetail',
       component: resolve => require(['@/pages/dynamic/newsdetail.vue'], resolve)
     }
