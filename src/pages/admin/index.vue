@@ -11,7 +11,7 @@
         active-text-color="#fff">
         <router-link
           class="title"
-          to="/">Home-School Management</router-link>
+          to="/">家校通后台管理系统</router-link>
         <el-submenu index="4">
           <template slot="title">
             <i class="iconfont icon-user"/>
@@ -130,6 +130,18 @@ export default {
         this.activeIndex = dict[path[2]]
       }
     },
+    encrypt (word) {
+      let key = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let iv = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let encrypted = ''
+      let srcs = CryptoJS.enc.Utf8.parse(word)
+      encrypted = CryptoJS.AES.encrypt(srcs, key, {
+        iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      })
+      return encrypted.ciphertext.toString()
+    },
     exit () {
       this.$store.dispatch('user/exit')
     },
@@ -137,9 +149,8 @@ export default {
       if (!this.oldPWD) {
         const { data } = await this.$store.dispatch('admin/getUserPassword', { userId: this.userInfo.userId })
         this.oldPWD = data.data
-        console.log(this.oldPWD)
       }
-      let cryptoPWD = CryptoJS.MD5(this.form.oldPassword).toString()
+      let cryptoPWD = this.encrypt(this.form.oldPassword)
       if (cryptoPWD !== this.oldPWD) {
         this.$message({
           message: '原密码错误',
@@ -157,7 +168,7 @@ export default {
             type: 'warning'
           })
         } else {
-          let newPassword = CryptoJS.MD5(this.form.password).toString()
+          let newPassword = this.encrypt(this.form.password)
           await this.$store.dispatch('admin/modifyPassword', { userId: this.userInfo.userId, userPassword: newPassword })
           this.$message({
             message: '修改成功',

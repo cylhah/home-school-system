@@ -119,9 +119,6 @@ const actions = {
     let params = new URLSearchParams()
     params.append('userId', userId)
     params.append('userPassword', userPassword)
-    // let formData = new FormData()
-    // formData.append('userId', userId)
-    // formData.append('userPassword', userPassword)
     return new Promise((resolve, reject) => {
       axios.put(`${requestPrefix}/users/password`, params).then((res) => {
         resolve(res)
@@ -156,6 +153,15 @@ const actions = {
       axios.get(`${requestPrefix}/news/monthAmount`).then((res) => {
         const { data } = res
         commit('setNewsMonthAmount', data.data)
+        resolve(res)
+      })
+    })
+  },
+  deleteAdmin ({commit}, { userId }) {
+    return new Promise((resolve, reject) => {
+      axios.delete(`${requestPrefix}/users`, {
+        params: { userId }
+      }).then((res) => {
         resolve(res)
       })
     })

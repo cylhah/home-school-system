@@ -6,10 +6,12 @@
         border
         style="height:100%">
         <el-table-column
-          prop="userRegisterTime"
           label="日期"
           sortable="true"
           width="180">
+          <template slot-scope="scope">
+            <span>{{ formatTime(scope.row.userRegisterTime) }}</span>
+          </template>
         </el-table-column>
         <el-table-column
           prop="userName"
@@ -19,6 +21,14 @@
         <el-table-column
           prop="userNickname"
           label="昵称">
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="100">
+          <template slot-scope="scope">
+            <el-button @click="deleteAdmin(scope.row)" type="danger" size="small">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
       <div class="admin-me">
@@ -77,6 +87,25 @@ export default {
     userInfo: state => state.user.userInfo
   }),
   methods: {
+    encrypt (word) {
+      let key = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let iv = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let encrypted = ''
+      let srcs = CryptoJS.enc.Utf8.parse(word)
+      encrypted = CryptoJS.AES.encrypt(srcs, key, {
+        iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      })
+      return encrypted.ciphertext.toString()
+    },
+    deleteAdmin (row) {
+      this.$store.dispatch('admin/deleteAdmin', { userId: row.userId })
+    },
+    formatTime (time) {
+      let date = new Date(time)
+      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
+    },
     async fileChange (e) {
       if (e.target.files[0]) {
         this.userHeadUrl = window.URL.createObjectURL(e.target.files[0])
@@ -87,7 +116,7 @@ export default {
     },
     async onSubmit () {
       const { data } = await this.$store.dispatch('admin/addAdmin',
-        {userName: this.form.username, userPassword: CryptoJS.MD5(this.form.password).toString()})
+        {userName: this.form.username, userPassword: this.encrypt(this.form.password)})
       console.log(data)
     }
   },

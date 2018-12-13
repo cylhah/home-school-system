@@ -9,7 +9,7 @@
       <p class="title">登录家校通</p>
       <div class="form">
         <div class="input-contain">
-          <input v-model="username" type="text" class="common username" placeholder="用户名/手机号"><i v-show="username" class="el-icon-error" @click="clear"/>
+          <input v-model="username" type="text" class="common username" placeholder="用户名/邮箱号"><i v-show="username" class="el-icon-error" @click="clear"/>
         </div>
         <div class="input-contain">
           <input v-model="password" :type="inputType" class="common password" placeholder="密码"><i v-show="password" class="iconfont icon-eye1" @click="showPass" :style="{ color: eyeColor}"/>
@@ -23,10 +23,8 @@
               注册
             </router-link>
           </div>
-          <div class="forget">
-            <router-link to="/login">
-              找回密码
-            </router-link>
+          <div class="forget" @click="forgetPassword">
+            <span>找回密码</span>
           </div>
         </div>
       </div>
@@ -66,6 +64,18 @@ export default {
       this.inputType = dict[this.inputType]
       this.eyeColor = this.inputType === 'password' ? 'rgb(205, 205, 205)' : 'black'
     },
+    encrypt (word) {
+      let key = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let iv = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let encrypted = ''
+      let srcs = CryptoJS.enc.Utf8.parse(word)
+      encrypted = CryptoJS.AES.encrypt(srcs, key, {
+        iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      })
+      return encrypted.ciphertext.toString()
+    },
     async login () {
       if (!this.username || !this.password) {
         this.$message({
@@ -73,12 +83,24 @@ export default {
           type: 'warning'
         })
       } else {
-        const { data } = await this.$store.dispatch('user/login', { userName: this.username, userPassword: CryptoJS.MD5(this.password).toString() })
+        const { data } = await this.$store.dispatch('user/login', { userName: this.username, userPassword: this.encrypt(this.password) })
         if (data.code === 0) {
           this.$router.push({ path: '/message' })
         } else {
           this.$message.error('用户名或密码错误')
         }
+      }
+    },
+    forgetPassword () {
+      let emailReg = new RegExp('^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$')
+      if (this.username && emailReg.test(this.username)) {
+        let userEmail = this.username
+        this.$router.push({ path: '/forgetPassword', query: { userEmail } })
+      } else {
+        this.$message({
+          message: '请填写正确的用户名',
+          type: 'warning'
+        })
       }
     }
   }
@@ -148,7 +170,7 @@ export default {
           }
         }
         .forget {
-          a {
+          span {
             color: rgb(173, 173, 173);
             text-decoration: none;
           }
