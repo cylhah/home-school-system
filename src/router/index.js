@@ -16,7 +16,6 @@ import userLogin from '@/pages/user-login/index'
 import userRegister from '@/pages/user-register/index'
 import Dynamic from '@/pages/dynamic/dynamic'
 import AdminLogin from '@/pages/admin-login/index'
-
 import postdynam from '@/pages/dynamic/PostDynamci'
 import personalCenter from '@/pages/PersonalCenter/PersonalCenter'
 import index2 from '@/pages/lyx/index2'
@@ -110,7 +109,12 @@ const router = new Router({
     {path: '/starguanzhu', component: starguanzhu},
     {path: '/allguanzhu', component: allguanzhu},
     {path: '/personalinformation', component: personalinformation},
-    {path: '/personal', component: personal}
+    {path: '/personal', component: personal},
+    {
+      path: '/newsdetail/:toNewsId',
+      name: 'newsdetail',
+      component: resolve => require(['@/pages/dynamic/newsdetail.vue'], resolve)
+    }
   ],
   linkActiveClass: 'mui-active'
 })

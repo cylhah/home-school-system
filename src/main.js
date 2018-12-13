@@ -12,10 +12,12 @@ import 'mint-ui/lib/style.min.css'
 import './lib/mui/css/icons-extra.css'
 import './css/stylegreen.scss'
 import 'animate.css'
+import qs from 'qs'
 
 Vue.use(ElementUI)
 Vue.use(Mint)
 Vue.config.productionTip = false
+Vue.prototype.$qs = qs
 
 /* eslint-disable no-new */
 new Vue({
