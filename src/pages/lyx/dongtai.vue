@@ -5,8 +5,8 @@
         <span>
           <span class="touxiang"></span>
           <span class="xinxi">
-          <div class="username">{{item.dongtaiAuthor}}</div>
-          <div class="time">发布时间：{{item.dongtaiTime}}</div>
+          <div class="username">{{item.newsUser.userNickname}}</div>
+          <div class="time">发布时间：{{item.newsUploadTime}}</div>
           </span>
         </span>
         <el-button style="float: right; padding: 3px 8px" type="text" @click="report">
@@ -14,7 +14,7 @@
         <el-button style="float: right; padding: 3px 8px" type="text" @click="keep">
           <span class="mui-icon mui-icon-star"></span></el-button>
       </div>
-      <div class="text item1">{{item.dongtaiContent}}</div>
+      <div class="text item1">{{item.newsContent}}</div>
       <hr>
       <!-- 底部 转发评论点赞 -->
       <div>
@@ -37,7 +37,7 @@
           </el-col>
           <el-col :span="8" >
             <div @click="changedianzan(item)">
-            <star :animates="animates" :colors="colors.dianzan" :number="item.dongtaidianzanNum" :dianzan="item.dongtaiclick">
+            <star :animates="animates" :colors="colors.dianzan" :number="item.newLikeNum" :dianzan="item.newsLikeornotlike">
               <i slot="icon" class="iconfont icon-xihuan"></i>
               <span slot="number"></span>
             </star>
@@ -165,13 +165,25 @@ export default {
       getDongtai: 'getDongtai'
     }),
     changedianzan (item) {
-      if (item.dongtaiclick === 1) {
-        item.dongtaidianzanNum--
-        item.dongtaiclick = 0
+      let likeNewsId = item.newsId
+      let likeUserId = 18
+      let likeType = -1
+      if (item.newsLikeornotlike === 1) {
+        item.newLikeNum--
+        item.newsLikeornotlike = 0
+        likeType = 0
       } else {
-        item.dongtaidianzanNum++
-        item.dongtaiclick = 1
+        item.newLikeNum++
+        item.newsLikeornotlike = 1
+        likeType = 1
       }
+      var params = new URLSearchParams()
+      params.append('likeNewsId', likeNewsId)
+      params.append('likeUserId', likeUserId)
+      params.append('likeType', likeType)
+      this.$store.dispatch('sendZan', params).then((res) => {
+        console.log(res)
+      })
     },
     pinglun (id) {
       this.dialogVisible = true
