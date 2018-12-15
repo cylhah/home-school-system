@@ -7,8 +7,9 @@
         :maxlength="150"
         style="width:100%;"
         ref="comment"
+        id = "comment"
+        autofocus="autofocus"
         @blur="childinputblur('blur')">
-        1231
       </el-input>
     </el-col>
     <el-col :span="6" class="sidebar">
@@ -38,7 +39,7 @@ export default {
     // if (this.dongtaiid) {
     //   this.$refs.comment.focus()
     // }
-    // this.$refs.comment.focus()
+    this.$refs.comment.focus()
   },
   methods: {
     childinputblur (mes) {
@@ -46,14 +47,19 @@ export default {
     }
   },
   computed: {
-    // isfocus () {
-    //   return this.$parent.data.xianshi
-    // }
   },
   watch: {
-    isshow (newValue) {
-      if (newValue === true) {
-        this.$refs.comment.focus()
+    // isshow (newValue) {
+    //   if (newValue === true) {
+    //     this.$refs.comment.focus()
+    //   }
+    // }
+    dongtaiid: {
+      immediate: true,
+      handler (val) {
+        let a = this
+        console.log('dongtaiid:' + val)
+        a.$refs.comment.focus()
       }
     }
   }

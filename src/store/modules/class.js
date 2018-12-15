@@ -1,14 +1,17 @@
 import axios from 'axios'
+import { requestPrefix } from '../../config/httpConfig'
 
 const state = {
-  classId: undefined,
-  className: '',
+  classInfo: {},
   messageList: [],
-  userList: [],
+  userList: {},
   notificationList: []
 }
 
 const mutations = {
+  setClassInfo (state, classInfo) {
+    state.classInfo = classInfo
+  },
   setMessageList (state, messageList) {
     state.messageList = messageList
   },
@@ -23,36 +26,46 @@ const mutations = {
   },
   setNotificationList (state, notificationList) {
     state.notificationList = notificationList
+  },
+  addMessage (state, message) {
+    state.messageList.push(message)
   }
 }
 
 const actions = {
-  getMessageList ({commit}, classId) {
+  getClassInfo ({commit}, {classId}) {
     return new Promise((resolve, reject) => {
-      axios.get(`/api/class/${classId}/messages`).then((res) => {
+      axios.get(`${requestPrefix}/class/${classId}`).then((res) => {
         const { data } = res
         if (data.code === 0) {
-          commit('setMessageList', data.data.messageList)
-          commit('setClassName', data.data.className)
-          commit('setClassId', data.data.classId)
-          resolve(data.data)
-        } else {
-          reject(res)
+          commit('setClassInfo', data.data)
+          resolve(res)
         }
       })
     })
   },
-  getUserList ({commit}, classId) {
+  getMessageList ({commit}, {classId}) {
     return new Promise((resolve, reject) => {
-      axios.get(`/api/class/${classId}/users`).then((res) => {
+      axios.get(`${requestPrefix}/messages`, {
+        params: { classId }
+      }).then((res) => {
         const { data } = res
         if (data.code === 0) {
-          commit('setUserList', data.data.userList)
-          commit('setClassName', data.data.className)
-          commit('setClassId', data.data.classId)
-          resolve(data.data)
-        } else {
-          reject(res)
+          commit('setMessageList', data.data)
+          resolve(res)
+        }
+      })
+    })
+  },
+  getUserList ({commit}, {classId}) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${requestPrefix}/users`, {
+        params: { classId }
+      }).then((res) => {
+        const { data } = res
+        if (data.code === 0) {
+          commit('setUserList', data.data)
+          resolve(res)
         }
       })
     })
@@ -68,6 +81,17 @@ const actions = {
           resolve(data.data)
         } else {
           reject(res)
+        }
+      })
+    })
+  },
+  sendClassMessage ({commit}, message) {
+    return new Promise((resolve, reject) => {
+      axios.post(`${requestPrefix}/messages/class`, message).then((res) => {
+        const { data } = res
+        if (data.code === 0) {
+          commit('addMessage', message)
+          resolve(res)
         }
       })
     })

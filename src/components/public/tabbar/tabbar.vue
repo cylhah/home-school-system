@@ -28,5 +28,5 @@ export default {
 </script>
 
 <style scoped>
-
+ @import '../../../lib/mui/css/mui.min.css';
 </style>

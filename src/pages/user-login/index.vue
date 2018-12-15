@@ -15,7 +15,7 @@
           <input v-model="password" :type="inputType" class="common password" placeholder="密码"><i v-show="password" class="iconfont icon-eye1" @click="showPass" :style="{ color: eyeColor}"/>
         </div>
         <div class="login-btn">
-          <button>登录</button>
+          <button @click="login">登录</button>
         </div>
         <div class="options">
           <div class="free">
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import CryptoJS from 'crypto-js'
 export default {
   data () {
     return {
@@ -64,6 +65,21 @@ export default {
       }
       this.inputType = dict[this.inputType]
       this.eyeColor = this.inputType === 'password' ? 'rgb(205, 205, 205)' : 'black'
+    },
+    async login () {
+      if (!this.username || !this.password) {
+        this.$message({
+          message: '请填写用户名密码',
+          type: 'warning'
+        })
+      } else {
+        const { data } = await this.$store.dispatch('user/login', { userName: this.username, userPassword: CryptoJS.MD5(this.password).toString() })
+        if (data.code === 0) {
+          this.$router.push({ path: '/message' })
+        } else {
+          this.$message.error('用户名或密码错误')
+        }
+      }
     }
   }
 }
