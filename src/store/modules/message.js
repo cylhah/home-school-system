@@ -41,7 +41,7 @@ const actions = {
         params: { fromUserId, toUserId }
       }).then((res) => {
         const { data } = res
-        if (data.code === 0) {
+        if (data.code === 0 || data.code === 1) {
           commit('setMessageList', data.data)
         }
         resolve(res)

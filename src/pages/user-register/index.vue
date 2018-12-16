@@ -7,7 +7,7 @@
     </div>
     <div class="main">
       <p class="title">登录注册</p>
-      <p class="tip">未注册的手机，验证后即可完成注册</p>
+      <p class="tip">未注册的邮箱，验证后即可完成注册</p>
       <div class="form">
         <div class="input-contain">
           <input
@@ -88,11 +88,23 @@ export default {
       this.inputType = dict[this.inputType]
       this.eyeColor = this.inputType === 'password' ? 'rgb(205, 205, 205)' : 'black'
     },
+    encrypt (word) {
+      let key = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let iv = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let encrypted = ''
+      let srcs = CryptoJS.enc.Utf8.parse(word)
+      encrypted = CryptoJS.AES.encrypt(srcs, key, {
+        iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      })
+      return encrypted.ciphertext.toString()
+    },
     async register () {
       if (parseInt(this.codeInput) === this.code) {
-        const { data } = await this.$store.dispatch('user/register', { userName: this.email, userPassword: CryptoJS.MD5(this.password).toString() })
+        const { data } = await this.$store.dispatch('user/register', { userName: this.email, userPassword: this.encrypt(this.password) })
         if (data.code === 0) {
-          console.log('tag', '')
+          console.log('注册成功')
         }
       }
     }

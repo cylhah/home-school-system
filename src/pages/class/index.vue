@@ -60,7 +60,8 @@ export default {
     return {
       content: '',
       mainMinHeight: `${window.screen.availHeight - 105}px`,
-      flag: false
+      flag: false,
+      websocket: null
     }
   },
   methods: {
@@ -73,8 +74,19 @@ export default {
           messageContent: encryptContent
         }
         await this.$store.dispatch('myClass/sendClassMessage', message)
+        this.websocket.send(JSON.stringify(message))
         this.content = ''
         this.$refs.main.scrollTop = this.$refs.main.scrollHeight
+      }
+    },
+    initWebsocket () {
+      let self = this
+      this.websocket = new WebSocket(`ws://localhost:8080/api/websocket/${this.userInfo.userId}`)
+      this.websocket.onmessage = function (event) {
+        self.messageList.push(JSON.parse(event.data))
+      }
+      window.onbeforeunload = function () {
+        self.websocket.close()
       }
     },
     encrypt (word) {
@@ -116,6 +128,10 @@ export default {
   mounted () {
     this.$store.dispatch('myClass/getMessageList', { classId: this.userInfo.userClassId })
     this.$store.dispatch('myClass/getClassInfo', { classId: this.userInfo.userClassId })
+    this.initWebsocket()
+  },
+  destroyed () {
+    this.websocket.close()
   }
 }
 </script>
