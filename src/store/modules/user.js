@@ -90,6 +90,28 @@ const actions = {
       })
     })
   },
+  getForgetPasswordCode ({commit}, { userEmail }) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${requestPrefix}/users/forgetPasswordCode`, {
+        params: { email: userEmail }
+      }).then((res) => {
+        resolve(res)
+      }).catch((reason) => {
+        reject(reason)
+      })
+    })
+  },
+  getUserPasswordByUserName ({commit}, { userName }) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${requestPrefix}/users/password`, {
+        params: { userName }
+      }).then((res) => {
+        resolve(res)
+      }).catch((reason) => {
+        reject(reason)
+      })
+    })
+  },
   register ({commit}, { userName, userPassword }) {
     return new Promise((resolve, reject) => {
       axios.post(`${requestPrefix}/users`, {

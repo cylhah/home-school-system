@@ -6,6 +6,9 @@ const state = {
   registerWeekCount: 0,
   registerMonthCount: 0,
   newsAmountMonth: 0,
+  userMonthAmount: [],
+  userTypeAmount: [],
+  newsMonthAmount: [],
   userList: [],
   adminList: []
 }
@@ -28,6 +31,15 @@ const mutations = {
   },
   setNewsAmountMonth (state, newsAmountMonth) {
     state.newsAmountMonth = newsAmountMonth
+  },
+  setUserMonthAmount (state, userMonthAmount) {
+    state.userMonthAmount = userMonthAmount
+  },
+  setUserTypeAmount (state, userTypeAmount) {
+    state.userTypeAmount = userTypeAmount
+  },
+  setNewsMonthAmount (state, newsMonthAmount) {
+    state.newsMonthAmount = newsMonthAmount
   }
 }
 
@@ -90,6 +102,66 @@ const actions = {
       }).then((res) => {
         const { data } = res
         commit('setNewsAmountMonth', data.data)
+        resolve(res)
+      })
+    })
+  },
+  getUserPassword ({commit}, { userId }) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${requestPrefix}/users/password`, {
+        params: { userId }
+      }).then((res) => {
+        resolve(res)
+      })
+    })
+  },
+  modifyPassword ({commit}, { userId, userPassword }) {
+    let params = new URLSearchParams()
+    params.append('userId', userId)
+    params.append('userPassword', userPassword)
+    return new Promise((resolve, reject) => {
+      axios.put(`${requestPrefix}/users/password`, params).then((res) => {
+        resolve(res)
+      })
+    })
+  },
+  getUserRegisterAmountAllMonth ({commit}) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${requestPrefix}/users/monthAmount`).then((res) => {
+        const { data } = res
+        commit('setUserMonthAmount', data.data)
+        resolve(res)
+      })
+    })
+  },
+  getUserRegisterAmountByType ({commit}) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${requestPrefix}/users/typeAmount`).then((res) => {
+        const { data } = res
+        let result = []
+        result[0] = data.data.student
+        result[1] = data.data.teacher
+        result[2] = data.data.parent
+        result[3] = data.data.admin
+        commit('setUserTypeAmount', result)
+        resolve(res)
+      })
+    })
+  },
+  getNewsAmountAllMonth ({commit}) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${requestPrefix}/news/monthAmount`).then((res) => {
+        const { data } = res
+        commit('setNewsMonthAmount', data.data)
+        resolve(res)
+      })
+    })
+  },
+  deleteAdmin ({commit}, { userId }) {
+    return new Promise((resolve, reject) => {
+      axios.delete(`${requestPrefix}/users`, {
+        params: { userId }
+      }).then((res) => {
         resolve(res)
       })
     })

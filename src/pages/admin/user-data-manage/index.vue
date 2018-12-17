@@ -35,13 +35,16 @@
     </div>
     <div class="charts">
       <div class="chart chart1">
-        <chart1/>
+        <chart1 v-if="loaded" :data="userMonthAmount"/>
       </div>
       <div class="chart chart3">
-        <chart3/>
+        <chart3 v-if="loaded" :data="userTypeAmount"/>
       </div>
       <div class="chart chart2">
-        <chart2/>
+        <chart2 v-if="loaded" :data="newsMonthAmount"/>
+      </div>
+      <div class="chart chart2">
+        <chart4 v-if="loaded" :data="newsMonthAmount"/>
       </div>
     </div>
   </div>
@@ -51,20 +54,30 @@
 import chart1 from './components/user-chart1'
 import chart2 from './components/user-chart2'
 import chart3 from './components/user-chart3'
+import chart4 from './components/user-chart4'
 import { mapState } from 'vuex'
 export default {
+  data () {
+    return {
+      loaded: false
+    }
+  },
   components: {
     chart1,
     chart2,
-    chart3
+    chart3,
+    chart4
   },
   computed: mapState({
     registerDayCount: state => state.admin.registerDayCount,
     registerWeekCount: state => state.admin.registerWeekCount,
     registerMonthCount: state => state.admin.registerMonthCount,
-    newsAmountMonth: state => state.admin.newsAmountMonth
+    newsAmountMonth: state => state.admin.newsAmountMonth,
+    userMonthAmount: state => state.admin.userMonthAmount,
+    userTypeAmount: state => state.admin.userTypeAmount,
+    newsMonthAmount: state => state.admin.newsMonthAmount
   }),
-  mounted () {
+  async mounted () {
     let endTime = new Date()
     let startTime = new Date()
     startTime.setDate(endTime.getDate() - 30)
@@ -72,6 +85,11 @@ export default {
     this.$store.dispatch('admin/getRegisterCount', 7)
     this.$store.dispatch('admin/getRegisterCount', 30)
     this.$store.dispatch('admin/getNewsAmountByTime', { startTime: startTime.getTime(), endTime: endTime.getTime() })
+    let p1 = this.$store.dispatch('admin/getUserRegisterAmountAllMonth')
+    let p2 = this.$store.dispatch('admin/getUserRegisterAmountByType')
+    let p3 = this.$store.dispatch('admin/getNewsAmountAllMonth')
+    await Promise.all([p1, p2, p3])
+    this.loaded = true
   }
 }
 </script>

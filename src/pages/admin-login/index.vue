@@ -42,8 +42,20 @@ export default {
     }
   },
   methods: {
+    encrypt (word) {
+      let key = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let iv = CryptoJS.enc.Utf8.parse('1234567890000000')
+      let encrypted = ''
+      let srcs = CryptoJS.enc.Utf8.parse(word)
+      encrypted = CryptoJS.AES.encrypt(srcs, key, {
+        iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      })
+      return encrypted.ciphertext.toString()
+    },
     async login () {
-      await this.$store.dispatch('user/login', { userName: this.username, userPassword: CryptoJS.MD5(this.password).toString() })
+      await this.$store.dispatch('user/login', { userName: this.username, userPassword: this.encrypt(this.password) })
       if (this.$store.state.user.userInfo.userType === 'admin') {
         this.$router.push({ path: '/admin' })
       } else {
