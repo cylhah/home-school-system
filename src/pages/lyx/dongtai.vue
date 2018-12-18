@@ -1,18 +1,16 @@
 <template>
   <div class="app-container">
+    <div class="">toubu</div>
     <el-card class="box-card" v-for="(item,index) in dongtaiList" :key="index">
       <div slot="header" class="clearfix">
         <span>
           <span class="touxiang"></span>
           <span class="xinxi">
           <div class="username">{{item.newsUser.userNickname}}</div>
-          <div class="time">发布时间：{{item.newsUploadTime}}</div>
+          <div class="time">发布时间：{{formatTime(item.newsUploadTime)}}</div>
           </span>
         </span>
-        <el-button style="float: right; padding: 3px 8px" type="text" @click="report">
-          <span class="mui-icon mui-icon-minus"></span></el-button>
-        <el-button style="float: right; padding: 3px 8px" type="text" @click="keep">
-          <span class="mui-icon mui-icon-star"></span></el-button>
+        <el-button style="float: right; padding: 3px 8px" type="text" @click="report(item)">举报</el-button>
       </div>
       <div class="text item1">{{item.newsContent}}</div>
       <hr>
@@ -45,13 +43,8 @@
           </el-col>
         </el-row>
       </div>
-        <!-- <comment
-          :dongtaiid = "dongtaiid"
-          v-show="xianshi"
-          v-on:childinputblur="childinputblur"
-          >
-        </comment> -->
     </el-card>
+    <accuse :accuseitem="accuseitem" :accuseVisible="accuseVisible" @close-dialogStatus="Close_dialog"></accuse>
     <el-dialog
       custom-class="m-dialog"
       :visible.sync="dialogVisible"
@@ -90,11 +83,12 @@
 <script>
 import header1 from '@/components/public/header/header-share'
 import star from '@/components/public/star/star'
+import accuse from '@/pages/dynamic/accuse/accuse'
 // import comment from '@/pages/dynamic/comment/comment'
 import {mapActions, mapState} from 'vuex'
 export default {
   components: {
-    header1, star
+    header1, star, accuse
   },
   data () {
     return {
@@ -110,12 +104,15 @@ export default {
       checked: 'checked',
       textarea: '',
       dialogVisible: false,
-      comment_news_id: 0
+      comment_news_id: 0,
+      accuseitem: {},
+      accuseVisible: false
     }
   },
   computed: {
     ...mapState({
-      dongtaiList: state => state.dongtai.dongtaiList
+      dongtaiList: state => state.dongtai.dongtaiList,
+      accuseInfo: state => state.dongtai.accuseInfo
     })
   },
   created () {
@@ -123,43 +120,15 @@ export default {
     console.log()
   },
   methods: {
-    childinputblur () {
-      // childValue就是子组件传过来的值
-      this.textarea = ''
+    Close_dialog (val) {
+      this.accuseVisible = false
     },
-    keep () {
-      this.$confirm('收藏？', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '收藏成功!'
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消'
-        })
-      })
+    setVisChange (value) {
+      this.accuseitem = value
     },
-    report () {
-      this.$confirm('举报？', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '已举报!正在等待管理员审查'
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消'
-        })
-      })
+    report (item) {
+      this.accuseitem = item
+      this.accuseVisible = true
     },
     ...mapActions({
       getDongtai: 'getDongtai'
@@ -191,16 +160,47 @@ export default {
         this.$refs.comment.focus()
       }, 200)
       this.comment_news_id = id
+    },
+    formatTime (time) {
+      let date = new Date(time)
+      let now = new Date()
+      let day = 3600 * 24 * 1000
+      let todayTimestamp = parseInt(now.getTime() / day) * day - 8 * 3600 * 1000
+      let targetTimestamp = date.getTime()
+      let hours = date.getHours()
+      let minutes = date.getMinutes()
+      let resttime = ''
+      if (hours < 12) {
+        resttime = `上午${hours}:${minutes}`
+      } else if (hours === 12) {
+        resttime = `中午${hours}:${minutes}`
+      } else {
+        hours = hours - 12
+        resttime = `下午${hours}:${minutes}`
+      }
+      if (targetTimestamp >= todayTimestamp) {
+        return resttime
+      } else if (todayTimestamp - targetTimestamp <= day) {
+        return '昨天 ' + resttime
+      } else {
+        let month = date.getMonth() + 1
+        let days = date.getDate()
+        return `${month}月${days}日 ` + resttime
+      }
     }
   }
 }
 </script>
 
 <style  lang="scss">
+ @import '../../lib/mui/css/mui.min.css';
 .app-container{
-padding-top: 0%;
-width: 100%;
-background-color: antiquewhite;
+  padding-top: 0%;
+  width: 100%;
+  background-color: antiquewhite;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 }
 .touxiang{
   margin: 3px;
@@ -215,7 +215,7 @@ background-color: antiquewhite;
 }
 .xinxi{
     margin: 1%;
-    width: 35%;
+    width: 50%;
     display: inline-block;
 }
 .username{
@@ -250,10 +250,12 @@ background-color: antiquewhite;
     width: 100%;
   }
 
-/* .iconfont {
-  font-size:50px;
-} */
-
+  .el-card__header {
+    padding: 10px;
+  }
+  .el-card__body{
+    padding: 10px;
+  }
 .iconfont{
     font-size: 20px;
 }

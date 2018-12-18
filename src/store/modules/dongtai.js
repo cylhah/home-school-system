@@ -86,6 +86,16 @@ const actions = {
         reject(res.data)
       })
     })
+  },
+  postAccuse ({state, commit}, data) {
+    return new Promise((resolve, reject) => {
+      axios.post('/api/accuse/addAccuse', data).then((res) => {
+        console.log(res)
+        resolve(res.data)
+      }).catch((res) => {
+        reject(res.data)
+      })
+    })
   }
 }
 
