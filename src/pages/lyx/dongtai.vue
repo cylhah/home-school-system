@@ -123,9 +123,6 @@ export default {
     Close_dialog (val) {
       this.accuseVisible = false
     },
-    setVisChange (value) {
-      this.accuseitem = value
-    },
     report (item) {
       this.accuseitem = item
       this.accuseVisible = true
