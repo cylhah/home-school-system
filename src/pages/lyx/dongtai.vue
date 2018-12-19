@@ -13,19 +13,21 @@
         <el-button style="float: right; padding: 3px 8px" type="text" @click="report(item)">举报</el-button>
       </div>
       <div class="text item1">{{item.newsContent}}</div>
+      <gallery :itemList="itemList" />
       <hr>
       <!-- 底部 转发评论点赞 -->
       <div>
         <el-row>
           <el-col :span="8" >
             <div @click="changedianzan">
-            <star :animates="animates" :colors="colors.zhuanfa" :number="number">
-              <i slot="icon" class="iconfont icon-zhuanfa"></i>
+            <star :animates="animates" :colors="colors" :number="number">
+              <i slot="icon" class="mui-icon mui-icon-redo"></i>
               <span slot="number"></span>
             </star>
             </div>
           </el-col>
           <el-col :span="8" >
+
             <div @click="pinglun(item.dongtaiid)">
             <star :animates="animates" :colors="colors.pinglun" :number="number">
               <i slot="icon" class="iconfont icon-pinglun"></i>
@@ -84,20 +86,17 @@
 import header1 from '@/components/public/header/header-share'
 import star from '@/components/public/star/star'
 import accuse from '@/pages/dynamic/accuse/accuse'
+import gallery from './components/gallery'
 // import comment from '@/pages/dynamic/comment/comment'
 import {mapActions, mapState} from 'vuex'
 export default {
   components: {
-    header1, star, accuse
+    header1, star, accuse, gallery
   },
   data () {
     return {
       color: 'red',
-      colors: {
-        zhuanfa: 'green',
-        pinglun: 'blue',
-        dianzan: 'red'
-      },
+      colors: 'red',
       animates: 'animated rubberBand',
       number: 15,
       dongtaiid: 0,
@@ -106,7 +105,8 @@ export default {
       dialogVisible: false,
       comment_news_id: 0,
       accuseitem: {},
-      accuseVisible: false
+      accuseVisible: false,
+      itemList: []
     }
   },
   computed: {
@@ -116,6 +116,7 @@ export default {
     })
   },
   created () {
+    this.getGaleryItemList()
     this.getDongtai()
     console.log()
   },
@@ -184,7 +185,12 @@ export default {
         let days = date.getDate()
         return `${month}月${days}日 ` + resttime
       }
-    }
+  },
+  async getGaleryItemList () {
+    setTimeout(() => {
+      this.itemList = ['18_1543476287863.jpg', '18_1543478354418.jpg', '21_1543652329858.jpg', '22_1543652223158.jpg', 'test.mp4', 'test1.mp4']
+    }, 500)
+  }
   }
 }
 </script>
@@ -233,7 +239,7 @@ export default {
     margin-bottom: 18px;
   }
 .item1 {
-    margin-bottom: 0px;
+    margin-bottom: 15px;
   }
   .clearfix:before,
   .clearfix:after {

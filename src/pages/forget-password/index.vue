@@ -86,9 +86,16 @@ export default {
   },
   watch: {
     async code (curVal, oldVal) {
-      if (curVal.length === 6 && curVal === this.verifyCode) {
-        const { data } = await this.$store.dispatch('user/getUserPasswordByUserName', { userName: this.$route.query.userEmail })
-        this.password = this.decrypt(data.data)
+      if (curVal.length === 6) {
+        if (curVal === this.verifyCode) {
+          const { data } = await this.$store.dispatch('user/getUserPasswordByUserName', { userName: this.$route.query.userEmail })
+          this.password = this.decrypt(data.data)
+        } else {
+          this.$message({
+            message: '验证码错误',
+            type: 'error'
+          })
+        }
       }
     }
   },

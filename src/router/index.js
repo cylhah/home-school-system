@@ -7,13 +7,11 @@ import chat from '@/pages/chat/index'
 import myClass from '@/pages/class/index'
 import notification from '@/pages/notification/index'
 import message from '@/pages/message/index'
-import mailList from '@/pages/mailList/index'
 import userDataManage from '@/pages/admin/user-data-manage/index'
 import userInfoManage from '@/pages/admin/user-info-manage/index'
 import adminManage from '@/pages/admin/admin-manage/index'
 import newsManage from '@/pages/admin/news-manage/index'
 import userLogin from '@/pages/user-login/index'
-import forgetPassword from '@/pages/forget-password/index'
 import userRegister from '@/pages/user-register/index'
 import Dynamic from '@/pages/dynamic/dynamic'
 import AdminLogin from '@/pages/admin-login/index'
@@ -23,12 +21,15 @@ import index2 from '@/pages/lyx/index2'
 import dongtai from '@/pages/lyx/dongtai'
 import tabbar from '@/components/public/tabbar/tabbar'
 import header from '@/components/public/header/header-share'
-import guanzhu from '@/pages/lyx/guanzhu'
-import guanzhu1 from '@/pages/lyx/guanzhu.1'
-import starguanzhu from '@/pages/lyx/starguanzhu'
-import allguanzhu from '@/pages/lyx/allguanzhu'
-import personalinformation from '@/pages/lyx/personal_information'
-import personal from '@/pages/lyx/personal'
+import personalinformation from '@/pages/PersonalCenter/personal_information'
+import personal from '@/pages/PersonalCenter/personal'
+import cz from '@/pages/lyx/cz'
+import czclick from '@/pages/lyx/cz-click'
+import guanzhunew from '@/pages/guanzhu/guanzhu'
+import tuijian from '@/pages/guanzhu/tuijian'
+import starguanzhunew from '@/pages/guanzhu/starguanzhu'
+import allguanzhunew from '@/pages/guanzhu/allguanzhu'
+import dongtai1 from '@/pages/PersonalCenter/dongtai.1'
 Vue.use(Router)
 
 const router = new Router({
@@ -49,11 +50,6 @@ const router = new Router({
       component: userLogin
     },
     {
-      path: '/forgetPassword',
-      name: 'forgetPassword',
-      component: forgetPassword
-    },
-    {
       path: '/register',
       name: 'register',
       component: userRegister
@@ -72,11 +68,6 @@ const router = new Router({
       path: '/message',
       name: 'message',
       component: message
-    },
-    {
-      path: '/mailList',
-      name: 'mailList',
-      component: mailList
     },
     {
       path: '/notification',
@@ -110,16 +101,58 @@ const router = new Router({
     },
     {path: '/header', component: header},
     {path: '/dongtai', component: dongtai},
-    {path: '/guanzhu', component: guanzhu},
-    {path: '/guanzhu1', component: guanzhu1},
-    {path: '/starguanzhu', component: starguanzhu},
-    {path: '/allguanzhu', component: allguanzhu},
-    {path: '/personalinformation', component: personalinformation},
-    {path: '/personal', component: personal},
     {
-      path: '/newsdetail/:toNewsId',
-      name: 'newsdetail',
-      component: resolve => require(['@/pages/dynamic/newsdetail.vue'], resolve)
+      path: '/cz',
+      name: 'cz',
+      component: cz
+    },
+    {
+      path: '/czclick',
+      name: 'czclick',
+      component: czclick
+    },
+    {
+      path: '/personalinformation',
+      redirect: '/personal1',
+      component: personalinformation,
+      children: [
+        {
+          path: '/personal1',
+          name: 'personal1',
+          component: personal
+        },
+        {
+          path: '/dongtai1',
+          name: 'dongtai1',
+          component: dongtai1
+        }
+      ]
+    },
+    {
+      path: '/guanzhunew',
+      redirect: '/guanzhunew',
+      component: guanzhunew,
+      children: [
+        {
+          path: '/guanzhunew',
+          component: tuijian
+        },
+        {
+          path: '/tuijain',
+          name: 'tuijian',
+          component: tuijian
+        },
+        {
+          path: '/starguanzhunew',
+          name: 'starguanzhunew',
+          component: starguanzhunew
+        },
+        {
+          path: '/allguanzhunew',
+          name: 'allguanzhunew',
+          component: allguanzhunew
+        }
+      ]
     }
   ],
   linkActiveClass: 'mui-active'
