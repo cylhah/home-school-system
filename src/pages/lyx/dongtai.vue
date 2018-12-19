@@ -15,6 +15,7 @@
           <span class="mui-icon mui-icon-star"></span></el-button>
       </div>
       <div class="text item1">{{item.newsContent}}</div>
+      <gallery :itemList="itemList" />
       <hr>
       <!-- 底部 转发评论点赞 -->
       <div>
@@ -90,11 +91,12 @@
 <script>
 import header1 from '@/components/public/header/header-share'
 import star from '@/components/public/star/star'
+import gallery from './components/gallery'
 // import comment from '@/pages/dynamic/comment/comment'
 import {mapActions, mapState} from 'vuex'
 export default {
   components: {
-    header1, star
+    header1, star, gallery
   },
   data () {
     return {
@@ -110,7 +112,8 @@ export default {
       checked: 'checked',
       textarea: '',
       dialogVisible: false,
-      comment_news_id: 0
+      comment_news_id: 0,
+      itemList: []
     }
   },
   computed: {
@@ -119,6 +122,7 @@ export default {
     })
   },
   created () {
+    this.getGaleryItemList()
     this.getDongtai()
     console.log()
   },
@@ -191,6 +195,11 @@ export default {
         this.$refs.comment.focus()
       }, 200)
       this.comment_news_id = id
+    },
+    async getGaleryItemList () {
+      setTimeout(() => {
+        this.itemList = ['18_1543476287863.jpg', '18_1543478354418.jpg', '21_1543652329858.jpg', '22_1543652223158.jpg', 'test.mp4', 'test1.mp4']
+      }, 500)
     }
   }
 }
@@ -236,7 +245,7 @@ background-color: antiquewhite;
     margin-bottom: 18px;
   }
 .item1 {
-    margin-bottom: 0px;
+    margin-bottom: 15px;
   }
   .clearfix:before,
   .clearfix:after {
