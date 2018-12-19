@@ -8,6 +8,8 @@ import news from './modules/news'
 import comment from './modules/comment'
 import accusation from './modules/accusation'
 import dongtai from './modules/dongtai'
+import personal from './modules/personal'
+import concern from './modules/concern'
 
 Vue.use(Vuex)
 
@@ -20,7 +22,9 @@ const store = () => new Vuex.Store({
     news,
     comment,
     accusation,
-    dongtai
+    dongtai,
+    personal,
+    concern
   }
 })
 

@@ -22,13 +22,14 @@
         <el-row>
           <el-col :span="8" >
             <div @click="changedianzan">
-            <star :animates="animates" :colors="colors.zhuanfa" :number="number">
-              <i slot="icon" class="iconfont icon-zhuanfa"></i>
+            <star :animates="animates" :colors="colors" :number="number">
+              <i slot="icon" class="mui-icon mui-icon-redo"></i>
               <span slot="number"></span>
             </star>
             </div>
           </el-col>
           <el-col :span="8" >
+
             <div @click="pinglun(item.dongtaiid)">
             <star :animates="animates" :colors="colors.pinglun" :number="number">
               <i slot="icon" class="iconfont icon-pinglun"></i>
@@ -46,12 +47,6 @@
           </el-col>
         </el-row>
       </div>
-        <!-- <comment
-          :dongtaiid = "dongtaiid"
-          v-show="xianshi"
-          v-on:childinputblur="childinputblur"
-          >
-        </comment> -->
     </el-card>
     <el-dialog
       custom-class="m-dialog"
@@ -101,11 +96,7 @@ export default {
   data () {
     return {
       color: 'red',
-      colors: {
-        zhuanfa: 'green',
-        pinglun: 'blue',
-        dianzan: 'red'
-      },
+      colors: 'red',
       animates: 'animated rubberBand',
       number: 15,
       dongtaiid: 0,
@@ -206,6 +197,7 @@ export default {
 </script>
 
 <style  lang="scss">
+ @import '../../lib/mui/css/mui.min.css';
 .app-container{
 padding-top: 0%;
 width: 100%;

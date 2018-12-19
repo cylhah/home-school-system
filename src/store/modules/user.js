@@ -23,7 +23,8 @@ const state = {
     userName: getCookie('userName'),
     userId: getCookie('userId'),
     userClassId: getCookie('userClassId'),
-    userHeadUrl: getCookie('userHeadUrl')
+    userHeadUrl: getCookie('userHeadUrl'),
+    userNickname: getCookie('userNickname')
   }
 }
 
@@ -57,6 +58,7 @@ const actions = {
           setCookie('userId', data.data.userId, 30)
           setCookie('userClassId', data.data.userClassId, 30)
           setCookie('userHeadUrl', data.data.userHeadUrl, 30)
+          setCookie('userNickname', data.data.userNickname, 30)
         }
         resolve(res)
       }).catch((reason) => {
