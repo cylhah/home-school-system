@@ -6,7 +6,7 @@
       <span class="touxiang"></span>
       <span class="xinxi">
       <div class="username">{{ name }}</div>
-      <div class="time">介绍：{{ jianjie }}</div>
+      <div class="time">职业：{{ person.work }}</div>
       </span>
     </span>
   </div>
@@ -24,23 +24,30 @@
 </template>
 
 <script>
-//  import personal from '@/pages/lyx/personal'
+import {mapState} from 'vuex'
 export default {
-  // components: {
-  //   personal
-  // },
   data () {
     return {
       keywords: '',
-      id: 1,
-      name: '张三',
-      jianjie: '我叫张三，我是张三三的家长',
-      school: '希望中学',
-      stuclass: '高二三班',
-      sex: '女',
-      number: '15954262483',
-      addr: '学院路154号'
+      name: '',
+      person: {}
     }
+  },
+  computed: mapState({
+    userInfo: state => state.user.userInfo,
+    personalInfo: state => state.personal.personalInfo
+  }),
+  methods: {
+    getInfo () {
+      let userId = this.userInfo.userId
+      this.name = this.userInfo.userNickname
+      this.$store.dispatch('personal/sendPersonalInform', { userId }).then((res) => {
+        this.person = res.data.data
+      })
+    }
+  },
+  created () {
+    this.getInfo()
   }
 }
 </script>
@@ -88,14 +95,16 @@ width: 100%;
     width: 35%;
 }
 .username{
-  padding-left: 41px;
+  padding-left: 33px;
   font-size: 16px;
   font-weight: bold;
   color: maroon;
+  padding-top: 14px;
 }
 .time{
-  padding: 12px;
+  padding: 25px;
   font-size: 10px;
+  width: 107%;
 }
   .text {
     font-size: 14px;

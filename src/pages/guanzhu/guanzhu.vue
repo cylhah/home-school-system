@@ -30,76 +30,7 @@
 export default {
   data () {
     return {
-      keywords: '',
-      people: [
-        {
-          id: 1,
-          name: '张三',
-          jianjie: 'sass',
-          guanzhu: '关注',
-          starguanzhu: 1
-        },
-        {
-          id: 2,
-          name: '李四',
-          jianjie: 'sass2',
-          guanzhu: '已关注',
-          starguanzhu: 1
-        },
-        {
-          id: 3,
-          name: '王五',
-          jianjie: '我叫王五',
-          guanzhu: '特别关注',
-          starguanzhu: 0
-        }
-      ]
-    }
-  },
-  methods: {
-    gaibian (item) {
-      this.$notify({
-        title: '关注',
-        message: '以成功关注该用户',
-        type: 'success'
-      })
-      item.guanzhu = '已关注'
-      item.starguanzhu = 1
-    },
-    gaibian1 (item) {
-      this.$notify({
-        title: '取消关注',
-        message: '以成功取消关注',
-        type: 'success'
-      })
-      item.guanzhu = '关注'
-    },
-    search (keywords) {
-      var newList = []
-      this.people.forEach(item => {
-        if (item.name.indexOf(keywords) !== -1) {
-          newList.push(item)
-        }
-      })
-      return newList
-    },
-    stargz1 (item) {
-      this.$notify({
-        title: '取消特别关注',
-        message: '以成功取消特别关注',
-        type: 'success'
-      })
-      item.starguanzhu = 1
-      item.guanzhu = '已关注'
-    },
-    stargz (item) {
-      this.$notify({
-        title: '特别关注关注',
-        message: '以成功设置为特别关注关注',
-        type: 'success'
-      })
-      item.starguanzhu = 0
-      item.guanzhu = '特别关注'
+      keywords: ''
     }
   }
 }
