@@ -103,6 +103,18 @@ const actions = {
       })
     })
   },
+  validateCode ({commit}, { userName, code }) {
+    let data = new FormData()
+    data.append('userName', userName)
+    data.append('code', code)
+    return new Promise((resolve, reject) => {
+      axios.post(`${requestPrefix}/verificationCode`, data).then((res) => {
+        resolve(res)
+      }).catch((reason) => {
+        reject(reason)
+      })
+    })
+  },
   getUserPasswordByUserName ({commit}, { userName }) {
     return new Promise((resolve, reject) => {
       axios.get(`${requestPrefix}/users/password`, {
