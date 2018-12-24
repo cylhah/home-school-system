@@ -6,7 +6,7 @@
           <span class="touxiang"></span>
           <span class="xinxi">
           <div class="username">{{item.newsUser.userNickname}}</div>
-          <div class="time">发布时间：{{item.newsUploadTime}}</div>
+          <div class="time">发布时间：{{changetime(item.newsUploadTime,item)}}</div>
           </span>
         </span>
         <el-button style="float: right; padding: 3px 8px" type="text" @click="report">
@@ -104,23 +104,59 @@ export default {
       textarea: '',
       dialogVisible: false,
       comment_news_id: 0,
-      itemList: []
+      itemList: [],
+      mypath: ''
     }
   },
   computed: {
     ...mapState({
-      dongtaiList: state => state.dongtai.dongtaiList
+      dongtaiList: state => state.dongtai.dongtaiList,
+      userInfo: state => state.user.userInfo,
+      personalInfo: state => state.personal.personalInfo
     })
+  },
+  watch: {
+    '$route.path': function (newVal, oldVal) {
+      let userId = this.userInfo.userId
+      this.mypath = newVal
+      let pp = this.mypath
+      this.getDongtai({pp, userId})
+    }
   },
   created () {
     this.getGaleryItemList()
-    this.getDongtai()
-    console.log()
+    let userId = this.userInfo.userId
+    let pp = this.$route.path
+    this.getDongtai({pp, userId})
   },
   methods: {
     childinputblur () {
       // childValue就是子组件传过来的值
       this.textarea = ''
+    },
+    changetime (data, item) {
+      var now = new Date()
+      var oldTime = new Date(data).getTime()
+      var difference = now.getTime() - oldTime
+      var minute = 1000 * 60
+      var hour = minute * 60
+      var day = hour * 24
+      var month = day * 30
+      var year = month * 12
+      var _year = difference / year
+      var _month = difference / month
+      var _week = difference / (7 * day)
+      var _day = difference / day
+      var _hour = difference / hour
+      var _min = difference / minute
+      if (_year >= 1) item.newsUploadTime = '发表于' + ~~(_year) + '年前'
+      else if (_month >= 1) item.newsUploadTime = '发表于' + ~~(_month) + '个月前'
+      else if (_week >= 1) item.newsUploadTime = '发表于' + ~~(_week) + '周前'
+      else if (_day >= 1) item.newsUploadTime = '发表于' + ~~(_day) + '天前'
+      else if (_hour >= 1) item.newsUploadTime = '发表于' + ~~(_hour) + '个小时前'
+      else if (_min >= 1) item.newsUploadTime = '发表于' + ~~(_min) + '分钟前'
+      else if (_min < 1) item.newsUploadTime = '刚刚'
+      return item.newsUploadTime
     },
     keep () {
       this.$confirm('收藏？', {
@@ -216,7 +252,7 @@ background-color: antiquewhite;
 }
 .xinxi{
     margin: 1%;
-    width: 35%;
+    width: 50%;
     display: inline-block;
 }
 .username{
@@ -232,7 +268,6 @@ background-color: antiquewhite;
   .text {
     font-size: 14px;
   }
-
   .item {
     margin-bottom: 18px;
   }
@@ -250,11 +285,9 @@ background-color: antiquewhite;
   .box-card {
     width: 100%;
   }
-
 /* .iconfont {
   font-size:50px;
 } */
-
 .iconfont{
     font-size: 20px;
 }
@@ -270,7 +303,6 @@ background-color: antiquewhite;
 .mui-icon-redo{
     color: steelblue;
 }
-
   .el-dialog{
     margin: 0;
     position:fixed;
