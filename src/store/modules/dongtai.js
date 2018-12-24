@@ -24,10 +24,20 @@ const mutations = {
 }
 
 const actions = {
-  getDongtai ({ state, commit }) {
+  // getDongtai ({ state, commit }) {
+  //   var params = new URLSearchParams()
+  //   params.append('userId', 18)
+  //   axios.get('api/news/likeyesorno/18').then((res) => {
+  //     this.res = res
+  //     commit('SET_CURRENT_DONGTAI_LISTS', { dongtaiList: res.data.data })
+  //     console.log(res.data.data)
+  //   })
+  // },
+  getDongtai ({ state, commit }, { pp, userId }) {
     var params = new URLSearchParams()
-    params.append('userId', 18)
-    axios.get('api/news/likeyesorno/18').then((res) => {
+    params.append('userId', userId)
+    params.append('pp', pp)
+    axios.get(`api/news` + pp + `/${userId}`).then((res) => {
       this.res = res
       commit('SET_CURRENT_DONGTAI_LISTS', { dongtaiList: res.data.data })
       console.log(res.data.data)

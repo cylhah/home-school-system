@@ -29,7 +29,7 @@ import guanzhunew from '@/pages/guanzhu/guanzhu'
 import tuijian from '@/pages/guanzhu/tuijian'
 import starguanzhunew from '@/pages/guanzhu/starguanzhu'
 import allguanzhunew from '@/pages/guanzhu/allguanzhu'
-import dongtai1 from '@/pages/PersonalCenter/dongtai.1'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -90,11 +90,6 @@ const router = new Router({
       component: postdynam
     },
     {
-      path: '/index2',
-      name: 'index2',
-      component: index2
-    },
-    {
       path: '/tabbar',
       name: 'tabbar',
       component: tabbar
@@ -122,9 +117,36 @@ const router = new Router({
           component: personal
         },
         {
-          path: '/dongtai1',
-          name: 'dongtai1',
-          component: dongtai1
+          path: '/getNewByUserId',
+          name: 'getNewByUserId',
+          component: dongtai
+        }
+      ]
+    },
+    {
+      path: '/index2',
+      redirect: '/accordingTime',
+      component: index2,
+      children: [
+        {
+          path: '/accordingTime',
+          name: 'accordingTime',
+          component: dongtai
+        },
+        {
+          path: '/accordingClass',
+          name: 'accordingClass',
+          component: dongtai
+        },
+        {
+          path: '/accordingConcern',
+          name: 'accordingConcern',
+          component: dongtai
+        },
+        {
+          path: '/accordingLike',
+          name: 'accordingLike',
+          component: dongtai
         }
       ]
     },

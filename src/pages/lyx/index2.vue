@@ -4,15 +4,15 @@
   <div>
     <!-- 导航栏 -->
 <el-menu mode="horizontal">
-  <el-menu-item index="1">班级动态排行</el-menu-item>
-  <el-menu-item index="2">实时</el-menu-item>
-  <el-menu-item index="3">排行榜</el-menu-item>
-  <el-menu-item index="4">校园新闻</el-menu-item>
+  <el-menu-item index="1"><router-link to="/accordingClass">班级排行</router-link></el-menu-item>
+  <el-menu-item index="2"><router-link to="/accordingTime">实时</router-link></el-menu-item>
+  <el-menu-item index="3"><router-link to="/accordingLike">排行榜</router-link></el-menu-item>
+  <el-menu-item index="4"><router-link to="/accordingConcern">我的关注</router-link></el-menu-item>
 </el-menu>
 </div>
 <!-- 动态排行 -->
 <div class="dongtao">
-<dongtai1></dongtai1>
+<router-view></router-view>
 </div>
 <tabbar></tabbar>
   </div>
@@ -20,13 +20,10 @@
 
 <script>
 import header1 from '@/components/public/header/header-share'
-import dongtai1 from '@/pages/lyx/dongtai'
-
 import tabbar from '@/components/public/tabbar/tabbar'
 export default {
   components: {
     header1,
-    dongtai1,
     tabbar
   }
 }

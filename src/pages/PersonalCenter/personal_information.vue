@@ -3,7 +3,10 @@
 <el-card class="box-card">
   <div slot="header" class="clearfix">
     <span class="biao">
-      <span class="touxiang"></span>
+      <span class="touxiang">
+      <span class="message-head">
+            <img :src="getHeadUrl()">
+          </span></span>
       <span class="xinxi">
       <div class="username">{{ name }}</div>
       <div class="time">职业：{{ person.work }}</div>
@@ -14,7 +17,7 @@
       <router-link to="/personal1">
   <el-menu-item index="1" class="daohang">我的主页</el-menu-item>
   </router-link>
-  <router-link to="/dongtai1">
+  <router-link to="/getNewByUserId">
   <el-menu-item index="2" class="daohang">我的动态</el-menu-item>
   </router-link>
 </el-menu>
@@ -44,6 +47,14 @@ export default {
       this.$store.dispatch('personal/sendPersonalInform', { userId }).then((res) => {
         this.person = res.data.data
       })
+    },
+    getHeadUrl () {
+      let user = this.userInfo
+      if (user.class) {
+        return `/class.jpg`
+      } else {
+        return `/${user.userHeadUrl}`
+      }
     }
   },
   created () {
@@ -52,7 +63,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .app-container{
 padding-top: 0%;
 padding-bottom: 0%;
@@ -102,9 +113,9 @@ width: 100%;
   padding-top: 14px;
 }
 .time{
-  padding: 25px;
-  font-size: 10px;
-  width: 107%;
+    padding: 5px;
+    font-size: 10px;
+    width: 189%;
 }
   .text {
     font-size: 14px;
@@ -127,5 +138,14 @@ width: 100%;
   .box-card {
     width: 100%;
   }
+  .message-head {
+        margin-right: 10px;
+        flex-shrink: 0;
+        img {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+        }
+      }
 
 </style>
