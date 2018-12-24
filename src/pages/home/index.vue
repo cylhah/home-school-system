@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <time-axis :itemList="list"/>
+    <time-axis v-if="loaded" :itemList="list"/>
   </div>
 </template>
 
@@ -9,7 +9,8 @@ import timeAxis from './components/time-axis'
 export default {
   data () {
     return {
-      list: []
+      list: [],
+      loaded: false
     }
   },
   components: {
@@ -19,8 +20,13 @@ export default {
     this.list = [{
       time: 1545627860000,
       content: '我在22年',
-      imgList: ['18_1543476287863.jpg']
+      imgList: ['18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg']
+    }, {
+      time: 1545627860000,
+      content: '我在22年',
+      imgList: ['18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg']
     }]
+    this.loaded = true
   }
 }
 </script>
