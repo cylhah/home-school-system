@@ -117,6 +117,7 @@ export default {
 <style lang="scss" scoped>
 .time-axis {
   .time-axis-list {
+    background: white;
     .list-item {
       .item-header {
         p {
