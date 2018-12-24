@@ -4,7 +4,9 @@
       <div
         v-for="(item, index) in itemList" :key="index"
         class="list-item">
-        <div class="item-header">
+        <div
+          v-if="showHeader(item.time)"
+          class="item-header">
           <p>
             <i class="iconfont icon-circleo"/>
             <span>{{formatTime(item.time)}}</span>
@@ -43,6 +45,11 @@
 <script>
 import TimeFormat from '../../../util/formatTime'
 export default {
+  data () {
+    return {
+      timeSet: new Set()
+    }
+  },
   props: {
     itemList: {
       type: Array,
@@ -92,6 +99,16 @@ export default {
     getLabelTime (time) {
       let target = new Date(time)
       return TimeFormat('MM-dd hh:mm', target)
+    },
+    showHeader (time) {
+      let target = new Date(time)
+      let dayStr = TimeFormat('yyyy-MM-dd', target)
+      if (this.timeSet.has(dayStr)) {
+        return false
+      } else {
+        this.timeSet.add(dayStr)
+        return true
+      }
     }
   }
 }
