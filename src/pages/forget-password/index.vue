@@ -37,7 +37,6 @@ export default {
       code: '',
       count: 30,
       btnContent: '30秒后重新发送',
-      verifyCode: '',
       password: ''
     }
   },
@@ -61,7 +60,6 @@ export default {
     async getCode () {
       const { data } = await this.$store.dispatch('user/getForgetPasswordCode', { userEmail: this.$route.query.userEmail })
       if (data.code === 0) {
-        this.verifyCode = String(data.data)
         this.count = 30
         this.btnContent = `${this.count}秒后重新发送`
         let tik = setInterval(() => {
@@ -82,12 +80,17 @@ export default {
       let slot = (windowWidth * 0.8 - 6 * 40) / 5
       let step = 40 + slot
       return 20 + this.code.length * step
+    },
+    async validateCode (userName, code) {
+      const { data } = await this.$store.dispatch('user/validateCode', { userName, code })
+      return data.data
     }
   },
   watch: {
     async code (curVal, oldVal) {
       if (curVal.length === 6) {
-        if (curVal === this.verifyCode) {
+        let flag = await this.validateCode(this.$route.query.userEmail, curVal)
+        if (flag) {
           const { data } = await this.$store.dispatch('user/getUserPasswordByUserName', { userName: this.$route.query.userEmail })
           this.password = this.decrypt(data.data)
         } else {
