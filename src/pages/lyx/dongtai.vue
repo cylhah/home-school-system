@@ -185,12 +185,12 @@ export default {
         let days = date.getDate()
         return `${month}月${days}日 ` + resttime
       }
-  },
-  async getGaleryItemList () {
-    setTimeout(() => {
-      this.itemList = ['18_1543476287863.jpg', '18_1543478354418.jpg', '21_1543652329858.jpg', '22_1543652223158.jpg', 'test.mp4', 'test1.mp4']
-    }, 500)
-  }
+    },
+    async getGaleryItemList () {
+      setTimeout(() => {
+        this.itemList = ['18_1543476287863.jpg', '18_1543478354418.jpg', '21_1543652329858.jpg', '22_1543652223158.jpg', 'test.mp4', 'test1.mp4']
+      }, 500)
+    }
   }
 }
 </script>
