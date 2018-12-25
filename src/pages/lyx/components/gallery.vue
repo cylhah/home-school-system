@@ -7,10 +7,12 @@
           <div
             v-if="isPicture(item)"
             :style="{ 'background-image': `url('api/img/userHead/${item}')`}"
-            class="item-img"></div>
+            class="item-img"
+            @click="bigImg(item)"></div>
           <div
             v-else
-            class="item-video-container">
+            class="item-video-container"
+            @click="bigVideo(item)">
             <video
               class="item-video"
               :src="`api/img/userHead/${item}`"
@@ -41,6 +43,14 @@ export default {
     isVideo (str) {
       let reg = /\.(mp4|avi|rmvb|rm|wma|MP4|AVI|RMVB|RM|WMA)$/
       return reg.test(str)
+    },
+    bigImg (item) {
+      console.log(item)
+      this.$emit('ImgGet', item)
+    },
+    bigVideo (item) {
+      console.log('VideoGet', item)
+      this.$emit('VideoGet', item)
     }
   }
 }

@@ -13,7 +13,7 @@
         <el-button style="float: right; padding: 3px 8px" type="text" @click="report(item)">举报</el-button>
       </div>
       <div class="text item1">{{item.newsContent}}</div>
-      <gallery :itemList="itemList" />
+      <gallery :itemList="itemList" @ImgGet="viewImg" @VideoGet="viewVideo"/>
       <hr>
       <!-- 底部 转发评论点赞 -->
       <div>
@@ -79,6 +79,7 @@
           <span class="footer-item"><i class="iconfont icon-biaoqing"></i></span>
       </span>
     </el-dialog>
+    <viewzoom :Visible="Visible" :imgSrc="imgSrc" :videoSrc="videoSrc" @close-dialogStatus="Close_dialog2"></viewzoom>
   </div>
 </template>
 
@@ -88,10 +89,11 @@ import star from '@/components/public/star/star'
 import accuse from '@/pages/dynamic/accuse/accuse'
 import gallery from './components/gallery'
 // import comment from '@/pages/dynamic/comment/comment'
+import viewzoom from '@/pages/dynamic/viewzoom/viewzoom'
 import {mapActions, mapState} from 'vuex'
 export default {
   components: {
-    header1, star, accuse, gallery
+    header1, star, accuse, gallery, viewzoom
   },
   data () {
     return {
@@ -106,7 +108,11 @@ export default {
       comment_news_id: 0,
       accuseitem: {},
       accuseVisible: false,
-      itemList: []
+      itemList: [],
+      showImg: false,
+      imgSrc: '',
+      videoSrc: '',
+      Visible: false
     }
   },
   computed: {
@@ -121,6 +127,29 @@ export default {
     console.log()
   },
   methods: {
+    clickImg (item) {
+      console.log('父组件' + item)
+      this.showImg = true
+      // 获取当前图片地址
+      this.imgSrc = `api/img/userHead/${item}`
+    },
+    viewImg (item) {
+      // this.showImg = false
+      console.log('父组件图片' + item)
+      this.Visible = true
+      // 获取当前图片地址
+      this.imgSrc = `api/img/userHead/${item}`
+    },
+    viewVideo (item) {
+      console.log('父组件视频' + item)
+      this.Visible = true
+      this.videoSrc = `api/img/userHead/${item}`
+    },
+    Close_dialog2 (val) {
+      this.Visible = false
+      this.imgSrc = ''
+      this.videoSrc = ''
+    },
     Close_dialog (val) {
       this.accuseVisible = false
     },
