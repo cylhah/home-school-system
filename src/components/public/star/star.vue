@@ -53,9 +53,6 @@ export default {
   position: relative;
   width: 45px;
   height: 20px;
-  /* position: absolute; */
+  left: 29%;
 }
-/* .Star-icon {
-  z-index: 888;
-} */
 </style>

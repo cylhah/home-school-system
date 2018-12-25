@@ -23,7 +23,7 @@
             <span class="star1" @click="item.starConcern == 2 ? removeConcernsStar(item.user1.userId , item):sendConcernStar(item.user1.userId , item)"><i :class="item.starConcern == 2 ? 'inconStar iconfont icon-xihuan':'inconStar iconfont icon-xihuan1'"></i></span>
       <button class="guanzhu">
       <div :class="item.starConcern == 0 ? 'guanzhu1':'guanzhu2'"  @click="item.starConcern == 0 ? sendConcern(item.user1.userId , item):deleteConcern(item.user1.userId , item)">
-        <span class="mui-icon mui-icon-checkmarkempty"></span>{{word[item.starConcern]}}</div>
+        <span></span>{{word[item.starConcern]}}</div>
       </button>
       <hr style="filter:alpha(Opacity=50); opacity: 0;">
     </div>
@@ -69,7 +69,7 @@ export default {
           beforeClose: (action, instance, done) => {
             if (action === 'confirm') {
               instance.confirmButtonLoading = true
-              var userId = 18
+              var userId = this.userInfo.userId
               var value = data
               item.starConcern = 1
               console.log(item)
@@ -111,7 +111,7 @@ export default {
           beforeClose: (action, instance, done) => {
             if (action === 'confirm') {
               instance.confirmButtonLoading = true
-              var userId = 18
+              var userId = this.userInfo.userId
               var value = data
               item.starConcern = 2
               console.log(item)
@@ -153,7 +153,7 @@ export default {
           beforeClose: (action, instance, done) => {
             if (action === 'confirm') {
               instance.confirmButtonLoading = true
-              var userId = 18
+              var userId = this.userInfo.userId
               var value = data
               item.starConcern = 0
               console.log(item)
@@ -194,7 +194,7 @@ export default {
           beforeClose: (action, instance, done) => {
             if (action === 'confirm') {
               instance.confirmButtonLoading = true
-              var userId = 18
+              var userId = this.userInfo.userId
               var value = data
               item.starConcern = 1
               console.log(item)
@@ -232,7 +232,7 @@ export default {
     },
     getInfo () {
       // let userId = this.userInfo.userId
-      let userId = 18
+      let userId = this.userInfo.userId
       this.$store.dispatch('concern/getStarConcern', { userId }).then((res) => {
         console.log(res)
         this.people = res.data.data

@@ -3,8 +3,12 @@
     <el-card class="box-card" v-for="(item,index) in dongtaiList" :key="index">
       <div slot="header" class="clearfix">
         <span>
-          <span class="touxiang"></span>
-          <span class="xinxi">
+          <span class="touxiang1">
+            <span class="message-head">
+            <img :src="getHeadUrl(item)">
+          </span>
+          </span>
+          <span class="xinxi1">
           <div class="username">{{item.newsUser.userNickname}}</div>
           <div class="time">发布时间：{{changetime(item.newsUploadTime,item)}}</div>
           </span>
@@ -134,6 +138,14 @@ export default {
       // childValue就是子组件传过来的值
       this.textarea = ''
     },
+    getHeadUrl (item) {
+      let prefix = 'api/img/userHead'
+      if (item.newsUser.userHeadUrl) {
+        return `${prefix}/${item.newsUser.userHeadUrl}`
+      } else {
+        return `${prefix}/class.jpg`
+      }
+    },
     changetime (data, item) {
       var now = new Date()
       var oldTime = new Date(data).getTime()
@@ -237,20 +249,40 @@ export default {
 .app-container{
 padding-top: 0%;
 width: 100%;
-background-color: antiquewhite;
+background-color:  #ddd;
 }
-.touxiang{
+.message-head {
+        margin-right: 10px;
+        flex-shrink: 0;
+        img {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+        }
+      }
+.box-card {
+    width: 100%;
+    margin-bottom: 1%;
+}
+.touxiang1{
   margin: 3px;
     width: 50px;
     height: 50px;
     display: inline-block;
     text-align: center;
-    background-color: #fff;
+    background-color:  #ddd;
     border: 1px solid #ddd;
     border-radius: 25px;
     background-clip: padding-box;
 }
-.xinxi{
+.el-card__header {
+    padding: 9px 26px;
+    padding-bottom: 0px;
+    border-bottom: 1px solid  #ddd;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.xinxi1{
     margin: 1%;
     width: 50%;
     display: inline-block;
@@ -262,7 +294,7 @@ background-color: antiquewhite;
   color: maroon;
 }
 .time{
-  padding: 5px;
+  padding: 3%;
   font-size: 10px;
 }
   .text {
@@ -282,12 +314,6 @@ background-color: antiquewhite;
   .clearfix:after {
     clear: both
   }
-  .box-card {
-    width: 100%;
-  }
-/* .iconfont {
-  font-size:50px;
-} */
 .iconfont{
     font-size: 20px;
 }

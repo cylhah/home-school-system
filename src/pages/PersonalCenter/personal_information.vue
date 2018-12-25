@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-<el-card class="box-card">
+<el-card class="box-card" fixed>
   <div slot="header" class="clearfix">
     <span class="biao">
       <span class="touxiang">
@@ -13,7 +13,7 @@
       </span>
     </span>
   </div>
-<el-menu mode="horizontal">
+<el-menu mode="horizontal" >
       <router-link to="/personal1">
   <el-menu-item index="1" class="daohang">我的主页</el-menu-item>
   </router-link>
@@ -65,7 +65,8 @@ export default {
 
 <style lang="scss" scoped>
 .app-container{
-padding-top: 0%;
+// padding-top: 33%;
+    padding-top: 27.5%;
 padding-bottom: 0%;
 width: 100%;
 }
@@ -75,7 +76,7 @@ padding-bottom: 0%;
 width: 100%;
 }
 .el-menu {
-    border-right: solid 1px #e6e6e6;
+    border-right: solid 1px  #ddd;
     list-style: none;
     position: relative;
     margin: -20px;
@@ -96,7 +97,7 @@ width: 100%;
     height: 50px;
     display: inline-block;
     text-align: center;
-    background-color: #fff;
+    background-color:  #ddd;
     border: 1px solid #ddd;
     border-radius: 25px;
     background-clip: padding-box;
@@ -109,13 +110,15 @@ width: 100%;
   padding-left: 33px;
   font-size: 16px;
   font-weight: bold;
-  color: maroon;
+  color: rgb(255, 255, 255);
   padding-top: 14px;
+  box-shadow: #ddd;
 }
 .time{
-    padding: 5px;
-    font-size: 10px;
-    width: 189%;
+    padding-left: 24%;
+    font-size: 15%;
+    width: 208%;
+    color:  #ddd;
 }
   .text {
     font-size: 14px;
@@ -136,7 +139,13 @@ width: 100%;
     clear: both
   }
   .box-card {
+    position :fixed;
+    z-index: 999;
+    left: 0%;
+    top: 0%;
     width: 100%;
+    background: url('../../assets/img/bj2.jpg') no-repeat;
+    background-size: cover;
   }
   .message-head {
         margin-right: 10px;

@@ -158,7 +158,7 @@ const router = new Router({
     },
     {
       path: '/guanzhunew',
-      redirect: '/guanzhunew',
+      redirect: '/starguanzhunew',
       component: guanzhunew,
       children: [
         {

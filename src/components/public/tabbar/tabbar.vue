@@ -9,7 +9,7 @@
 <span class="mui-icon mui-icon-pengyouquan"></span>
 <span class="mui-tab-label">圈子</span>
 </router-link>
-<router-link class="mui-tab-item" to="/">
+<router-link class="mui-tab-item" to="/guanzhu">
 <span class="mui-icon mui-icon-chatboxes"><span class="mui-badge">0</span></span>
 <span class="mui-tab-label">通讯录</span>
 </router-link>
