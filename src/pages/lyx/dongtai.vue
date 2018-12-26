@@ -7,7 +7,7 @@
           <span class="touxiang"></span>
           <span class="xinxi">
           <div class="username">{{item.newsUser.userNickname}}</div>
-          <div class="time">发布时间：{{formatTime(item.newsUploadTime)}}</div>
+          <div class="time">发布时间：{{changetime(item.newsUploadTime,item)}}</div>
           </span>
         </span>
         <el-button style="float: right; padding: 3px 8px" type="text" @click="report(item)">举报</el-button>
@@ -112,19 +112,32 @@ export default {
       showImg: false,
       imgSrc: '',
       videoSrc: '',
-      Visible: false
+      Visible: false,
+      itemList: [],
+      mypath: ''
     }
   },
   computed: {
     ...mapState({
       dongtaiList: state => state.dongtai.dongtaiList,
-      accuseInfo: state => state.dongtai.accuseInfo
+      accuseInfo: state => state.dongtai.accuseInfo,
+      userInfo: state => state.user.userInfo,
+      personalInfo: state => state.personal.personalInfo
     })
+  },
+  watch: {
+    '$route.path': function (newVal, oldVal) {
+      let userId = this.userInfo.userId
+      this.mypath = newVal
+      let pp = this.mypath
+      this.getDongtai({pp, userId})
+    }
   },
   created () {
     this.getGaleryItemList()
-    this.getDongtai()
-    console.log()
+    let userId = this.userInfo.userId
+    let pp = this.$route.path
+    this.getDongtai({pp, userId})
   },
   methods: {
     clickImg (item) {
@@ -139,6 +152,47 @@ export default {
       this.Visible = true
       // 获取当前图片地址
       this.imgSrc = `api/img/userHead/${item}`
+    },
+    changetime (data, item) {
+      var now = new Date()
+      var oldTime = new Date(data).getTime()
+      var difference = now.getTime() - oldTime
+      var minute = 1000 * 60
+      var hour = minute * 60
+      var day = hour * 24
+      var month = day * 30
+      var year = month * 12
+      var _year = difference / year
+      var _month = difference / month
+      var _week = difference / (7 * day)
+      var _day = difference / day
+      var _hour = difference / hour
+      var _min = difference / minute
+      if (_year >= 1) item.newsUploadTime = '发表于' + ~~(_year) + '年前'
+      else if (_month >= 1) item.newsUploadTime = '发表于' + ~~(_month) + '个月前'
+      else if (_week >= 1) item.newsUploadTime = '发表于' + ~~(_week) + '周前'
+      else if (_day >= 1) item.newsUploadTime = '发表于' + ~~(_day) + '天前'
+      else if (_hour >= 1) item.newsUploadTime = '发表于' + ~~(_hour) + '个小时前'
+      else if (_min >= 1) item.newsUploadTime = '发表于' + ~~(_min) + '分钟前'
+      else if (_min < 1) item.newsUploadTime = '刚刚'
+      return item.newsUploadTime
+    },
+    keep () {
+      this.$confirm('收藏？', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '收藏成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
+      })
     },
     viewVideo (item) {
       console.log('父组件视频' + item)
@@ -263,7 +317,6 @@ export default {
   .text {
     font-size: 14px;
   }
-
   .item {
     margin-bottom: 18px;
   }
@@ -288,6 +341,9 @@ export default {
   .el-card__body{
     padding: 10px;
   }
+/* .iconfont {
+  font-size:50px;
+} */
 .iconfont{
     font-size: 20px;
 }
@@ -303,7 +359,6 @@ export default {
 .mui-icon-redo{
     color: steelblue;
 }
-
   .el-dialog{
     margin: 0;
     position:fixed;
