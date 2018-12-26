@@ -13,13 +13,10 @@
           <div class="time">发布时间：{{changetime(item.newsUploadTime,item)}}</div>
           </span>
         </span>
-        <el-button style="float: right; padding: 3px 8px" type="text" @click="report">
-          <span class="mui-icon mui-icon-minus"></span></el-button>
-        <el-button style="float: right; padding: 3px 8px" type="text" @click="keep">
-          <span class="mui-icon mui-icon-star"></span></el-button>
+        <el-button style="float: right; padding: 3px 8px" type="text" @click="report(item)">举报</el-button>
       </div>
       <div class="text item1">{{item.newsContent}}</div>
-      <gallery :itemList="itemList" />
+      <gallery :itemList="PicList(item)"  @ImgGet="viewImg" @VideoGet="viewVideo"/>
       <hr>
       <!-- 底部 转发评论点赞 -->
       <div>
@@ -43,7 +40,7 @@
           </el-col>
           <el-col :span="8" >
             <div @click="changedianzan(item)">
-            <star :animates="animates" :colors="colors.dianzan" :number="item.newLikeNum" :dianzan="item.newsLikeornotlike">
+            <star :animates="animates" :colors="`red`" :number="item.newLikeNum" :dianzan="item.newsLikeornotlike">
               <i slot="icon" class="iconfont icon-xihuan"></i>
               <span slot="number"></span>
             </star>
@@ -52,6 +49,7 @@
         </el-row>
       </div>
     </el-card>
+    <accuse :accuseitem="accuseitem" :accuseVisible="accuseVisible" @close-dialogStatus="Close_dialog"></accuse>
     <el-dialog
       custom-class="m-dialog"
       :visible.sync="dialogVisible"
@@ -84,18 +82,21 @@
           <span class="footer-item"><i class="iconfont icon-biaoqing"></i></span>
       </span>
     </el-dialog>
+    <viewzoom :Visible="Visible" :imgSrc="imgSrc" :videoSrc="videoSrc" @close-dialogStatus="Close_dialog2"></viewzoom>
   </div>
 </template>
 
 <script>
 import header1 from '@/components/public/header/header-share'
 import star from '@/components/public/star/star'
+import accuse from '@/pages/dynamic/accuse/accuse'
 import gallery from './components/gallery'
 // import comment from '@/pages/dynamic/comment/comment'
+import viewzoom from '@/pages/dynamic/viewzoom/viewzoom'
 import {mapActions, mapState} from 'vuex'
 export default {
   components: {
-    header1, star, gallery
+    header1, star, accuse, gallery, viewzoom
   },
   data () {
     return {
@@ -108,13 +109,20 @@ export default {
       textarea: '',
       dialogVisible: false,
       comment_news_id: 0,
+      accuseitem: {},
+      accuseVisible: false,
       itemList: [],
+      showImg: false,
+      imgSrc: '',
+      videoSrc: '',
+      Visible: false,
       mypath: ''
     }
   },
   computed: {
     ...mapState({
       dongtaiList: state => state.dongtai.dongtaiList,
+      accuseInfo: state => state.dongtai.accuseInfo,
       userInfo: state => state.user.userInfo,
       personalInfo: state => state.personal.personalInfo
     })
@@ -134,9 +142,38 @@ export default {
     this.getDongtai({pp, userId})
   },
   methods: {
-    childinputblur () {
-      // childValue就是子组件传过来的值
-      this.textarea = ''
+    PicList (item) {
+      let NewsImgs = item.newsImageURLs
+      let NewsVideos = item.newsVideoURLs
+      var ImgArr
+      var VideoArr
+      var NewsRes = []
+      if (NewsImgs) {
+        ImgArr = NewsImgs.split(',')
+        NewsRes = ImgArr
+      }
+      if (NewsVideos) {
+        VideoArr = NewsVideos.split(',')
+        NewsRes = ImgArr
+      }
+      if (NewsImgs && NewsVideos) {
+        NewsRes = ImgArr.concat(VideoArr)
+      }
+      // let map1 = NewsRes.map(x => `newsPic/${x}`)
+      return NewsRes
+    },
+    clickImg (item) {
+      console.log('父组件' + item)
+      this.showImg = true
+      // 获取当前图片地址
+      this.imgSrc = `api/img/newsPic/${item}`
+    },
+    viewImg (item) {
+      // this.showImg = false
+      console.log('父组件图片' + item)
+      this.Visible = true
+      // 获取当前图片地址
+      this.imgSrc = `api/img/newsPic/${item}`
     },
     getHeadUrl (item) {
       let prefix = 'api/img/userHead'
@@ -187,22 +224,22 @@ export default {
         })
       })
     },
-    report () {
-      this.$confirm('举报？', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '已举报!正在等待管理员审查'
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消'
-        })
-      })
+    viewVideo (item) {
+      console.log('父组件视频' + item)
+      this.Visible = true
+      this.videoSrc = `api/img/newsPic/${item}`
+    },
+    Close_dialog2 (val) {
+      this.Visible = false
+      this.imgSrc = ''
+      this.videoSrc = ''
+    },
+    Close_dialog (val) {
+      this.accuseVisible = false
+    },
+    report (item) {
+      this.accuseitem = item
+      this.accuseVisible = true
     },
     ...mapActions({
       getDongtai: 'getDongtai'
@@ -235,6 +272,33 @@ export default {
       }, 200)
       this.comment_news_id = id
     },
+    formatTime (time) {
+      let date = new Date(time)
+      let now = new Date()
+      let day = 3600 * 24 * 1000
+      let todayTimestamp = parseInt(now.getTime() / day) * day - 8 * 3600 * 1000
+      let targetTimestamp = date.getTime()
+      let hours = date.getHours()
+      let minutes = date.getMinutes()
+      let resttime = ''
+      if (hours < 12) {
+        resttime = `上午${hours}:${minutes}`
+      } else if (hours === 12) {
+        resttime = `中午${hours}:${minutes}`
+      } else {
+        hours = hours - 12
+        resttime = `下午${hours}:${minutes}`
+      }
+      if (targetTimestamp >= todayTimestamp) {
+        return resttime
+      } else if (todayTimestamp - targetTimestamp <= day) {
+        return '昨天 ' + resttime
+      } else {
+        let month = date.getMonth() + 1
+        let days = date.getDate()
+        return `${month}月${days}日 ` + resttime
+      }
+    },
     async getGaleryItemList () {
       setTimeout(() => {
         this.itemList = ['18_1543476287863.jpg', '18_1543478354418.jpg', '21_1543652329858.jpg', '22_1543652223158.jpg', 'test.mp4', 'test1.mp4']
@@ -247,6 +311,12 @@ export default {
 <style  lang="scss">
  @import '../../lib/mui/css/mui.min.css';
 .app-container{
+  padding-top: 0%;
+  width: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 padding-top: 0%;
 width: 100%;
 background-color:  #ddd;
@@ -314,6 +384,19 @@ background-color:  #ddd;
   .clearfix:after {
     clear: both
   }
+  .box-card {
+    width: 100%;
+  }
+
+  .el-card__header {
+    padding: 10px;
+  }
+  .el-card__body{
+    padding: 10px;
+  }
+/* .iconfont {
+  font-size:50px;
+} */
 .iconfont{
     font-size: 20px;
 }
