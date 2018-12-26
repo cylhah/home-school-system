@@ -2,13 +2,6 @@
   <div class="app-container">
     <header1></header1>
   <div>
-    <!-- 导航栏 -->
-<el-menu mode="horizontal">
-  <el-menu-item index="1"><router-link to="/accordingClass">班级排行</router-link></el-menu-item>
-  <el-menu-item index="2"><router-link to="/accordingTime">实时</router-link></el-menu-item>
-  <el-menu-item index="3"><router-link to="/accordingLike">排行榜</router-link></el-menu-item>
-  <el-menu-item index="4"><router-link to="/accordingConcern">我的关注</router-link></el-menu-item>
-</el-menu>
 </div>
 <!-- 动态排行 -->
 <div class="dongtao">
@@ -19,7 +12,7 @@
 </template>
 
 <script>
-import header1 from '@/components/public/header/header-share'
+import header1 from '@/components/public/header/index'
 import tabbar from '@/components/public/tabbar/tabbar'
 export default {
   components: {
@@ -35,6 +28,8 @@ padding-top: 0%;
 width: 100%;
 }
 .dongtao{
+  width: 100%;
+  height: 100%;
    padding: 1%;
 }
 </style>

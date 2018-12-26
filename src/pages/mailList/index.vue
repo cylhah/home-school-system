@@ -21,7 +21,8 @@ export default {
   },
   methods: {
     gotoChat (userId) {
-      this.$router.push({ path: `chat/${userId}` })
+      window.location.href = `/#/chat/${userId}`
+      // this.$router.push({ path: `chat/${userId}` })
     }
   },
   computed: mapState({

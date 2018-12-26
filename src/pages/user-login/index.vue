@@ -85,7 +85,7 @@ export default {
       } else {
         const { data } = await this.$store.dispatch('user/login', { userName: this.username, userPassword: this.encrypt(this.password) })
         if (data.code === 0) {
-          this.$router.push({ path: '/message' })
+          this.$router.push({ path: '/index2' })
         } else {
           this.$message.error('用户名或密码错误')
         }

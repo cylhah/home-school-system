@@ -30,7 +30,9 @@ import guanzhunew from '@/pages/guanzhu/guanzhu'
 import tuijian from '@/pages/guanzhu/tuijian'
 import starguanzhunew from '@/pages/guanzhu/starguanzhu'
 import allguanzhunew from '@/pages/guanzhu/allguanzhu'
-
+import mailList from '@/pages/mailList/index'
+import index3 from '@/pages/lyx/index3'
+import newsdetail from '@/pages/dynamic/newsdetail'
 Vue.use(Router)
 
 const router = new Router({
@@ -39,6 +41,11 @@ const router = new Router({
       path: '/',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/mailList',
+      name: 'mailList',
+      component: mailList
     },
     {
       path: '/adminLogin',
@@ -130,29 +137,53 @@ const router = new Router({
       ]
     },
     {
+      path: '/newsdetail/:toNewsId',
+      name: 'newsdetail',
+      component: newsdetail
+    },
+    {
       path: '/index2',
       redirect: '/accordingTime',
       component: index2,
       children: [
         {
-          path: '/accordingTime',
-          name: 'accordingTime',
-          component: dongtai
+          path: 'index3',
+          component: index3,
+          children: [{
+            path: 'accordingTime',
+            name: 'accordingTime',
+            component: dongtai
+          },
+          {
+            path: 'accordingClass',
+            name: 'accordingClass',
+            component: dongtai
+          },
+          {
+            path: 'accordingConcern',
+            name: 'accordingConcern',
+            component: dongtai
+          },
+          {
+            path: 'accordingLike',
+            name: 'accordingLike',
+            component: dongtai
+          }]
         },
         {
-          path: '/accordingClass',
-          name: 'accordingClass',
-          component: dongtai
+          path: 'message',
+          name: 'message',
+          component: message
         },
         {
-          path: '/accordingConcern',
-          name: 'accordingConcern',
-          component: dongtai
+          path: 'mailList',
+          name: 'mailList',
+          component: mailList
         },
         {
-          path: '/accordingLike',
-          name: 'accordingLike',
-          component: dongtai
+          path: 'personal',
+          name: 'personal',
+          component: personalCenter
         }
       ]
     },

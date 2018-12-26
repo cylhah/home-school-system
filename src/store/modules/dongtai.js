@@ -1,5 +1,10 @@
 import axios from 'axios'
 
+function getUrl (str) {
+  let lastIndex = str.lastIndexOf('/')
+  return str.substring(lastIndex, str.length)
+}
+
 const state = {
   dongtaiList: [],
   TOLIST: [],
@@ -36,8 +41,9 @@ const actions = {
   getDongtai ({ state, commit }, { pp, userId }) {
     var params = new URLSearchParams()
     params.append('userId', userId)
-    params.append('pp', pp)
-    axios.get(`api/news` + pp + `/${userId}`).then((res) => {
+    let url = getUrl(pp)
+    params.append('pp', url)
+    axios.get(`api/news` + url + `/${userId}`).then((res) => {
       this.res = res
       commit('SET_CURRENT_DONGTAI_LISTS', { dongtaiList: res.data.data })
       console.log(res.data.data)
@@ -73,7 +79,7 @@ const actions = {
       })
     })
   },
-  getNewsDetailByNewsId ({ commit }, {toNewsId}) {
+  getNewsDetailByNewsId ({ state, commit }, {toNewsId}) {
     return new Promise((resolve, reject) => {
       axios.get(`api/news/newsdetail/${toNewsId}`).then((res) => {
         const { data } = res

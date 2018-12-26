@@ -1,6 +1,5 @@
 <template>
   <div class="app-container">
-    <div class="">toubu</div>
     <el-card class="box-card" v-for="(item,index) in dongtaiList" :key="index">
       <div slot="header" class="clearfix">
         <span>
@@ -13,7 +12,7 @@
         <el-button style="float: right; padding: 3px 8px" type="text" @click="report(item)">举报</el-button>
       </div>
       <div class="text item1">{{item.newsContent}}</div>
-      <gallery :itemList="itemList" @ImgGet="viewImg" @VideoGet="viewVideo"/>
+      <gallery :itemList="PicList(item)"  @ImgGet="viewImg" @VideoGet="viewVideo"/>
       <hr>
       <!-- 底部 转发评论点赞 -->
       <div>
@@ -37,7 +36,7 @@
           </el-col>
           <el-col :span="8" >
             <div @click="changedianzan(item)">
-            <star :animates="animates" :colors="colors.dianzan" :number="item.newLikeNum" :dianzan="item.newsLikeornotlike">
+            <star :animates="animates" :colors="`red`" :number="item.newLikeNum" :dianzan="item.newsLikeornotlike">
               <i slot="icon" class="iconfont icon-xihuan"></i>
               <span slot="number"></span>
             </star>
@@ -113,7 +112,6 @@ export default {
       imgSrc: '',
       videoSrc: '',
       Visible: false,
-      itemList: [],
       mypath: ''
     }
   },
@@ -140,18 +138,38 @@ export default {
     this.getDongtai({pp, userId})
   },
   methods: {
+    PicList (item) {
+      let NewsImgs = item.newsImageURLs
+      let NewsVideos = item.newsVideoURLs
+      var ImgArr
+      var VideoArr
+      var NewsRes = []
+      if (NewsImgs) {
+        ImgArr = NewsImgs.split(',')
+        NewsRes = ImgArr
+      }
+      if (NewsVideos) {
+        VideoArr = NewsVideos.split(',')
+        NewsRes = ImgArr
+      }
+      if (NewsImgs && NewsVideos) {
+        NewsRes = ImgArr.concat(VideoArr)
+      }
+      // let map1 = NewsRes.map(x => `newsPic/${x}`)
+      return NewsRes
+    },
     clickImg (item) {
       console.log('父组件' + item)
       this.showImg = true
       // 获取当前图片地址
-      this.imgSrc = `api/img/userHead/${item}`
+      this.imgSrc = `api/img/newsPic/${item}`
     },
     viewImg (item) {
       // this.showImg = false
       console.log('父组件图片' + item)
       this.Visible = true
       // 获取当前图片地址
-      this.imgSrc = `api/img/userHead/${item}`
+      this.imgSrc = `api/img/newsPic/${item}`
     },
     changetime (data, item) {
       var now = new Date()
@@ -197,7 +215,7 @@ export default {
     viewVideo (item) {
       console.log('父组件视频' + item)
       this.Visible = true
-      this.videoSrc = `api/img/userHead/${item}`
+      this.videoSrc = `api/img/newsPic/${item}`
     },
     Close_dialog2 (val) {
       this.Visible = false
@@ -283,7 +301,7 @@ export default {
 .app-container{
   padding-top: 0%;
   width: 100%;
-  background-color: antiquewhite;
+  background-color: white;
   display: flex;
   flex-direction: column;
   min-height: 100%;

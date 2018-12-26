@@ -13,6 +13,7 @@
               <div class="username">{{NewsDetail.newsUser.userNickname}}</div>
               <div class="newContent"><p>{{NewsDetail.newsContent}}</p></div>
               <div class="NewsImgs">
+              <gallery :itemList="PicList" v-if="PicList.length>0"/>
               </div>
               <div class="tbottom">
                 <span class="time"> {{formatTime(NewsDetail.newsUploadTime)}}</span>
@@ -28,14 +29,7 @@
             <el-col :span="2"><div class="iconHead"><i class="iconfont icon-xin"></i></div></el-col>
             <el-col :span="22">
               <div class="zanUserHeads">
-                <img >
-                <img >
-                <img >
-                <img >
-                <img >
-                <img >
-                <img >
-                <img >
+                <img v-for="(item, index) in NewsDetail.newsLikeUser" :key="index" :src="getHead(item)">
               </div>
             </el-col>
           </el-row>
@@ -93,6 +87,7 @@
 
 <script>
 import newsdetailcomment from '@/pages/dynamic/comment/newsdetailcomment'
+import gallery from '@/pages/lyx/components/gallery'
 import { mapState } from 'vuex'
 export default {
   data () {
@@ -105,13 +100,40 @@ export default {
     }
   },
   components: {
-    newsdetailcomment
+    newsdetailcomment, gallery
   },
-  computed: mapState({
-    userInfo: state => state.user.userInfo,
-    NewsDetail: state => state.dongtai.NewsDetail,
-    CommentList: state => state.dongtai.CommentList
-  }),
+  // computed: mapState({
+  //   userInfo: state => state.user.userInfo,
+  //   NewsDetail: state => state.dongtai.NewsDetail,
+  //   CommentList: state => state.dongtai.CommentList
+  // }),
+  computed: {
+    ...mapState({
+      userInfo: state => state.user.userInfo,
+      NewsDetail: state => state.dongtai.NewsDetail,
+      CommentList: state => state.dongtai.CommentList
+    }),
+    PicList () {
+      let NewsImgs = this.NewsDetail.newsImageURLs
+      let NewsVideos = this.NewsDetail.newsVideoURLs
+      var ImgArr
+      var VideoArr
+      var NewsRes = []
+      if (NewsImgs) {
+        ImgArr = NewsImgs.split(',')
+        NewsRes = ImgArr
+      }
+      if (NewsVideos) {
+        VideoArr = NewsVideos.split(',')
+        NewsRes = ImgArr
+      }
+      if (NewsImgs && NewsVideos) {
+        NewsRes = ImgArr.concat(VideoArr)
+      }
+      // let map1 = NewsRes.map(x => `newsPic/${x}`)
+      return NewsRes
+    }
+  },
   methods: {
     inputFocus (comment) {
       this.$refs.sendinput.focus()
@@ -175,12 +197,18 @@ export default {
         let days = date.getDate()
         return `${month}月${days}日 ` + resttime
       }
+    },
+    async getGaleryItemList () {
+      setTimeout(() => {
+        this.itemList = ['18_1543476287863.jpg', '18_1543478354418.jpg', '21_1543652329858.jpg', '22_1543652223158.jpg', 'test.mp4', 'test1.mp4']
+      }, 500)
     }
   },
   created () {
     let toNewsId = this.$route.params.toNewsId
     this.NewsId = toNewsId
     this.$store.dispatch('getNewsDetailByNewsId', { toNewsId: toNewsId })
+    this.getGaleryItemList()
   }
 }
 </script>
@@ -246,6 +274,7 @@ export default {
             img {
               width: 50px;
               height: 50px;
+              padding: 5px;
             }
           }
         }

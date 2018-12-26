@@ -1,9 +1,12 @@
 <template>
     <el-dialog
-      custom-class="m-dialog"
+      id="aaa"
+      custom-class="m-dialog2"
+      class="m-dialog"
       :visible.sync="vis"
       width="100%"
       fullscreen
+      style="  background: black; padding: 0;"
       >
       <div @click="close" class="my">
         <div v-if="imgSrc" class="imgContainer">
@@ -46,8 +49,8 @@ export default {
   }
 }
 </script>
-<style  lang="scss">
-.el-dialog .el-dialog__body{
+<style scoped  lang="scss">
+.m-dialog2{
   background: black;
   padding: 0;
     .my {

@@ -2,9 +2,7 @@
   <div class="chat">
     <div class="chat-header">
       <div class="header-left">
-        <router-link to="/message">
-          <i class="el-icon-arrow-left"/>
-        </router-link>
+        <i class="el-icon-arrow-left" @click="$router.back(-1)"/>
       </div>
       <div class="header-mid">
         {{ classInfo.className }}

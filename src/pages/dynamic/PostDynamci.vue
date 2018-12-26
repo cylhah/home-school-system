@@ -49,7 +49,7 @@
           :on-error="imgUploadError">
           <i class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
+        <el-dialog :visible.sync="dialogVisible" width="100%">
           <span v-if="isvideo"><video  width="100%" :src="dialogVideoUrl" alt="" controls="controls"  /></span>
           <span v-if="isimg"><img width="100%" :src="dialogImageUrl" alt=""/></span>
           <!-- <img width="100%" :src="dialogImageUrl" alt=""/> -->
@@ -93,6 +93,14 @@ export default {
     sendNewsState: state => state.dongtai.sendNewsState
   }),
   methods: {
+    isPicture (str) {
+      let reg = /\.(gif|jpg|jpeg|png|GIF|JPG|JPEG|PNG)$/
+      return reg.test(str)
+    },
+    isVideo (str) {
+      let reg = /\.(mp4|avi|rmvb|rm|wma|MP4|AVI|RMVB|RM|WMA)$/
+      return reg.test(str)
+    },
     handleRemove (file, fileList) { // 移除图片
       console.log(file, fileList)
       let arr = this.TOLIST
@@ -154,10 +162,10 @@ export default {
       console.log(JSON.stringify(this.TOLIST))
       let arr = this.TOLIST
       for (var i = 0; i < arr.length; i++) {
-        if (arr[i].fileurl.indexOf('jpg') >= 0) {
+        if (this.isPicture(arr[i].fileurl)) {
           this.ImgArr.push(arr[i].fileurl)
         }
-        if (arr[i].fileurl.indexOf('mp4') >= 0) {
+        if (this.isVideo(arr[i].fileurl)) {
           this.VideoArr.push(arr[i].fileurl)
         }
       }
@@ -185,7 +193,6 @@ export default {
 #abc{
   height: 1500px;
   padding: 100px;
-  autosize:
 }
 .m-text-tuoyuan{
   width: 100px;
@@ -223,4 +230,10 @@ export default {
     height: 100px;
     display: inline-block;
   }
+
+  .el-dialog {
+    margin: 0;
+    position: fixed;
+    bottom: 40%;
+}
 </style>
