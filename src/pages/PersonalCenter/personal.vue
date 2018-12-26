@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
 <div class="mui-content">
-<h5 class="mui-content-padded" style="margin: 1px 10px 15px 10px;">账号信息</h5>
+<h5 class="mui-content-padded" style="margin: 10px 10px 15px 10px;">账号信息</h5>
 <ul id="OA_task_1" class="mui-table-view">
 <li class="mui-table-view-cell">
 <span>姓名</span><span class="twoword">{{ name }}</span>
