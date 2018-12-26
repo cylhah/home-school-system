@@ -7,7 +7,6 @@
 <div class="dongtao">
 <router-view></router-view>
 </div>
-<tabbar></tabbar>
   </div>
 </template>
 
@@ -16,8 +15,6 @@ import header1 from '@/components/public/header/index'
 import tabbar from '@/components/public/tabbar/tabbar'
 export default {
   components: {
-    header1,
-    tabbar
   }
 }
 </script>
@@ -27,9 +24,17 @@ export default {
 padding-top: 0%;
 width: 100%;
 }
+.dingwei{
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    z-index: 999;
+    width: 100%;
+}
 .dongtao{
   width: 100%;
   height: 100%;
    padding: 1%;
+   margin-top: 16%;
 }
 </style>

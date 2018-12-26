@@ -67,6 +67,7 @@ overflow-x: hidden;
   background-color: rgb(255, 255, 255);
     margin: 0px;
   margin-bottom: 6px;
+      height: 4%;
   }
 .icon-xihuan1{
   font-size: 35px;
