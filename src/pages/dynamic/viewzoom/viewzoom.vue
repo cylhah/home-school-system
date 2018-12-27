@@ -20,11 +20,11 @@
 </template>
 <script>
 export default {
-  mounted () {
-    let height = document.body.clientHeight
-    let box = document.getElementsByClassName('my')
-    box[0].height = height
-  },
+  // mounted () {
+  //   let height = document.body.clientHeight
+  //   let box = document.getElementsByClassName('my')
+  //   box[0].height = height
+  // },
   props: ['Visible', 'imgSrc', 'videoSrc'],
   watch: {
     Visible (newValue, oldValue) {

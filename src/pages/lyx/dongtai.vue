@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-card class="box-card" v-for="(item,index) in dongtaiList" :key="index">
+    <el-card class="box-card" v-for="(item,index) in dongtaiList" :key="index" @click="gotoDetail(item.newsId)">
       <div slot="header" class="clearfix">
         <span>
           <span class="touxiang1">
@@ -10,7 +10,7 @@
           </span>
           <span class="xinxi1">
           <div class="username">{{item.newsUser.userNickname}}</div>
-          <div class="time">发布时间：{{changetime(item.newsUploadTime,item)}}</div>
+          <div class="time" @click="gotoDetail(item.newsId)">发布时间：{{changetime(item.newsUploadTime,item)}}</div>
           </span>
         </span>
         <el-button style="float: right; padding: 3px 8px" type="text" @click="report(item)">举报</el-button>
@@ -32,7 +32,7 @@
           <el-col :span="8" >
 
             <div @click="pinglun(item.dongtaiid)">
-            <star :animates="animates" :colors="colors.pinglun" :number="number">
+            <star :animates="animates" :colors="colors.pinglun" :number="item.newsCommentNum">
               <i slot="icon" class="iconfont icon-pinglun"></i>
               <span slot="number"></span>
             </star>
@@ -142,6 +142,11 @@ export default {
     this.getDongtai({pp, userId})
   },
   methods: {
+    gotoDetail (newsId) {
+      window.location.href = `/#/newsDetail/${newsId}`
+      console.log(newsId)
+      // this.$router.push({ path: `newsDetail/${newsId}` })
+    },
     PicList (item) {
       let NewsImgs = item.newsImageURLs
       let NewsVideos = item.newsVideoURLs

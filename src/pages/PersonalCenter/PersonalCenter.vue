@@ -78,6 +78,7 @@
   </div>
 </template>
 <script>
+import { mapActions, mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -100,6 +101,22 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.user.userInfo,
+      personalCenterInfo: state => state.personal.personalCenterInfo
+    })
+  },
+  methods: {
+    ...mapActions({
+      personalCenter: 'personal/personalCenter'
+    })
+  },
+  mounted () {
+    let userId = this.userInfo.userId
+    let classId = this.userInfo.userClassId
+    this.personalCenter({userId, classId})
   }
 }
 </script>
