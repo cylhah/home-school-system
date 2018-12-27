@@ -51,18 +51,18 @@
           </a>
         </el-col>
       </el-row>
-      <el-row class="m-intro-box">
+      <!-- <el-row class="m-intro-box">
         <el-col :span="6" v-for="(item,index) in mintro" :key="index">
           <a class="m-intro-item">
             <span class="m-intro-icon"><i :class=item.img></i></span>
             <span class="m-intro-title">{{item.title}}</span>
           </a>
         </el-col>
-      </el-row>
+      </el-row> -->
     </div>
     <!-- 通知 -->
     <div class="m-info">
-      <el-row>
+      <!-- <el-row>
         <el-col :span="4" class="m-info-sideicon">
           <span><i class="iconfont icon-xihuan"></i></span>
         </el-col>
@@ -73,7 +73,16 @@
           <span class="m-info-message-data">2018-2-24</span>
           <span class="m-info-message-num">7条动态</span>
         </el-col>
-      </el-row>
+      </el-row> -->
+      <div>
+        <div class="tongzhi">通知</div>
+      <div class="words2">【提醒】九月悄然而至！不知不觉，一年又过了四分之三，弱弱的问一句：你年前信誓旦旦立下的目标现在都实现了吗？此外，
+            很多小可爱都在盼望着中秋节的来临，不但有好吃的月饼还可以好好休整三天。2018年中秋节放假安排是哪几天呢？下面我们不妨一起来看看。</div>
+            <span class="m-info-message-from">钉钉小主任</span>
+          <span class="m-info-message-data">2018-2-24</span>
+          <span class="m-info-message-num">7条动态</span>
+            <div class="queren">立即确认</div>
+            </div>
     </div>
   </div>
 </template>
@@ -89,15 +98,15 @@ export default {
         },
         {
           title: '我的故事',
-          img: 'iconfont icon-tupian'
+          img: 'iconfont icon-form'
         },
         {
           title: '我的赞',
-          img: 'iconfont icon-tupian'
+          img: 'iconfont icon-zan1'
         },
         {
           title: '我的服务',
-          img: 'iconfont icon-tupian'
+          img: 'iconfont icon-tasks'
         }
       ]
     }
@@ -125,6 +134,46 @@ export default {
 .iconfont{
   font-size: 40px;
 }
+.icon-zan1{
+  color: rgb(250, 52, 52);
+}
+.icon-form{
+  color: rgb(245, 243, 145);
+}
+.icon-tupian{
+  color: rgb(58, 248, 33);
+}
+.icon-tasks{
+  color: rgb(106, 128, 252);
+}
+.el-col-6 {
+    width: 25%;
+    height: 74px;
+}
+.el-row {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-top: 0.5px solid rgb(216, 215, 215);
+}
+.words2{
+  display: block;
+  width: 80%;
+  padding-left: 10%;
+  margin-bottom: 4%;
+}
+.tongzhi{
+  margin: 3%;
+  color: rgb(216, 216, 216);
+  font-size: 5%;
+}
+.queren{
+  font-size: 17px;
+    text-align: center;
+    color: rgb(28, 124, 235);
+    margin: 3%;
+    background-color: rgb(230, 230, 230);
+    padding: 10px;
+}
 .m-tab-headphoto{
     margin: 3px;
     width: 50px;
@@ -138,7 +187,7 @@ export default {
 }
 .m-tab-name{
   height: 50%;
-  padding: 5px;
+  padding: 9px;
   font-size: 16px;
   font-weight: bold;
 }
@@ -154,11 +203,10 @@ export default {
   width: 50px;
 }
 .m-tab-number{
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 15px;
 }
 .m-tab-sort{
-  font-size: 14px;
+  font-size: 12px;
   color: #999;
 }
 .m-intro-box{
@@ -166,8 +214,10 @@ export default {
 }
 .m-intro{
   margin-top: 10px;
-  border-top: 1px solid gray;
+  border-top: 6px solid rgb(216, 215, 215);
+  border-bottom: 7px solid rgb(216, 215, 215);
   text-align: center;
+  margin-top: 2%;
 }
 .m-intro-item{
   padding: 3% 5% 0% 5%;
@@ -182,6 +232,8 @@ export default {
 }
 .m-intro-title{
   display: block;
+  font-size: 5%;
+  margin-top: 11%;
 }
 .icon-xihuan{
   font-size: 20px;
@@ -194,12 +246,14 @@ export default {
   display: block;
   overflow: hidden;
   text-overflow: ellipse;
-  height: 40px;
+  height: auto;
   margin-bottom: 10px;
+  margin-top: 5%;
 }
 .m-info-message-from{
   display: inline;
   padding-right: 5px;
+      padding-left: 11%;
 }
 .m-info-message-date{
   display: inline;
@@ -208,5 +262,6 @@ export default {
 .m-info-message-num{
   margin-top: 10px;
   display: block;
+      padding-left: 11%;
 }
 </style>
