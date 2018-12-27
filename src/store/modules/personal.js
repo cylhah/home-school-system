@@ -14,7 +14,7 @@ const mutations = {
   changeJianjie (state, personalInfo) {
     state.personalInfo = personalInfo
   },
-  setpersonalCenter (state, personalCenterInfo) {
+  setpersonalCenterInfo (state, personalCenterInfo) {
     state.personalCenterInfo = personalCenterInfo
   }
 }
