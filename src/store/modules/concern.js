@@ -25,6 +25,18 @@ const actions = {
       })
     })
   },
+  getUserAllFans ({commit}, { userId }) {
+    return new Promise((resolve, reject) => {
+      axios.get(`api/concern/getUserAllFans/${userId}`).then((res) => {
+        const { data } = res
+        console.log(res.data)
+        if (data.code === 0) {
+          commit('getUserAllFans', res.data.data)
+        }
+        resolve(res)
+      })
+    })
+  },
   removeConcernsStar ({commit}, { userId, value }) {
     return new Promise((resolve, reject) => {
       var params = new URLSearchParams()

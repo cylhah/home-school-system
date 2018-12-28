@@ -96,7 +96,7 @@ overflow-x: hidden;
     padding: 15px;
 }
 .app-container1{
-padding-top: 0%;
+padding-top: 1%;
 width: 100%;
 background-color: rgb(255, 255, 255);
     /* border: 1px solid #ccc!important;

@@ -20,6 +20,7 @@
       <div class="username">{{item.user1.userNickname}}</div>
       <div class="time">{{item.user1.userName}}..</div>
       </span>
+            <span class="star1" @click="item.starConcern == 3 ? removeConcernsStar(item.user1.userId , item):sendConcernStar(item.user1.userId , item)"></span>
       <button class="guanzhu">
       <div :class="item.starConcern == 0 ? 'guanzhu1':'guanzhu2'"  @click="item.starConcern == 0 ? sendConcern(item.user1.userId , item):deleteConcern(item.user1.userId , item)">
         <span></span>{{word[item.starConcern]}}</div>
@@ -114,6 +115,7 @@ export default {
               var value = data
               item.starConcern = 2
               console.log(item)
+              // this.itme.starConcern = 0
               this.$store.dispatch('concern/sendConcernStar', { userId, value }).then((res) => {
                 if (res.data.code === 0) {
                   console.log(res)
@@ -230,7 +232,7 @@ export default {
     },
     getInfo () {
       let userId = this.userInfo.userId
-      this.$store.dispatch('concern/getAlluser', { userId }).then((res) => {
+      this.$store.dispatch('concern/getUserAllFans', { userId }).then((res) => {
         console.log(res)
         this.people = res.data.data
       })
