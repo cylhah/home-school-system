@@ -12,9 +12,10 @@
 
 <script>
 import header1 from '@/components/public/header/index'
-import tabbar from '@/components/public/tabbar/tabbar'
+// import tabbar from '@/components/public/tabbar/tabbar'
 export default {
   components: {
+    header1
   }
 }
 </script>

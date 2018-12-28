@@ -10,6 +10,7 @@ import accusation from './modules/accusation'
 import dongtai from './modules/dongtai'
 import personal from './modules/personal'
 import concern from './modules/concern'
+import mature from './modules/mature'
 
 Vue.use(Vuex)
 
@@ -24,7 +25,8 @@ const store = () => new Vuex.Store({
     accusation,
     dongtai,
     personal,
-    concern
+    concern,
+    mature
   }
 })
 
