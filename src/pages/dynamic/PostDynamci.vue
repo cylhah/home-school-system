@@ -172,8 +172,9 @@ export default {
       this.ImgStr = this.ImgArr.join()
       this.VideoStr = this.VideoArr.join()
       this.$store.dispatch('sendnews', {userId: this.userInfo.userId, Imgstr: this.ImgStr, VideoStr: this.VideoStr, Content: this.content}).then((res) => {
+        this.$router.push('/index2/index3/accordingTime')
         this.$message({
-          message: res,
+          message: '发布动态成功',
           type: 'success'
         })
       })

@@ -30,8 +30,7 @@
             </div>
           </el-col>
           <el-col :span="8" >
-
-            <div @click="pinglun(item.dongtaiid)">
+            <div @click="pinglun(item.newsId)">
             <star :animates="animates" :colors="colors.pinglun" :number="item.newsCommentNum">
               <i slot="icon" class="iconfont icon-pinglun"></i>
               <span slot="number"></span>
@@ -67,7 +66,7 @@
               ref="comment"
               id="comment"
               v-model="textarea"
-              @blur="childinputblur()">
+              >
             </el-input>
           </el-col>
           <el-col :span="4" class="sidebar">
@@ -304,6 +303,25 @@ export default {
         return `${month}月${days}日 ` + resttime
       }
     },
+    sendcomment () {
+      var params = new URLSearchParams()
+      params.append('commentNewsId', this.comment_news_id)
+      params.append('commentUserId', this.userInfo.userId)
+      params.append('commentContent', this.textarea)
+      params.append('commentTargetId', 0)
+      params.append('commentType', 0)
+      this.$store.dispatch('sendComment', params).then((res) => {
+        this.dialogVisible = false
+        this.$message({
+          message: '恭喜你，发布评论成功',
+          type: 'success'
+        })
+      })
+      this.backinit()
+    },
+    backinit () {
+      this.textarea = ''
+    },
     async getGaleryItemList () {
       setTimeout(() => {
         this.itemList = ['18_1543476287863.jpg', '18_1543478354418.jpg', '21_1543652329858.jpg', '22_1543652223158.jpg', 'test.mp4', 'test1.mp4']
@@ -313,7 +331,7 @@ export default {
 }
 </script>
 
-<style  lang="scss">
+<style lang="scss">
  @import '../../lib/mui/css/mui.min.css';
 .app-container{
   padding-top: 0%;
@@ -324,7 +342,7 @@ export default {
   min-height: 100%;
 padding-top: 0%;
 width: 100%;
-background-color:  #ddd;
+// background-color:  #ddd;
 }
 .message-head {
         margin-right: 10px;

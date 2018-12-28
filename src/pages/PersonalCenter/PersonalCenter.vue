@@ -16,7 +16,7 @@
     </el-row>
     <!-- 关注、粉丝、发布的动态 -->
     <el-row>
-      <el-col :span="8">
+      <el-col :span="8" >
         <div class="grid-content bg-purple">
           <a class="m-tab-item">
             <div class="m-tab-number">{{this.personalCenterInfo.weibo}}</div>
@@ -25,14 +25,14 @@
         </div>
       </el-col>
       <el-col :span="8">
-        <div class="grid-content bg-purple-light">
+        <div class="grid-content bg-purple-light" @click="goto(1)">
           <a class="m-tab-item">
             <div class="m-tab-number">{{this.personalCenterInfo.guanzhu}}</div>
             <div class="m-tab-sort">关注</div>
           </a>
         </div>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="8" @click="goto(2)">
         <div class="grid-content bg-purple-light">
           <a class="m-tab-item">
             <div class="m-tab-number">{{this.personalCenterInfo.fans}}</div>
@@ -119,7 +119,16 @@ export default {
   methods: {
     ...mapActions({
       personalCenter: 'personal/personalCenter'
-    })
+    }),
+    goto (num) {
+      var str = ''
+      switch (num) {
+        case 1: str = 'guanzhunew'; break
+        case 2: str = ''
+      }
+      this.$router.push(`/${str}`)
+      console.log(str)
+    }
   },
   created () {
     let userId = this.userInfo.userId

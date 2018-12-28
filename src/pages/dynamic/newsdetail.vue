@@ -1,5 +1,16 @@
 <template>
   <div id="newsDetail">
+    <div class="new-header">
+      <div class="header-left">
+        <i class="el-icon-arrow-left" @click="$router.back(-1)"/>
+      </div>
+      <div class="header-mid">
+        正文
+      </div>
+      <div class="header-right">
+        <i class="el-icon-more"/>
+      </div>
+    </div>
     <div id="srollTab">
       <div id="newsContent">
         <el-row>
@@ -25,7 +36,7 @@
       </div>
       <div id="newsComment">
         <div class="zan">
-          <el-row class="zanrow">
+          <el-row class="zanrow" v-if="NewsDetail.newsLikeUser.length>0">
             <el-col :span="2"><div class="iconHead"><i class="iconfont icon-xin"></i></div></el-col>
             <el-col :span="22">
               <div class="zanUserHeads">
@@ -229,6 +240,32 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  .new-header {
+    width: 100%;
+    display: flex;
+    color: #fff;
+    /* background: linear-gradient(to right, rgb(66,189,68), rgb(104, 228, 121)); */
+    background: rgba(48, 48, 48, 0.7);
+    box-sizing: border-box;
+    padding: 0 10px;
+    height: 50px;
+    line-height: 50px;
+    flex-shrink: 0;
+    .header-left {
+      width: 15%;
+      color: #fff;
+      font-size: 25px;
+    }
+    .header-mid {
+      width: 70%;
+      text-align: center;
+    }
+    .header-right {
+      width: 15%;
+      font-size: 25px;
+      text-align: right;
+    }
+  }
   #srollTab{
     padding: 10px;
     flex:1;
