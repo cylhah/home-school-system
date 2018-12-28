@@ -1,11 +1,15 @@
 <template>
   <div class="home">
-    <time-axis v-if="loaded" :itemList="list"/>
+    <app-header :title="'成长线'" url="/#/index2/personal"/>
+    <div class="main">
+      <time-axis v-if="loaded" :itemList="list"/>
+    </div>
   </div>
 </template>
 
 <script>
 import timeAxis from './components/time-axis'
+import appHeader from '../../components/public/header/header-index'
 export default {
   data () {
     return {
@@ -14,7 +18,7 @@ export default {
     }
   },
   components: {
-    timeAxis
+    timeAxis, appHeader
   },
   mounted () {
     // this.list = [{
@@ -52,7 +56,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.home {
-  padding-left: 10px;
-}
 </style>

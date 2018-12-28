@@ -4,12 +4,12 @@
     <el-row>
       <el-col :span="5">
         <div class="grid-content bg-purple">
-          <a class="m-tab-headphoto" :src="this.userInfo.userHeadUrl"></a>
+          <a class="m-tab-headphoto item-img"  :style="{ 'background-image': `url(${this.userInfo.userHeadUrl})` , display: `block`}"></a>
         </div>
       </el-col>
       <el-col :span="19">
         <div class="grid-content bg-purple-light">
-          <div class="m-tab-name">{{this.userInfo.userName}}</div>
+          <div class="m-tab-name">{{this.userInfo.userNickname}}</div>
           <div class="m-tab-desc">简介：我爱吃热狗</div>
         </div>
       </el-col>
@@ -45,7 +45,7 @@
     <div class="m-intro">
       <el-row class="m-intro-box">
         <el-col :span="6" v-for="(item,index) in mintro" :key="index">
-          <a class="m-intro-item">
+          <a class="m-intro-item" @click="gotoUrl(item.title)">
             <span class="m-intro-icon"><i :class=item.img></i></span>
             <span class="m-intro-title">{{item.title}}</span>
           </a>
@@ -77,7 +77,7 @@
       <div>
         <div class="tongzhi">通知</div>
       <div class="words2">【提醒】{{this.personalCenterInfo.note.notificationContent}}</div>
-            <span class="m-info-message-from">{{this.personalCenterInfo.note.notificationUser.userNickName}}</span>
+            <span class="m-info-message-from">张宇来</span>
           <span class="m-info-message-data">2018-2-24</span>
           <span class="m-info-message-num">2条动态</span>
             <div class="queren">立即确认</div>
@@ -113,7 +113,8 @@ export default {
   computed: {
     ...mapState({
       userInfo: state => state.user.userInfo,
-      personalCenterInfo: state => state.personal.personalCenterInfo
+      personalCenterInfo: state => state.personal.personalCenterInfo,
+      userNickName: state => state.personal.personalCenterInfo.note.notificationUser
     })
   },
   methods: {
@@ -128,6 +129,11 @@ export default {
       }
       this.$router.push(`/${str}`)
       console.log(str)
+    },
+    gotoUrl (title) {
+      if (title === '我的故事') {
+        window.location.href = '/#/grow'
+      }
     }
   },
   created () {
@@ -272,5 +278,10 @@ export default {
   margin-top: 10px;
   display: block;
       padding-left: 11%;
+}
+.item-img {
+  background-repeat: no-repeat;
+  background-position:center center;
+  background-size: cover;
 }
 </style>

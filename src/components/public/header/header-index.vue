@@ -1,6 +1,6 @@
 <template>
   <div>
-     <mt-header title="标题过长会隐藏后面的内容啊哈哈哈哈">
+     <mt-header :title="title" @click.native="gotoUrl">
   <mt-button  icon="back" slot="left">返回</mt-button>
   <mt-button class="mui-icon mui-icon-plusempty" slot="right"></mt-button>
 </mt-header>
@@ -9,7 +9,14 @@
 
 <script>
 export default {
-  name:'hearder-index'
+  props: ['title', 'url'],
+  name: 'hearder-index',
+  methods: {
+    gotoUrl () {
+      console.log(this.url)
+      window.location.href = this.url
+    }
+  }
 }
 </script>
 

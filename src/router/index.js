@@ -38,7 +38,7 @@ Vue.use(Router)
 const router = new Router({
   routes: [
     {
-      path: '/',
+      path: '/grow',
       name: 'Home',
       component: Home
     },
