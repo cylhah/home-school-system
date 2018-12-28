@@ -25,7 +25,8 @@ const state = {
     userClassId: getCookie('userClassId'),
     userHeadUrl: getCookie('userHeadUrl'),
     userNickname: getCookie('userNickname')
-  }
+  },
+  headerTitle: '圈子'
 }
 
 const getters = {
@@ -40,6 +41,9 @@ const mutations = {
   },
   setUserHeadUrl (state, userHeadUrl) {
     state.userInfo.userHeadUrl = userHeadUrl
+  },
+  setHeaderTitle (state, headerTitle) {
+    state.headerTitle = headerTitle
   }
 }
 
@@ -144,6 +148,9 @@ const actions = {
     setCookie('userClassId', '', -1)
     setCookie('userHeadUrl', '', -1)
     commit('setUserInfo', { userType: '' })
+  },
+  changeHeaderTitle ({commit}, { headerTitle }) {
+    commit('setHeaderTitle', headerTitle)
   }
 }
 

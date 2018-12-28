@@ -3,7 +3,8 @@ import axios from 'axios'
 const state = {
   classInfo: {},
   messageList: [],
-  personalInfo: {}
+  personalInfo: {},
+  personalCenterInfo: {}
 }
 
 const mutations = {
@@ -12,10 +13,30 @@ const mutations = {
   },
   changeJianjie (state, personalInfo) {
     state.personalInfo = personalInfo
+  },
+  setpersonalCenterInfo (state, personalCenterInfo) {
+    state.personalCenterInfo = personalCenterInfo
   }
 }
 
 const actions = {
+  personalCenter ({ commit }, { userId, classId }) {
+    return new Promise((resolve, reject) => {
+      var params = new URLSearchParams()
+      params.append('userId', userId)
+      params.append('classId', classId)
+      axios.post('api/personal1/getPersonalByUser', params).then((res) => {
+        const { data } = res
+        console.log(data.data)
+        if (data.code === 0) {
+          commit('setpersonalCenterInfo', data.data)
+        }
+        resolve(res)
+      }).catch((res) => {
+        reject(res)
+      })
+    })
+  },
   sendPersonalInform ({commit}, { userId }) {
     return new Promise((resolve, reject) => {
       axios.get(`api/personal1/Personalinform/${userId}`).then((res) => {

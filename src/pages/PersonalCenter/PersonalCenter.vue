@@ -4,38 +4,38 @@
     <el-row>
       <el-col :span="5">
         <div class="grid-content bg-purple">
-          <a class="m-tab-headphoto"></a>
+          <a class="m-tab-headphoto" :src="this.userInfo.userHeadUrl"></a>
         </div>
       </el-col>
       <el-col :span="19">
         <div class="grid-content bg-purple-light">
-          <div class="m-tab-name">王思聪</div>
+          <div class="m-tab-name">{{this.userInfo.userName}}</div>
           <div class="m-tab-desc">简介：我爱吃热狗</div>
         </div>
       </el-col>
     </el-row>
     <!-- 关注、粉丝、发布的动态 -->
     <el-row>
-      <el-col :span="8">
+      <el-col :span="8" >
         <div class="grid-content bg-purple">
           <a class="m-tab-item">
-            <div class="m-tab-number">440</div>
+            <div class="m-tab-number">{{this.personalCenterInfo.weibo}}</div>
             <div class="m-tab-sort">微博</div>
           </a>
         </div>
       </el-col>
       <el-col :span="8">
-        <div class="grid-content bg-purple-light">
+        <div class="grid-content bg-purple-light" @click="goto(1)">
           <a class="m-tab-item">
-            <div class="m-tab-number">440</div>
+            <div class="m-tab-number">{{this.personalCenterInfo.guanzhu}}</div>
             <div class="m-tab-sort">关注</div>
           </a>
         </div>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="8" @click="goto(2)">
         <div class="grid-content bg-purple-light">
           <a class="m-tab-item">
-            <div class="m-tab-number">440</div>
+            <div class="m-tab-number">{{this.personalCenterInfo.fans}}</div>
             <div class="m-tab-sort">粉丝</div>
           </a>
         </div>
@@ -76,17 +76,17 @@
       </el-row> -->
       <div>
         <div class="tongzhi">通知</div>
-      <div class="words2">【提醒】九月悄然而至！不知不觉，一年又过了四分之三，弱弱的问一句：你年前信誓旦旦立下的目标现在都实现了吗？此外，
-            很多小可爱都在盼望着中秋节的来临，不但有好吃的月饼还可以好好休整三天。2018年中秋节放假安排是哪几天呢？下面我们不妨一起来看看。</div>
-            <span class="m-info-message-from">钉钉小主任</span>
+      <div class="words2">【提醒】{{this.personalCenterInfo.note.notificationContent}}</div>
+            <span class="m-info-message-from">{{this.personalCenterInfo.note.notificationUser.userNickName}}</span>
           <span class="m-info-message-data">2018-2-24</span>
-          <span class="m-info-message-num">7条动态</span>
+          <span class="m-info-message-num">2条动态</span>
             <div class="queren">立即确认</div>
             </div>
     </div>
   </div>
 </template>
 <script>
+import { mapActions, mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -109,6 +109,32 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.user.userInfo,
+      personalCenterInfo: state => state.personal.personalCenterInfo
+    })
+  },
+  methods: {
+    ...mapActions({
+      personalCenter: 'personal/personalCenter'
+    }),
+    goto (num) {
+      var str = ''
+      switch (num) {
+        case 1: str = 'guanzhunew'; break
+        case 2: str = ''
+      }
+      this.$router.push(`/${str}`)
+      console.log(str)
+    }
+  },
+  created () {
+    let userId = this.userInfo.userId
+    let classId = this.userInfo.userClassId
+    this.personalCenter({userId, classId})
+    console.log(this.personalCenterInfo.note)
   }
 }
 </script>

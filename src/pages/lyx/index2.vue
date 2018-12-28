@@ -7,15 +7,16 @@
 <div class="dongtao">
 <router-view></router-view>
 </div>
+ <tabbar></tabbar>
   </div>
 </template>
 
 <script>
 import header1 from '@/components/public/header/index'
-// import tabbar from '@/components/public/tabbar/tabbar'
+import tabbar from '@/components/public/tabbar/tabbar'
 export default {
   components: {
-    header1
+    header1, tabbar
   }
 }
 </script>
@@ -36,6 +37,5 @@ width: 100%;
   width: 100%;
   height: 100%;
    padding: 1%;
-   margin-top: 16%;
 }
 </style>

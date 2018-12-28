@@ -1,12 +1,16 @@
 <template>
   <div class="app-container">
-     <mt-header fixed title="固定在顶部"></mt-header>
+     <mt-header fixed :title="headerTitle"></mt-header>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-  name: 'header'
+  name: 'header',
+  computed: mapState({
+    headerTitle: state => state.user.headerTitle
+  })
 }
 </script>
 
