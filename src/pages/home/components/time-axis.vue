@@ -5,20 +5,20 @@
         v-for="(item, index) in itemList" :key="index"
         class="list-item">
         <div
-          v-if="showHeader(item.time)"
+          v-if="showHeader(item.insertTime)"
           class="item-header">
           <p>
             <i class="iconfont icon-circleo"/>
-            <span>{{formatTime(item.time)}}</span>
+            <span>{{formatTime(item.insertTime)}}</span>
           </p>
         </div>
         <div class="item-body">
           <div
-            :style="{ 'flex-wrap': getFlexWrap(item.imgList.length) }"
+            :style="{ 'flex-wrap': getFlexWrap(item.news.newsImageURLs) }"
             class="item-img-list">
             <div
-              v-for="(img, index) in item.imgList" :key="index"
-              :style="{ 'background-image': `url('api/img/userHead/${img}')`, width: getItemImgWidth(item.imgList.length), height: getItemImgHeight(item.imgList.length)}"
+              v-for="(img, index) in getImg(item.news.newsImageURLs)" :key="index"
+              :style="{ 'background-image': `url('api/img/newsPic/${img}')`, width: getItemImgWidth(item.news.newsImageURLs), height: getItemImgHeight(item.news.newsImageURLs)}"
               class="item-img">
             </div>
           </div>
@@ -27,8 +27,8 @@
           </div>
           <div class="item-labels">
             <div class="labels-left">
-              <span class="label-user">妈妈，</span>
-              <span class="label-time">{{getLabelTime(item.time)}}</span>
+              <span class="label-user">{{item.comment}}</span>
+              <span class="label-time">{{getLabelTime(item.insertTime)}}</span>
             </div>
             <div class="label-right">
               <div class="comment">
@@ -47,7 +47,8 @@ import TimeFormat from '../../../util/formatTime'
 export default {
   data () {
     return {
-      timeSet: new Set()
+      timeSet: new Set(),
+      image: []
     }
   },
   props: {
@@ -79,26 +80,52 @@ export default {
         return '285px'
       }
     },
-    getFlexWrap (length) {
-      return length > 3 ? 'wrap' : 'nowrap'
+    getFlexWrap (length1) {
+      if (length1 == null) {
+        return 'nowrap'
+      } else {
+        var count = length1.split(',').length
+        return count > 3 ? 'wrap' : 'nowrap'
+      }
     },
-    getItemImgWidth (length) {
-      return length > 3 ? '32%' : '100%'
+    getItemImgWidth (length1) {
+      if (length1 == null) return '100%'
+      else {
+        var count = length1.split(',').length
+        return count > 3 ? '32%' : '100%'
+      }
     },
-    getItemImgHeight (length) {
-      if (length <= 1) {
+    getItemImgHeight (length1) {
+      var count = 0
+      if (length1 == null) count = 0
+      else {
+        count = length1.split(',').length
+      }
+      if (count <= 1) {
         return '200px'
-      } else if (length <= 2) {
+      } else if (count <= 2) {
         return '190px'
-      } else if (length <= 3) {
+      } else if (count <= 3) {
         return '130px'
-      } else if (length <= 9) {
+      } else if (count <= 9) {
         return '87px'
       }
     },
     getLabelTime (time) {
       let target = new Date(time)
       return TimeFormat('MM-dd hh:mm', target)
+    },
+    getImg (img) {
+      var imgg = this.image
+      if (img == null) {
+        imgg = null
+      } else {
+        var result = img.split(',')
+        for (var i = 0; i < result.length; i++) {
+          imgg[i] = result[i]
+        }
+      }
+      return imgg
     },
     showHeader (time) {
       let target = new Date(time)
