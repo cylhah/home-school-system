@@ -3,13 +3,13 @@
     <!-- 我的头像我的简介 -->
     <el-row>
       <el-col :span="5">
-        <div class="grid-content bg-purple">
+        <div class="grid-content bg-purple" >
           <a class="m-tab-headphoto item-img"  :style="{ 'background-image': `url(${this.userInfo.userHeadUrl})` , display: `block`}"></a>
         </div>
       </el-col>
       <el-col :span="19">
         <div class="grid-content bg-purple-light">
-          <div class="m-tab-name">{{this.userInfo.userNickname}}</div>
+          <div class="m-tab-name" @click="goto(3)">{{this.userInfo.userNickname}}</div>
           <div class="m-tab-desc">简介：我爱吃热狗</div>
         </div>
       </el-col>
@@ -32,8 +32,8 @@
           </a>
         </div>
       </el-col>
-      <el-col :span="8" @click="goto(2)">
-        <div class="grid-content bg-purple-light">
+      <el-col :span="8">
+        <div class="grid-content bg-purple-light"  @click="goto(2)">
           <a class="m-tab-item">
             <div class="m-tab-number">{{this.personalCenterInfo.fans}}</div>
             <div class="m-tab-sort">粉丝</div>
@@ -76,12 +76,13 @@
       </el-row> -->
       <div>
         <div class="tongzhi">通知</div>
-      <div class="words2">【提醒】{{this.personalCenterInfo.note.notificationContent}}</div>
-            <span class="m-info-message-from">张宇来</span>
-          <span class="m-info-message-data">2018-2-24</span>
-          <span class="m-info-message-num">2条动态</span>
-            <div class="queren">立即确认</div>
-            </div>
+        <div v-for="(item, index) in notificationList" :key="index">
+          <div class="words2" >【提醒】{{item.notificationContent}}</div>
+          <span class="m-info-message-from">张宇来</span>
+          <span class="m-info-message-data">2018-12-8</span>
+          <div class="queren">立即确认</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -114,18 +115,21 @@ export default {
     ...mapState({
       userInfo: state => state.user.userInfo,
       personalCenterInfo: state => state.personal.personalCenterInfo,
-      userNickName: state => state.personal.personalCenterInfo.note.notificationUser
+      userNickName: state => state.personal.personalCenterInfo.note.notificationUser,
+      notificationList: state => state.myClass.notificationList
     })
   },
   methods: {
     ...mapActions({
-      personalCenter: 'personal/personalCenter'
+      personalCenter: 'personal/personalCenter',
+      getNotificationList: 'myClass/getNotificationList'
     }),
     goto (num) {
       var str = ''
       switch (num) {
         case 1: str = 'guanzhunew'; break
-        case 2: str = ''
+        case 2: str = 'fans'; break
+        case 3: window.location.href = '/#/personalinformation'; return
       }
       this.$router.push(`/${str}`)
       console.log(str)
@@ -137,10 +141,11 @@ export default {
     }
   },
   created () {
-    let userId = this.userInfo.userId
+    // let userId = this.userInfo.userId
     let classId = this.userInfo.userClassId
-    this.personalCenter({userId, classId})
-    console.log(this.personalCenterInfo.note)
+    // this.personalCenter({userId, classId})
+    this.getNotificationList({ classId })
+    // console.log(this.personalCenterInfo.note)
   }
 }
 </script>

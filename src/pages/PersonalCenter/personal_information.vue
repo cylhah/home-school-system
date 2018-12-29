@@ -4,7 +4,7 @@
   <div slot="header" class="clearfix">
     <span class="biao">
       <span class="touxiang">
-      <span class="message-head">
+      <span class="message-head" @click="returnback()">
             <img :src="getHeadUrl()">
           </span></span>
       <span class="xinxi">
@@ -55,6 +55,9 @@ export default {
       } else {
         return `/${user.userHeadUrl}`
       }
+    },
+    returnback () {
+      window.location.href = '/#/index2/personal'
     }
   },
   created () {

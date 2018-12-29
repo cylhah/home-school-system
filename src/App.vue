@@ -11,5 +11,7 @@ export default {
 </script>
 
 <style>
-
+.el-message-box {
+  width: 100%;
+}
 </style>

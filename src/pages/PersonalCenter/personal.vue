@@ -99,4 +99,7 @@ export default {
 .oneword{
     margin-left: 22%;
 }
+.el-message-boxs{
+  width: 100%;
+}
 </style>
