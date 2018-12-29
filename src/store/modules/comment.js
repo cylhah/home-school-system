@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { requestPrefix } from '../../config/httpConfig'
 
 const state = {
   commentList: []
@@ -11,17 +12,25 @@ const mutations = {
 }
 
 const actions = {
-  getCommentListByUserId: async ({commit}, userId) => {
-    try {
-      const { data } = await axios.get('/comment', {
+  getCommentListByUserId ({ commit }, { userId }) {
+    return new Promise((resolve, reject) => {
+      axios.get(`${requestPrefix}/comment/getCommentByUserId`, {
         params: { userId }
+      }).then((res) => {
+        const { data } = res
+        if (data.code === 0) {
+          commit('setCommentList', data.data)
+        }
+        resolve(res)
       })
-      if (data.code === 0) {
-        commit('setCommentList', data.commentList)
-      }
-    } catch (error) {
-      console.log(error)
-    }
+    })
+  },
+  deleteCommentById ({ commit }, { commentId }) {
+    return new Promise((resolve, reject) => {
+      axios.delete(`${requestPrefix}/comment/${commentId}`).then((res) => {
+        resolve(res)
+      })
+    })
   }
 }
 

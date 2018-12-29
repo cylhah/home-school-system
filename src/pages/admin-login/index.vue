@@ -8,12 +8,14 @@
         <i class="iconfont icon-user"/>
         <input
           v-model="username"
+          placeholder="用户名"
           type="text">
       </div>
       <div class="form-item">
         <i class="iconfont icon-suo"/>
         <input
           v-model="password"
+          placeholder="密码"
           type="password">
       </div>
       <div class="mylogin">

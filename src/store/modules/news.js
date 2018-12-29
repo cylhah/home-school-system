@@ -27,7 +27,7 @@ const actions = {
       })
     })
   },
-  getNewsListByUserId: async ({commit}, userId) => {
+  getNewsListByUserId: async ({commit}, {userId}) => {
     try {
       const { data } = await axios.get(`${requestPrefix}/news`, {
         params: { userId }
@@ -38,6 +38,13 @@ const actions = {
     } catch (error) {
       console.log(error)
     }
+  },
+  deleteNewsById ({ commit }, { newsId }) {
+    return new Promise((resolve, reject) => {
+      axios.delete(`${requestPrefix}/news/${newsId}`).then((res) => {
+        resolve(res)
+      })
+    })
   }
 }
 
