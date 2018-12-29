@@ -30,6 +30,7 @@ import guanzhunew from '@/pages/guanzhu/guanzhu'
 import tuijian from '@/pages/guanzhu/tuijian'
 import starguanzhunew from '@/pages/guanzhu/starguanzhu'
 import allguanzhunew from '@/pages/guanzhu/allguanzhu'
+import fans from '@/pages/guanzhu/fans'
 import mailList from '@/pages/mailList/index'
 import index3 from '@/pages/lyx/index3'
 import newsdetail from '@/pages/dynamic/newsdetail'
@@ -46,6 +47,11 @@ const router = new Router({
       path: '/mailList',
       name: 'mailList',
       component: mailList
+    },
+    {
+      path: '/fans',
+      name: 'fans',
+      component: fans
     },
     {
       path: '/adminLogin',

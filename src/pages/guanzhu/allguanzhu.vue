@@ -37,7 +37,7 @@ export default {
   data () {
     return {
       keywords: '',
-      word: ['关注', '已关注', '特别关注'],
+      word: ['关注', '已关注', '特别关注', '互相关注'],
       people: []
     }
   },
