@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <app-header :title="'关注'" :url="'/#/index2/personal'"/>
   <div>
 <div class="item1">
      <table style="width: 100%; text-align: center">
@@ -27,11 +28,15 @@
 </template>
 
 <script>
+import appHeader from '../../components/public/header/header-index'
 export default {
   data () {
     return {
       keywords: ''
     }
+  },
+  components: {
+    appHeader
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-card class="box-card" v-for="(item,index) in dongtaiList" :key="index" @click="gotoDetail(item.newsId)">
+    <el-card class="box-card" v-for="(item,index) in dongtaiList" :key="index" @click="gotoDetail(item.newsId)" v-if="dongtaiList.length>0">
       <div slot="header" class="clearfix">
         <span>
           <span class="touxiang1">
@@ -9,7 +9,7 @@
           </span>
           </span>
           <span class="xinxi1">
-          <div class="username">{{item.newsUser.userNickname}}</div>
+          <div class="username" >{{item.newsUser.userNickname}}</div>
           <div class="time" @click="gotoDetail(item.newsId)">发布时间：{{changetime(item.newsUploadTime,item)}}</div>
           </span>
         </span>
