@@ -151,6 +151,15 @@ const actions = {
   },
   changeHeaderTitle ({commit}, { headerTitle }) {
     commit('setHeaderTitle', headerTitle)
+  },
+  addgrow ({ commit }, mature) {
+    return new Promise((resolve, reject) => {
+      axios.post(`${requestPrefix}/mature`, mature).then((res) => {
+        resolve(res)
+      }).catch((reason) => {
+        reject(reason)
+      })
+    })
   }
 }
 

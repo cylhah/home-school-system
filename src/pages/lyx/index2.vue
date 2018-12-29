@@ -36,6 +36,7 @@ width: 100%;
 .dongtao{
   width: 100%;
   height: 100%;
-   padding: 1%;
+  padding: 1%;
+  box-sizing: border-box;
 }
 </style>

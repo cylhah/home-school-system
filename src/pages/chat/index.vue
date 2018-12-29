@@ -2,7 +2,7 @@
   <div class="chat">
     <div class="chat-header">
       <div class="header-left">
-        <i class="el-icon-arrow-left" @click="$router.back(-1)"/>
+        <i class="el-icon-arrow-left" @click="$router.back({ path: 'index2/message' })"/>
       </div>
       <div class="header-mid">
         {{ toUserInfo.userNickname }}

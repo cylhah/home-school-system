@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <app-header :title="'粉丝'" :url="'/#/index2/personal'"/>
   <div>
     <el-card class="box-card">
   <div class="sousuo">
@@ -34,6 +35,7 @@
 
 <script>
 import {mapState} from 'vuex'
+import appHeader from '../../components/public/header/header-index'
 export default {
   data () {
     return {
@@ -41,6 +43,9 @@ export default {
       word: ['关注', '已关注', '特别关注', '互相关注'],
       people: []
     }
+  },
+  components: {
+    appHeader
   },
   computed: mapState({
     userInfo: state => state.user.userInfo,

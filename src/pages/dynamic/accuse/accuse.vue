@@ -4,12 +4,13 @@
       custom-class="m-dialog"
       :visible.sync="vis"
       width="100%"
-      top="0px"
+      title="投诉评论"
+      :top="mainMinHeight"
       @close="closeDialog"
       :show-close="true"
       >
       <div class="accuse">
-        <div class="item" id="head"><div class="item-left">X</div><div class="item-right">投诉评论</div></div>
+        <!-- <div class="item" id="head"><div class="item-left">X</div><div class="item-right">投诉评论</div></div> -->
         <div class="item" id="usercontent">@{{accuseitem.newsUser.userNickname}} :{{accuseitem.newsContent}}</div>
         <div class="item2">
           <span
@@ -30,7 +31,7 @@
             {{itemChild}}
           </span>
         </div>
-        <div class="item" @click="sendaccuse">提交</div>
+        <div class="item" @click="sendaccuse" style=" justify-content: center;">提交</div>
       </div>
     </el-dialog>
   </div>
@@ -55,6 +56,7 @@ export default {
   },
   data () {
     return {
+      mainMinHeight: `${window.screen.availHeight / 3}px`,
       vis: false,
       showchilren: false,
       accuseArr: [
@@ -133,7 +135,7 @@ export default {
       box-sizing: border-box;
       text-align: center;
       .item-left {
-        width: 5%;
+        width: 2%;
       }
       .item-right{
         width: 95%;
@@ -146,7 +148,7 @@ export default {
         padding: 0 5px;
         text-align: center;
         display: inline-block;
-        width: 30%;
+        width: 26%;
         margin: 1% 1%;
         border-radius: 5px;
         background: #ddddddbd;

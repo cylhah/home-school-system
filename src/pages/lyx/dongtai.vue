@@ -14,6 +14,7 @@
           </span>
         </span>
         <el-button style="float: right; padding: 3px 8px" type="text" @click="report(item)">举报</el-button>
+        <el-button style="float: right; padding: 3px 8px" type="text" @click="addgrow(item)">添加成长线</el-button>
       </div>
       <div class="text item1">{{item.newsContent}}</div>
       <gallery :itemList="PicList(item)"  @ImgGet="viewImg" @VideoGet="viewVideo"/>
@@ -50,11 +51,12 @@
     </el-card>
     <accuse :accuseitem="accuseitem" :accuseVisible="accuseVisible" @close-dialogStatus="Close_dialog"></accuse>
     <el-dialog
-      custom-class="m-dialog"
+      custom-class="myel-dialog"
       :visible.sync="dialogVisible"
       width="100%"
-      top="0px"
+      :top="mainMinHeight"
       :show-close="false"
+      append-to-body
       >
       <span>
         <el-row >
@@ -99,6 +101,7 @@ export default {
   },
   data () {
     return {
+      mainMinHeight: `${window.screen.availHeight - 190}px`,
       color: 'red',
       colors: 'red',
       animates: 'animated rubberBand',
@@ -141,6 +144,27 @@ export default {
     this.getDongtai({pp, userId})
   },
   methods: {
+    addgrow (item) {
+      this.$prompt('请输入成长线的内容', '添加成长线', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(({ value }) => {
+        let now = new Date()
+        let data = {
+          userId: item.newsUserId,
+          newsId: item.newsId,
+          comment: value,
+          grouping: 1,
+          insertTime: now
+        }
+        this.$store.dispatch('user/addgrow', data)
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
+        })
+      })
+    },
     gotoDetail (newsId) {
       window.location.href = `/#/newsDetail/${newsId}`
       console.log(newsId)
@@ -331,7 +355,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
  @import '../../lib/mui/css/mui.min.css';
 .app-container{
   padding-top: 0%;
@@ -340,19 +364,20 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: 100%;
-padding-top: 0%;
-width: 100%;
+  padding-top: 0%;
+  width: 100%;
 // background-color:  #ddd;
+
 }
 .message-head {
-        margin-right: 10px;
-        flex-shrink: 0;
-        img {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-        }
-      }
+    margin-right: 10px;
+    flex-shrink: 0;
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+  }
 .box-card {
     width: 100%;
     margin-bottom: 1%;
@@ -435,7 +460,7 @@ width: 100%;
 .mui-icon-redo{
     color: steelblue;
 }
-  .el-dialog{
+  .myel-dialog{
     margin: 0;
     position:fixed;
     bottom:0;
