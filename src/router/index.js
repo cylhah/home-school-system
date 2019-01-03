@@ -134,7 +134,7 @@ const router = new Router({
     },
     {
       path: '/index2',
-      redirect: '/accordingTime',
+      redirect: '/index2/index3/accordingTime',
       component: index2,
       children: [
         {

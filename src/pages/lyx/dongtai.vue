@@ -13,8 +13,9 @@
           <div class="time" @click="gotoDetail(item.newsId)">发布时间：{{changetime(item.newsUploadTime,item)}}</div>
           </span>
         </span>
-        <el-button style="float: right; padding: 3px 8px" type="text" @click="report(item)">举报</el-button>
-        <el-button style="float: right; padding: 3px 8px" type="text" @click="addgrow(item)">添加成长线</el-button>
+        <span class="spancll">
+        <el-button style="float: right; padding: 3px 8px; margin-right: -28%;" icon="iconfont icon-circleo" type="text" @click="report(item)"></el-button>
+        <el-button style="float: right; padding: 3px 8px" icon="iconfont icon-form" type="text" @click="addgrow(item)"></el-button></span>
       </div>
       <div class="text item1">{{item.newsContent}}</div>
       <gallery :itemList="PicList(item)"  @ImgGet="viewImg" @VideoGet="viewVideo"/>
@@ -368,6 +369,9 @@ export default {
   width: 100%;
 // background-color:  #ddd;
 
+}
+.spancll{
+  position: absolute;
 }
 .message-head {
     margin-right: 10px;
