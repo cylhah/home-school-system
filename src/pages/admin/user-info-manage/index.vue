@@ -31,10 +31,12 @@
       width="140">
       </el-table-column>
       <el-table-column
-      prop="userRegisterTime"
       label="注册日期"
       sortable="true"
       width="180">
+        <template slot-scope="scope">
+          <span>{{ formatTime(scope.row.userRegisterTime) }}</span>
+        </template>
       </el-table-column>
       <el-table-column
       prop="userNickname"
@@ -78,35 +80,35 @@
           <div class="content">
             {{ news.newsContent }}
           </div>
-          <div class="comment">
-            <p class="item">
-              <span>梁爽：</span>陪安东尼度过
-            </p>
-            <p class="item">
-              <span>梁爽：</span>陪安东尼度过
-            </p>
-          </div>
         </div>
       </div>
     </el-dialog>
     <el-table :data="newsList" v-show="showType === 1">
       <el-table-column property="newsId" label="动态编号" width="150"></el-table-column>
       <el-table-column property="newsContent" label="动态内容" width="200"></el-table-column>
-      <el-table-column property="newsUploadTime" label="上传时间"></el-table-column>
+      <el-table-column label="上传时间">
+        <template slot-scope="scope">
+          <span>{{ formatTime(scope.row.newsUploadTime) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         fixed="right"
         label="操作"
         width="200">
         <template slot-scope="scope">
           <el-button @click="showNewsDetail(scope.row)" type="text" size="small">查看详情</el-button>
-          <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
+          <el-button @click="deleteNews(scope.row)" type="text" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-table :data="commentList" v-show="showType === 2">
       <el-table-column property="commentId" label="评论编号" width="150"></el-table-column>
       <el-table-column property="commentContent" label="评论内容" width="200"></el-table-column>
-      <el-table-column property="commentTime" label="评论时间"></el-table-column>
+      <el-table-column label="评论时间">
+        <template slot-scope="scope">
+          <span>{{ formatTime(scope.row.commentTime) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column
         fixed="right"
         label="操作"
@@ -125,6 +127,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import TimeFormat from '../../../util/formatTime'
 export default {
   data () {
     return {
@@ -170,16 +173,38 @@ export default {
     userList: state => state.admin.userList
   }),
   methods: {
+    formatTime (time) {
+      let date = new Date(time)
+      return TimeFormat('yyyy-MM-dd hh:mm', date)
+    },
+    async deleteNews (row) {
+      const { data } = await this.$store.dispatch('news/deleteNewsById', { newsId: row.newsId })
+      if (data.data === 1) {
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        })
+      }
+    },
     seeCommentList (row) {
       this.showType = 2
       this.outerTitle = '用户评论'
-      this.$store.dispatch('comment/getCommentListByUserId', row.userId)
+      this.$store.dispatch('comment/getCommentListByUserId', { userId: row.userId })
       this.outerVisible = true
+    },
+    async deleteComment (row) {
+      const { data } = await this.$store.dispatch('comment/deleteCommentById', { commentId: row.commentId })
+      if (data.data === 1) {
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        })
+      }
     },
     seeNewsList (row) {
       this.showType = 1
       this.outerTitle = '用户动态'
-      this.$store.dispatch('news/getNewsListByUserId', row.userId)
+      this.$store.dispatch('news/getNewsListByUserId', { userId: row.userId })
       this.outerVisible = true
     },
     showNewsDetail (row) {

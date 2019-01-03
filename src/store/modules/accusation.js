@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { requestPrefix } from '../../config/httpConfig'
 
 const state = {
   accusationList: []
@@ -11,16 +12,26 @@ const mutations = {
 }
 
 const actions = {
-  getAccusationList ({commit}) {
+  getAccusationList ({commit}, { pageNumber, pageSize }) {
     return new Promise((resolve, reject) => {
-      axios.get('/api/accusation').then((res) => {
+      axios.get(`${requestPrefix}/accuse/getAccusationByPage`, {
+        params: { pageNumber, pageSize }
+      }).then((res) => {
         const { data } = res
         if (data.code === 0) {
           commit('setAccusationList', data.data)
-          resolve(data.data)
-        } else {
-          reject(res)
         }
+        resolve(data.data)
+      })
+    })
+  },
+  updateAccusationStatus ({commit}, { accusationId, accusationStatus }) {
+    let data = new FormData()
+    data.append('accusationId', accusationId)
+    data.append('accusationStatus', accusationStatus)
+    return new Promise((resolve, reject) => {
+      axios.put(`${requestPrefix}/accuse/updateAccusationStatus`, data).then((res) => {
+        resolve(res)
       })
     })
   }

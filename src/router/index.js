@@ -44,11 +44,6 @@ const router = new Router({
       component: Home
     },
     {
-      path: '/mailList',
-      name: 'mailList',
-      component: mailList
-    },
-    {
       path: '/fans',
       name: 'fans',
       component: fans
@@ -84,11 +79,6 @@ const router = new Router({
       component: myClass
     },
     {
-      path: '/message',
-      name: 'message',
-      component: message
-    },
-    {
       path: '/notification',
       name: 'notification',
       component: notification
@@ -97,11 +87,6 @@ const router = new Router({
       path: '/Dynamic',
       name: 'Dynamic',
       component: Dynamic
-    },
-    {
-      path: '/personal',
-      name: 'personal',
-      component: personalCenter
     },
     {
       path: '/postdynam',
