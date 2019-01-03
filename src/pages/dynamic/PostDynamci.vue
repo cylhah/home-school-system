@@ -1,7 +1,7 @@
 <template>
   <div class="container">
      <mt-header title="发动态" class="header">
-        <mt-button  icon="back" slot="left">返回</mt-button>
+        <mt-button  icon="back" slot="left" @click="$router.back(-1)">返回</mt-button>
         <mt-button  class="mui-icon mui-icon-camera" slot="right">
           <i @click="sendnews" class="el-icon-edit-outline"></i>
         </mt-button>
