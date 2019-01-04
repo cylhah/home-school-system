@@ -24,32 +24,13 @@ export default {
   computed: mapState({
     userInfo: state => state.user.userInfo
   }),
-  mounted () {
-    // this.list = [{
-    //   time: 1545627860000,
-    //   content: '我在22年',
-    //   imgList: ['18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg']
-    // }, {
-    //   time: 1545627860000,
-    //   content: '我在22年',
-    //   imgList: ['18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg']
-    // }, {
-    //   time: 1515627860000,
-    //   content: '我在22年',
-    //   imgList: ['18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg']
-    // }, {
-    //   time: 1505627860000,
-    //   content: '我在22年',
-    //   imgList: ['18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg', '18_1543476287863.jpg']
-    // }]
-    this.loaded = true
-  },
   methods: {
     getInfo () {
       let userId = this.userInfo.userId
       this.$store.dispatch('mature/getMatureByTime', { userId }).then((res) => {
         console.log(res)
         this.list = res.data.data
+        this.loaded = true
       })
     }
   },
