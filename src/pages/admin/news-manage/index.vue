@@ -77,10 +77,18 @@ export default {
         accusationId: row.accusationId,
         accusationStatus: 1
       })
+      this.$message({
+        message: '忽略成功',
+        type: 'success'
+      })
     },
     deleteItem (row) {
       if (row.accusationNewsId) {
         this.$store.dispatch('news/deleteNewsById', { newsId: row.accusationNewsId })
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        })
       }
     },
     getAccusationList () {

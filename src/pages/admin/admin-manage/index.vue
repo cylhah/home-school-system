@@ -101,6 +101,10 @@ export default {
     },
     deleteAdmin (row) {
       this.$store.dispatch('admin/deleteAdmin', { userId: row.userId })
+      this.$message({
+        message: '删除成功',
+        type: 'success'
+      })
     },
     formatTime (time) {
       let date = new Date(time)
@@ -117,6 +121,10 @@ export default {
     async onSubmit () {
       const { data } = await this.$store.dispatch('admin/addAdmin',
         {userName: this.form.username, userPassword: this.encrypt(this.form.password)})
+      this.$message({
+        message: '添加成功',
+        type: 'success'
+      })
       console.log(data)
     }
   },
