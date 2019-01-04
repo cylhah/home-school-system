@@ -104,6 +104,10 @@ export default {
       if (parseInt(this.codeInput) === this.code) {
         const { data } = await this.$store.dispatch('user/register', { userName: this.email, userPassword: this.encrypt(this.password) })
         if (data.code === 0) {
+          this.$message({
+            message: '注册成功',
+            type: 'success'
+          })
           this.$router.push({ path: '/login' })
         }
       }
