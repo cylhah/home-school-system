@@ -4,7 +4,7 @@
       custom-class="m-dialog"
       :visible.sync="vis"
       width="100%"
-      title="投诉评论"
+      title="投诉"
       :top="mainMinHeight"
       @close="closeDialog"
       :show-close="true"
@@ -109,7 +109,13 @@ export default {
         param.append('accusationCommentId', this.accuseitem.accusationCommentId)
       }
       param.append('accusationIntro', this.accusationIntro)
-      this.$store.dispatch('postAccuse', param)
+      this.$store.dispatch('postAccuse', param).then((res) => {
+        this.$message({
+          message: '举报成功',
+          type: 'success'
+        })
+        this.$emit('close-dialogStatus', true)
+      })
     },
     closeDialog () {
       this.$emit('close-dialogStatus', true)

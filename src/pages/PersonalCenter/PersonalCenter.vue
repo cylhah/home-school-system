@@ -141,9 +141,9 @@ export default {
     }
   },
   created () {
-    // let userId = this.userInfo.userId
+    let userId = this.userInfo.userId
     let classId = this.userInfo.userClassId
-    // this.personalCenter({userId, classId})
+    this.personalCenter({userId, classId})
     this.getNotificationList({ classId })
     // console.log(this.personalCenterInfo.note)
   }
@@ -223,7 +223,7 @@ export default {
   width: 50px;
 }
 .m-tab-number{
-  font-size: 15px;
+  font-size: 18px;
 }
 .m-tab-sort{
   font-size: 12px;

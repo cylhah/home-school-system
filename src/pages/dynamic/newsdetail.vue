@@ -161,7 +161,18 @@ export default {
       params.append('commentContent', this.content)
       params.append('commentTargetId', this.commentTargetId)
       params.append('commentType', this.commentType)
-      this.$store.dispatch('sendComment', params)
+      this.$store.dispatch('sendComment', params).then((res) => {
+        console.log(res.code)
+        if (res.code === 0) {
+          this.$message({
+            message: '评论成功',
+            type: 'success'
+          })
+          setTimeout(function () {
+            window.location.reload()
+          }, 1000)
+        }
+      })
       this.backinit()
     },
     backinit () {

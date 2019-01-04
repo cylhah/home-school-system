@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 import timeAxis from './components/time-axis'
 import appHeader from '../../components/public/header/header-index'
 export default {
@@ -20,6 +21,9 @@ export default {
   components: {
     timeAxis, appHeader
   },
+  computed: mapState({
+    userInfo: state => state.user.userInfo
+  }),
   mounted () {
     // this.list = [{
     //   time: 1545627860000,
@@ -42,7 +46,7 @@ export default {
   },
   methods: {
     getInfo () {
-      let userId = 18
+      let userId = this.userInfo.userId
       this.$store.dispatch('mature/getMatureByTime', { userId }).then((res) => {
         console.log(res)
         this.list = res.data.data
