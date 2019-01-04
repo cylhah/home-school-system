@@ -151,14 +151,20 @@ export default {
         cancelButtonText: '取消'
       }).then(({ value }) => {
         let now = new Date()
+        let userId = this.userInfo.userId
         let data = {
-          userId: item.newsUserId,
+          userId: userId,
           newsId: item.newsId,
           comment: value,
           grouping: 1,
           insertTime: now
         }
-        this.$store.dispatch('user/addgrow', data)
+        this.$store.dispatch('user/addgrow', data).then((res) => {
+          this.$message({
+            message: '添加成功',
+            type: 'success'
+          })
+        })
       }).catch(() => {
         this.$message({
           type: 'info',
