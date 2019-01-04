@@ -76,11 +76,11 @@
       </el-row> -->
       <div>
         <div class="tongzhi">通知</div>
-        <div v-for="(item, index) in notificationList" :key="index">
-          <div class="words2" >【提醒】{{item.notificationContent}}</div>
+        <div v-for="(item, index) in notifications" :key="index">
+          <div class="words2" >【提醒】{{item}}</div>
           <span class="m-info-message-from">张宇来</span>
           <span class="m-info-message-data">2018-12-8</span>
-          <div class="queren">立即确认</div>
+          <div class="queren" @click="confirm(index)">立即确认</div>
         </div>
       </div>
     </div>
@@ -108,7 +108,8 @@ export default {
           title: '我的服务',
           img: 'iconfont icon-tasks'
         }
-      ]
+      ],
+      notifications: ['明天交50班费', '12月8号在风雨操场开家长会，下午1点半正式开始，请各位家长不要迟到']
     }
   },
   computed: {
@@ -138,6 +139,13 @@ export default {
       if (title === '我的故事') {
         window.location.href = '/#/grow'
       }
+    },
+    confirm (index) {
+      this.notifications.splice(index, 1)
+      this.$message({
+        message: '确认成功',
+        type: 'success'
+      })
     }
   },
   created () {
