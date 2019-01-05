@@ -119,13 +119,29 @@ export default {
       }
     },
     async onSubmit () {
-      const { data } = await this.$store.dispatch('admin/addAdmin',
-        {userName: this.form.username, userPassword: this.encrypt(this.form.password)})
-      this.$message({
-        message: '添加成功',
-        type: 'success'
-      })
-      console.log(data)
+      if (!this.form.username) {
+        this.$message({
+          message: '请填写用户名',
+          type: 'warning'
+        })
+      } else if (!this.form.password || !this.form.confirm) {
+        this.$message({
+          message: '请填写密码',
+          type: 'warning'
+        })
+      } else if (this.form.password !== this.form.confirm) {
+        this.$message({
+          message: '两次密码输入不一致',
+          type: 'warning'
+        })
+      } else {
+        await this.$store.dispatch('admin/addAdmin',
+          {userName: this.form.username, userPassword: this.encrypt(this.form.password)})
+        this.$message({
+          message: '添加成功',
+          type: 'success'
+        })
+      }
     }
   },
   created () {
