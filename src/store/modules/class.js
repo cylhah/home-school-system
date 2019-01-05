@@ -47,6 +47,16 @@ const mutations = {
 }
 
 const actions = {
+  postNotification ({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      axios.post(`${requestPrefix}/notifications/insertNotification`, data).then((res) => {
+        const { data } = res
+        if (data.code === 0) {
+          resolve(res)
+        }
+      })
+    })
+  },
   getClassInfo ({commit}, {classId}) {
     return new Promise((resolve, reject) => {
       axios.get(`${requestPrefix}/class/${classId}`).then((res) => {
