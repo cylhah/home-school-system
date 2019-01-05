@@ -70,9 +70,11 @@ export default {
       var params = new URLSearchParams()
       params.append('notificationTitle', this.form.notificationTitle)
       params.append('notificationContent', this.form.notificationContent)
-      params.append('notificationClassId', this.userInfo.classId)
+      params.append('notificationClassId', this.userInfo.userClassId)
       params.append('notificationUserId', this.userInfo.userId)
-      this.$store.dispatch('class/postNotification', params).then((res) => {
+      console.log(this.form.notificationTitle)
+      console.log(this.userInfo.userClassId)
+      this.$store.dispatch('myClass/postNotification', params).then((res) => {
         console.log(res.code)
         if (res.code === 0) {
           this.$message({

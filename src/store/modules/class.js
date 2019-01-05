@@ -47,7 +47,7 @@ const mutations = {
 }
 
 const actions = {
-  postNotification ({ commit }, { data }) {
+  postNotification ({ commit }, data) {
     return new Promise((resolve, reject) => {
       axios.post(`${requestPrefix}/notifications/insertNotification`, data).then((res) => {
         const { data } = res
