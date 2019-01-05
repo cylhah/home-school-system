@@ -9,7 +9,7 @@
       <div class="header-mid">
         班级公告
       </div>
-      <div class="header-right"></div>
+      <div class="header-right"><div v-if="this.userInfo.userType == 'teacher'" @click="open">send</div></div>
     </div>
     <div class="notification-main" :style="{ minHeight: mainMinHeight }">
       <div class="notification-item" v-for="item in notificationList" :key="item.notificationTime">
@@ -25,6 +25,22 @@
         </div>
       </div>
     </div>
+    <!-- 通知dialog -->
+    <el-dialog title="通知" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="通知标题" :label-width="formLabelWidth">
+          <el-input v-model="form.notificationTitle" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="通知内容" :label-width="formLabelWidth">
+          <el-input v-model="form.notificationContent" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="sendNotification">确 定</el-button>
+      </div>
+  </el-dialog>
+
   </div>
 </template>
 
@@ -33,13 +49,41 @@ import { mapState } from 'vuex'
 export default {
   data () {
     return {
-      mainMinHeight: `${window.screen.availHeight - 50}px`
+      formLabelWidth: '100px',
+      mainMinHeight: `${window.screen.availHeight - 50}px`,
+      dialogFormVisible: false,
+      form: {
+        notificationTitle: '',
+        notificationContent: ''
+      }
     }
   },
   methods: {
     formatTime (time) {
       let date = new Date(time)
       return `${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours()}:${date.getMinutes()}`
+    },
+    open () {
+      this.dialogFormVisible = true
+    },
+    sendNotification () {
+      var params = new URLSearchParams()
+      params.append('notificationTitle', this.form.notificationTitle)
+      params.append('notificationContent', this.form.notificationContent)
+      params.append('notificationClassId', this.userInfo.classId)
+      params.append('notificationUserId', this.userInfo.userId)
+      this.$store.dispatch('class/postNotification', params).then((res) => {
+        console.log(res.code)
+        if (res.code === 0) {
+          this.$message({
+            message: '添加成功',
+            type: 'success'
+          })
+          setTimeout(function () {
+            window.location.reload()
+          }, 1000)
+        }
+      })
     }
   },
   computed: mapState({
