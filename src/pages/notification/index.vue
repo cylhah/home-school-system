@@ -2,7 +2,7 @@
   <div class="notification">
     <div class="notification-header">
       <div class="header-left">
-        <router-link to="/class">
+        <router-link to="/index2/message">
           <i class="el-icon-arrow-left"/>
         </router-link>
       </div>

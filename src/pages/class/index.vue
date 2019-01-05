@@ -28,7 +28,7 @@
         </div>
         <div class="item-container" v-else>
           <div class="item-head" v-if="flag">
-            <img :src="`api/img/userHead/${userList[item.fromUserId].userHeadUrl}`">
+            <img :src="`img/userHead/${userList[item.fromUserId].userHeadUrl}`">
           </div>
           <div class="item-content">{{ decrypt(item.messageContent) }}</div>
         </div>

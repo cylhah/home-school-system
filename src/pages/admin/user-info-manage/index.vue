@@ -217,9 +217,9 @@ export default {
     },
     getUserHeadUrl (user) {
       if (user.userHeadUrl) {
-        return `api/img/userHead/${user.userHeadUrl}`
+        return `img/userHead/${user.userHeadUrl}`
       } else {
-        return 'api/img/userHead/default.jpg'
+        return 'img/userHead/default.jpg'
       }
     },
     getNewsUserNickname (news) {
@@ -231,9 +231,9 @@ export default {
     },
     getNewsHeadUrl (news) {
       if (news.newsUser) {
-        return `api/img/userHead/${news.newsUser.userHeadUrl}`
+        return `img/userHead/${news.newsUser.userHeadUrl}`
       } else {
-        return 'api/img/userHead/default.jpg'
+        return 'img/userHead/default.jpg'
       }
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="login" :style="{background: `url('${require('../../assets/img/login-bg.jpg')}')`, 'background-repeat': 'no-repeat', 'background-size': '100% 100%' }">
     <div class="form">
       <div class="head">
         <p>管理员登录</p>
@@ -73,9 +73,6 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: red;
-  background: url('../../assets/img/login-bg.jpg') no-repeat;
-  background-size: 100% 100%;
   .form {
     width: 400px;
     padding: 30px 0 30px 0;

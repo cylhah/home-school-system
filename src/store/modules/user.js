@@ -55,7 +55,7 @@ const actions = {
       }).then((res) => {
         const { data } = res
         if (data.code === 0) {
-          data.data.userHeadUrl = `api/img/userHead/${data.data.userHeadUrl}`
+          data.data.userHeadUrl = `img/userHead/${data.data.userHeadUrl}`
           commit('setUserInfo', data.data)
           setCookie('userType', data.data.userType, 30)
           setCookie('userName', data.data.userName, 30)
@@ -76,7 +76,7 @@ const actions = {
         headers: {'Content-Type': 'multipart/form-data'}
       }).then((res) => {
         const { data } = res
-        data.data = `api/img/userHead/${data.data}`
+        data.data = `img/userHead/${data.data}`
         commit('setUserHeadUrl', data.data)
         setCookie('userHeadUrl', data.data, 30)
         resolve(res)

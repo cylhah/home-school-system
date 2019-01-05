@@ -6,7 +6,7 @@
         class="gallery-list-item">
           <div
             v-if="isPicture(item)"
-            :style="{ 'background-image': `url('api/img/newsPic/${item}')`}"
+            :style="{ 'background-image': `url('img/newsPic/${item}')`}"
             class="item-img"
             @click="bigImg(item)"></div>
           <div
@@ -15,7 +15,7 @@
             @click="bigVideo(item)">
             <video
               class="item-video"
-              :src="`api/img/newsPic/${item}`"
+              :src="`img/newsPic/${item}`"
             >
             </video>
             <div class="play-icon">

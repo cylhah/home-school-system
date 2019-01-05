@@ -18,7 +18,7 @@
             class="item-img-list">
             <div
               v-for="(img, index) in getImg(item.news.newsImageURLs)" :key="index"
-              :style="{ 'background-image': `url('api/img/newsPic/${img}')`, width: getItemImgWidth(item.news.newsImageURLs), height: getItemImgHeight(item.news.newsImageURLs)}"
+              :style="{ 'background-image': `url('img/newsPic/${img}')`, width: getItemImgWidth(item.news.newsImageURLs), height: getItemImgHeight(item.news.newsImageURLs)}"
               class="item-img">
             </div>
           </div>

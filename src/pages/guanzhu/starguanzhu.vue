@@ -223,7 +223,7 @@ export default {
       }
     },
     getHeadUrl (item) {
-      let prefix = 'api/img/userHead'
+      let prefix = 'img/userHead'
       if (item.user1.class) {
         return `${prefix}/class.jpg`
       } else {

@@ -14,7 +14,6 @@
           </div>
           <div class="message-time">
             <p class="time">{{formatTime(item.lastMessage.messageTime)}}</p>
-            <!-- <p class="badge"><el-badge value="1"/></p> -->
           </div>
         </div>
       </div>
@@ -41,7 +40,7 @@ export default {
       return decryptedStr.toString()
     },
     getHeadUrl (item) {
-      let prefix = 'api/img/userHead'
+      let prefix = 'img/userHead'
       if (item.class) {
         return `${prefix}/class.jpg`
       } else {

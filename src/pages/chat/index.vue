@@ -111,9 +111,9 @@ export default {
     },
     getToUserHead (item) {
       if (item.userHeadUrl) {
-        return `api/img/userHead/${item.userHeadUrl}`
+        return `img/userHead/${item.userHeadUrl}`
       } else {
-        return 'api/img/userHead/default.jpg'
+        return 'img/userHead/default.jpg'
       }
     }
   },

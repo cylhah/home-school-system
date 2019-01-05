@@ -189,7 +189,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-submenu {
+.el-menu--horizontal>.el-submenu {
   float: right;
 }
 .admin {

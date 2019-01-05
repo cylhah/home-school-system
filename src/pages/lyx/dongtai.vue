@@ -201,17 +201,17 @@ export default {
       console.log('父组件' + item)
       this.showImg = true
       // 获取当前图片地址
-      this.imgSrc = `api/img/newsPic/${item}`
+      this.imgSrc = `img/newsPic/${item}`
     },
     viewImg (item) {
       // this.showImg = false
       console.log('父组件图片' + item)
       this.Visible = true
       // 获取当前图片地址
-      this.imgSrc = `api/img/newsPic/${item}`
+      this.imgSrc = `img/newsPic/${item}`
     },
     getHeadUrl (item) {
-      let prefix = 'api/img/userHead'
+      let prefix = 'img/userHead'
       if (item.newsUser.userHeadUrl) {
         return `${prefix}/${item.newsUser.userHeadUrl}`
       } else {
@@ -262,7 +262,7 @@ export default {
     viewVideo (item) {
       console.log('父组件视频' + item)
       this.Visible = true
-      this.videoSrc = `api/img/newsPic/${item}`
+      this.videoSrc = `img/newsPic/${item}`
     },
     Close_dialog2 (val) {
       this.Visible = false

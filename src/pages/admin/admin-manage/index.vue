@@ -33,7 +33,7 @@
       </el-table>
       <div class="admin-me">
         <div class="admin-bg">
-          <img src="../../../assets/img/admin-bg.jpg">
+          <img :src="require('../../../assets/img/admin-bg.jpg')">
         </div>
         <div class="admin-head">
           <img :src="userHeadUrl" @click="$refs.headFile.click()">

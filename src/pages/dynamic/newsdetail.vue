@@ -190,7 +190,7 @@ export default {
     getHead (item) {
       let userHead = item.userHeadUrl
       if (userHead) {
-        return `api/img/userHead/${userHead}`
+        return `img/userHead/${userHead}`
       }
     },
     formatTime (time) {
