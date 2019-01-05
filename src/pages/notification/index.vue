@@ -9,7 +9,7 @@
       <div class="header-mid">
         班级公告
       </div>
-      <div class="header-right"><div v-if="this.userInfo.userType == 'teacher'" @click="open">send</div></div>
+      <div class="header-right"><div v-if="this.userInfo.userType == 'teacher'" @click="open">+</div></div>
     </div>
     <div class="notification-main" :style="{ minHeight: mainMinHeight }">
       <div class="notification-item" v-for="item in notificationList" :key="item.notificationTime">
@@ -26,7 +26,7 @@
       </div>
     </div>
     <!-- 通知dialog -->
-    <el-dialog title="通知" :visible.sync="dialogFormVisible">
+    <el-dialog title="通知" :visible.sync="dialogFormVisible" width="100%">
       <el-form :model="form">
         <el-form-item label="通知标题" :label-width="formLabelWidth">
           <el-input v-model="form.notificationTitle" autocomplete="off"></el-input>
@@ -74,9 +74,9 @@ export default {
       params.append('notificationUserId', this.userInfo.userId)
       console.log(this.form.notificationTitle)
       console.log(this.userInfo.userClassId)
-      this.$store.dispatch('myClass/postNotification', params).then((res) => {
-        console.log(res.code)
-        if (res.code === 0) {
+      this.$store.dispatch('myClass/postNotification', params).then(res => {
+        let { data } = res
+        if (data.code === 0) {
           this.$message({
             message: '添加成功',
             type: 'success'
